@@ -1,0 +1,8 @@
+/* Custom CSS */
+
+#header .logo img {
+    max-height: 10rem;
+}
+.slogan-detail{
+    color: white;
+}
