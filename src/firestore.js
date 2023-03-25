@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, onSnapshot, setDoc } from "@firebase/firestore";
+import { addDoc, collection, doc, getDocs, onSnapshot, setDoc, updateDoc } from "@firebase/firestore";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "./components/context/UserAuthContext";
 import { firestore} from "./firebase";
@@ -13,12 +13,15 @@ const useFirestore = () => {
 
     console.log("firestore data is", data);
 
-     async function addUserToCollection(documentId, documentInfo){
-        console.log("user in addUserToCollection", user)
-        console.log("collectionName, documentId, documentInfo", documentInfo);
-        const customDocRef = doc(firestore, USERS_COLLECTION_NAME, documentId);
-        console.log("customDocRef", customDocRef)
+     async function addDocumentToCollection(COLLECTION_NAME, documentId, documentInfo){
+        const customDocRef = doc(firestore, COLLECTION_NAME, documentId);
         return setDoc(customDocRef, documentInfo);
+    }
+
+    async function updateDocument(COLLECTION_NAME, documentId, newField){
+        console.log("UPDATE DOCUMENT ******** COLLECTION_NAME, documentId, newField", COLLECTION_NAME, documentId, newField)
+        const documentRef = doc(firestore, COLLECTION_NAME, documentId);
+        return updateDoc(documentRef, newField)
     }
 
     useEffect(() => {
@@ -38,7 +41,22 @@ const useFirestore = () => {
         getDataFromFirestore();
     }, [user]);
 
-    return {data, addUserToCollection}
+    const getAllDocs = async (collectionName) => {
+        const querySnapshot = await getDocs(collection(firestore, collectionName));
+        const docs = [];
+        querySnapshot.forEach((doc) => {
+          docs.push({ id: doc.id, ...doc.data() });
+        });
+        return docs;
+      };
+
+      async function getAllTutors(){
+        const allUsersData = await getAllDocs("users");
+        const allTutors = allUsersData.filter(user => user.userRole === "tutors");
+        return allTutors;
+      }
+
+    return {data, addDocumentToCollection, updateDocument, getAllDocs, getAllTutors}
 };
 
 export default useFirestore;

@@ -6,8 +6,9 @@ import { useAuthContext } from "../context/UserAuthContext";
 export default function SignUp(){
 
     const {user, registerUser, updateUserRole} = useAuthContext();
-    const {addUserToCollection} = useFirestore();
+    const {addDocumentToCollection} = useFirestore();
     const navigate = useNavigate();
+    const USERS_COLLECTION = "users";
     
     const [userInfo, setUserInfo] = useState({
         firstName: "",
@@ -55,7 +56,7 @@ export default function SignUp(){
                 };
                 console.log("USER IN SIGN UP IS", response?.user)
                 if(response?.user){
-                    const addResult = await addUserToCollection(response.user.uid, userInfoToAdd);
+                    const addResult = await addDocumentToCollection(USERS_COLLECTION, response.user.uid, userInfoToAdd);
                     console.log("addresult", addResult);
                     navigate("/appointments");
                 }
@@ -123,8 +124,6 @@ export default function SignUp(){
             </div>
             </div>
         </div>
-        <p>hello</p>
-        <div>hi</div>
         {error}
         </div>
     )

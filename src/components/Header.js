@@ -19,6 +19,8 @@ export default function Header(){
             <Link className="navbar-brand" to="/">Tutorsphere</Link>
             <Link className="navbar-brand" to="/about">About</Link>
             <Link className="navbar-brand" to="/appointments">Appointments</Link>
+            <Link className="navbar-brand" to="/profile">Profile</Link>
+
 
 {/* TODO: fix register/signin in navbar showing up for around 1 second when refreshing the site while the user is login */}
             {user && <a className="link-dark" style={{cursor: "pointer"}} onClick={handleLogout}>Logout</a>}
