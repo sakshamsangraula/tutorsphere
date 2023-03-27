@@ -7,6 +7,7 @@ import SignUp from "./components/authentication/SignUp";
 import AppointmentsPage from "./pages/AppointmentsPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ProfilePage from "./pages/ProfilePage";
+import Favorites from "./pages/Favorites";
 
 function App(){
     return (
@@ -21,6 +22,7 @@ function App(){
                     <Route path="/" element={<HomePage />}></Route>
                     <Route path="/register" element={<SignUp />}></Route>
                     <Route path="/signin" element={<SignIn />}></Route>
+                    <Route path="/favorites" element={<Favorites />}></Route>
                     <Route path="/appointments" element={
                         <ProtectedRoute>
                             <AppointmentsPage />

@@ -2,9 +2,14 @@ import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../components/context/UserAuthContext";
 import useFirestore from "../firestore";
+import { useNavigate } from "react-router-dom";
 
 function ProfilePage(){
+    const navigate = useNavigate();
 
+    const navigateFavorites = () => {
+      navigate('/Favorites');
+    };
     const {user} = useAuthContext();
     const {data} = useFirestore(); 
     const [displayPickAvailabilityMsg, setDisplayPickAvailabilityMsg] = useState(false);
@@ -38,6 +43,8 @@ function ProfilePage(){
             <p>Last Name: {data?.lastName}</p>
             {/* TODO: also include email in firestore document for each user so we can do data?.email instead of user?.email */}
             <p>Email: {user?.email}</p>
+            <button type="button" class="btn btn-danger" onClick={navigateFavorites}>Tutor Favorites</button>
+
         </div>
     )
 }
