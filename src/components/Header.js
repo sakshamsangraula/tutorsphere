@@ -18,6 +18,7 @@ export default function Header(){
         <nav className="navbar navbar-light bg-light">
             <Link className="navbar-brand" to="/">Tutorsphere</Link>
             <Link className="navbar-brand" to="/about">About</Link>
+            <Link className="navbar-brand" to="/tutors">Tutors</Link>
             <Link className="navbar-brand" to="/appointments">Appointments</Link>
             <Link className="navbar-brand" to="/profile">Profile</Link>
 

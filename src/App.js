@@ -7,6 +7,7 @@ import SignUp from "./components/authentication/SignUp";
 import AppointmentsPage from "./pages/AppointmentsPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ProfilePage from "./pages/ProfilePage";
+import TutorsPage from "./pages/TutorsPage";
 
 function App(){
     return (
@@ -30,6 +31,9 @@ function App(){
                         <ProtectedRoute>
                             <ProfilePage />
                         </ProtectedRoute>
+                    }></Route>
+                    <Route path={"/tutors"} element={
+                            <TutorsPage />
                     }></Route>
                 </Routes>
             </div>
