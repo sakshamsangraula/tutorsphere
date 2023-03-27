@@ -23,7 +23,6 @@ function App(){
                     <Route path="/" element={<HomePage />}></Route>
                     <Route path="/register" element={<SignUp />}></Route>
                     <Route path="/signin" element={<SignIn />}></Route>
-                    <Route path="/favorites" element={<Favorites />}></Route>
                     <Route path="/appointments" element={
                         <ProtectedRoute>
                             <AppointmentsPage />
