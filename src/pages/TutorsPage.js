@@ -31,15 +31,15 @@ export default function TutorsPage (){
         setTutors(allTutors)
     }
 
-    // styling for favorite button
+   // const buttonClassName = favorite ? "favorite-button active" : "favorite-button";
     const buttonStyle = {
-        background: favorite ? "red" : "white",
+        backgroundColor: favorite ? "red" : "white",
         color: favorite ? "white" : "black",
         padding: "8px 16px",
         border: "1px solid black",
         borderRadius: "4px",
-        cursor: "pointer",
-    };
+        cursor: "pointer"
+    }
 
     return(
         <div>
@@ -62,8 +62,8 @@ export default function TutorsPage (){
                     <td>{tutor?.lastName}</td>
                     <td>{tutor?.username}</td>
                     <td>
-                        <button style={buttonStyle} onClick={handleClick} >
-
+                        <button style={buttonStyle} onClick={handleClick}>
+                            {favorite ? "Unfavorite" : "Favorite"}
                         </button>
                     </td>
                 </tr>
