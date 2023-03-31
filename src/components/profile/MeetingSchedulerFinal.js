@@ -58,7 +58,9 @@ useEffect(() => {
     }
 }, [appointmentsData, selectedTutor])
 
-const availabilitySlots = Object.keys(tutorSchedule).map((day) => {
+
+console.log("tutorSchedule", tutorSchedule)
+const availabilitySlots = tutorSchedule && Object.keys(tutorSchedule)?.map((day) => {
     const dayIdx = daysOrder.indexOf(day);
     console.log("DAYANDIDX", day, dayIdx);
     return tutorSchedule[day].map(availableTime => {
@@ -103,7 +105,7 @@ const availabilitySlots = Object.keys(tutorSchedule).map((day) => {
     });
   })
 
-  const finalAvailabilitySlots = availabilitySlots.flat().filter(slot => slot !== null);
+  const finalAvailabilitySlots = availabilitySlots?.flat()?.filter(slot => slot !== null);
   
 //   // Convert the schedule object into an array of date-time objects
 //   const availableTimeSlots = Object.entries(schedule).flatMap(([day, times]) => {
