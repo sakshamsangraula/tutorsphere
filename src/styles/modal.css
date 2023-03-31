@@ -1,0 +1,27 @@
+.full-screen-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+  
+  .full-screen-modal .modal-content {
+    height: 80%;
+    width: 80%;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    overflow: auto;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.4);
+  }
+  
+  .full-screen-modal h2 {
+    margin-top: 0;
+  }
+  

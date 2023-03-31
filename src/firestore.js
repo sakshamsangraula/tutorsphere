@@ -9,9 +9,15 @@ const useFirestore = () => {
     const [data, setData] = useState();
     const [loading, setLoading] = useState(true);
     const [isProfileSetup, setIsProfileSetup] = useState();
+    const [appointmentsData, setAppointmentsData] = useState([]);
     const USERS_COLLECTION_NAME = "users";
 
     console.log("firestore data is", data);
+
+    async function addDocumentToCollectionWithDefaultId(COLLECTION_NAME, documentInfo){
+        const docRef = await addDoc(collection(firestore, COLLECTION_NAME), documentInfo);
+        return docRef;
+    }
 
      async function addDocumentToCollection(COLLECTION_NAME, documentId, documentInfo){
         const customDocRef = doc(firestore, COLLECTION_NAME, documentId);
@@ -25,6 +31,7 @@ const useFirestore = () => {
     }
 
     useEffect(() => {
+        // gets data for specific user document (current document)
         const getDataFromFirestore = async() => {
             if(user){
                 console.log("username is", user.uid)
@@ -32,13 +39,30 @@ const useFirestore = () => {
                 const unsub = onSnapshot(doc(firestore, USERS_COLLECTION_NAME, user.uid), (doc) => {
                     console.log("doc.data()", doc.data())
                     const documentData =  doc.data();
-                    setData(doc.data());
+                    setData({id: doc.id, ...doc.data()});
                     setLoading(false);
                 });
                 return () => unsub();
             }
         };
         getDataFromFirestore();
+
+        const getAppointmentsDataFromFirestore = async() => {
+            if(user){
+                const collectionRef = collection(firestore, "appointments");
+
+                const allAppointments = [];
+                const unsubscribe = onSnapshot(collectionRef, (snapshot) => {
+                snapshot.forEach((doc) => {
+                    allAppointments.push({id: doc.id, ...doc.data()});         
+                    });
+                });
+                setAppointmentsData(allAppointments);
+                return () => unsubscribe();
+            }
+        }
+
+        getAppointmentsDataFromFirestore();
     }, [user]);
 
     const getAllDocs = async (collectionName) => {
@@ -56,7 +80,45 @@ const useFirestore = () => {
         return allTutors;
       }
 
-    return {data, addDocumentToCollection, updateDocument, getAllDocs, getAllTutors}
+      async function getAllSubjects(){
+        const allUsersData = await getAllDocs("users");
+        const uniqueSubjects = new Set();
+        allUsersData?.forEach(user => {
+            user?.subjects?.forEach(subject => {
+                uniqueSubjects.add(subject);
+            });
+        });
+        return Array.from(uniqueSubjects);
+      }
+
+      async function getCurrentUserAppointments(){
+        // const allAppointments = await getAllDocs("appointments");
+        const currentUserAppointments = appointmentsData.filter(appointment => {
+            if(data?.userRole === "tutors"){
+                return appointment?.tutorId === data?.id;
+            }else if(data?.userRole === "students"){
+                return appointment?.studentId === data?.id;
+            }
+        });
+        return currentUserAppointments;
+      }
+
+      async function getCurrentUserFutureAppointments(){
+        const allCurrentUserAppointments = await getCurrentUserAppointments();
+        const now = new Date();
+        const currentUserFutureAppointments = allCurrentUserAppointments.filter(appointment => {
+            const appointmentDate = new Date(appointment.startTime);
+            if(appointmentDate > now){
+                return true;
+            }else{
+                return false;
+            }
+        });
+        return currentUserFutureAppointments;
+      }
+
+
+    return {data, addDocumentToCollection, updateDocument, getAllDocs, getAllTutors, getAllSubjects, addDocumentToCollectionWithDefaultId, getCurrentUserFutureAppointments, appointmentsData}
 };
 
 export default useFirestore;

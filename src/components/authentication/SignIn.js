@@ -24,7 +24,7 @@ export default function SignIn(){
         try{
             // TODO: decide whether response is needed or not
             const response = await login(authInfo.email, authInfo.password);
-            navigate("/appointments")
+            navigate("/profile")
         }catch(err){
             setError(err.message);
         }
