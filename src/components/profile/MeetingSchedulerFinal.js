@@ -126,6 +126,8 @@ const availabilitySlots = tutorSchedule && Object.keys(tutorSchedule)?.map((day)
 //     return matchingDates.flatMap(date => times.map(time => `${date} ${time}:00`));
 //   });
 
+// TODO: if the student doesn't select a subject then it'll be empty (instead have the subject as the list of subjects that the tutor has by default if the student doesn't select a subject)
+
 const allTutorElements = allTutors.map(tutor => {
     return (
 
