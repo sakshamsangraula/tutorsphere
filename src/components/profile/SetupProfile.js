@@ -50,9 +50,9 @@ function SetupProfile() {
 // TODO: reuse modal in setupProfile (here) and MeetingSchedulerFinal modal
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <button class={"btn btn-danger"} onClick={handleShow}>
         Setup Profile
-      </Button>
+      </button>
 
       <Modal show={show} onHide={handleClose} size="xl" animation={false}>
         <Modal.Header closeButton>

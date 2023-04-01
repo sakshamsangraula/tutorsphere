@@ -4,20 +4,30 @@ import { useAuthContext } from "../components/context/UserAuthContext";
 import SetupProfile from "../components/profile/SetupProfile";
 import useFirestore from "../firestore";
 import { useNavigate } from "react-router-dom";
+import Popup from 'reactjs-popup';
+import { Modal, Button } from 'react-bootstrap';
+
 
 function ProfilePage(){
     const navigate = useNavigate();
 
-    const navigateFavorites = () => {
-      navigate('/Favorites');
-    };
     // TODO: allow student to update their profile by adding profile picture (and maybe description). Allow adding about-me and profile pic for tutor in their profile
 
-    const {user} = useAuthContext();
+    const {user, logout} = useAuthContext();
     const {data} = useFirestore(); 
     const [displayPickAvailabilityMsg, setDisplayPickAvailabilityMsg] = useState(false);
     const [showSetupProfile, setShowSetupProfile] = useState(true);
 
+    // for the "tutor profile setup" popup modal
+    const [show, setShow] = useState(true);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    // log out function
+    const handleLogout = () => {
+        logout();
+        navigate("/");
+    };
     // const changePickAvailabilityMsg = useCallback((value) => {
     //     setDisplayPickAvailabilityMsg(value);
     // }, []);
@@ -33,24 +43,51 @@ function ProfilePage(){
                 if(!data.isProfileSetup){
                     setDisplayPickAvailabilityMsg(true);
                 }
+                else{
+                    setDisplayPickAvailabilityMsg(false)
+                }
             }
-
-
         }
 
     }, [user, data]);
     
-    // if student --- show profile and thats it
+    // if student --- show profile and done
     // if tutor --- make them set it up (by displaying a big message saying "please set your profile with the button) and then give them a popup that its been set up instead of the text
     return (
         <div>
-            {!displayPickAvailabilityMsg ? "Profile setup completed ✅" :
-               <SetupProfile />
+
+            {!displayPickAvailabilityMsg ? <div class={"alert alert-success"} role={"alert"}>Profile is set up!</div>:
+
+                <div>
+                    <div class={"alert alert-warning"} role={"alert"} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>Please set up tutor profile
+                        <div class="btn pull-right">
+                            <SetupProfile/>
+                        </div>
+                    </div>
+
+
+                    <Modal show={show} onHide={handleClose}>
+                        <Modal.Header>
+                            <Modal.Title>Profile Setup Required</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <p>Please click on the following button to set up your tutor profile. Thank you!</p>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleClose}>
+                                Close
+                            </Button>
+                            <SetupProfile onClick={() => handleClose()}/>
+
+                        </Modal.Footer>
+                    </Modal>
+                </div>
+
             }
 
-            <button onClick={() => setShowSetupProfile(prevShow => !prevShow)}>Toggle Setup Profile</button>
+            {/*<button onClick={() => setShowSetupProfile(prevShow => !prevShow)}>Toggle Setup Profile</button>*/}
 
-            {showSetupProfile && <SetupProfile />}
+            {/*{showSetupProfile && <SetupProfile />}*/}
 
 
                 <div className="container py-5">
@@ -68,9 +105,8 @@ function ProfilePage(){
                                     <p className="text-muted mb-1">{data?.userRole}</p>
                                     <p className="text-muted mb-4">{user?.email}</p>
                                     <div className="d-flex justify-content-center mb-2">
-                                        <button type="button" className="btn btn-primary">Logout</button>
-                                        <button href="/appointments" type="button"
-                                                className="btn btn-outline-primary ms-1">Appointments
+                                        <button type="button" className="btn btn-primary" onClick={handleLogout}>Logout</button>
+                                        <button type="button" className="btn btn-outline-primary ms-1" onClick={() => navigate("/appointments")}>Appointments
                                         </button>
                                     </div>
                                 </div>

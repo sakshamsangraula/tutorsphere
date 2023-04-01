@@ -8,6 +8,7 @@ import AppointmentsPage from "./pages/AppointmentsPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ProfilePage from "./pages/ProfilePage";
 import TutorsPage from "./pages/TutorsPage";
+import Favorites from "./pages/Favorites"
 
 function App(){
     return (
@@ -31,10 +32,16 @@ function App(){
                         <ProtectedRoute>
                             <ProfilePage />
                         </ProtectedRoute>
-                    }></Route>
+                    }>
+                    </Route>
                     <Route path={"/tutors"} element={
                             <TutorsPage />
-                    }></Route>
+                    }>
+                    </Route>
+                    <Route path={"/favorites"} element={
+                        <Favorites/>
+                    }>
+                    </Route>
                 </Routes>
             </div>
         </UserAuthContextProvider>
