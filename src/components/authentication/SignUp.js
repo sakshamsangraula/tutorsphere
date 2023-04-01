@@ -58,7 +58,7 @@ export default function SignUp(){
                 if(response?.user){
                     const addResult = await addDocumentToCollection(USERS_COLLECTION, response.user.uid, userInfoToAdd);
                     console.log("addresult", addResult);
-                    navigate("/appointments");
+                    navigate("/profile");
                 }
                 setError("Error registering. Please contact the administrator")
             }catch(err){

@@ -1,0 +1,46 @@
+Index: src/components/Header.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import { Link, useNavigate } from \"react-router-dom\";\nimport SignIn from \"./authentication/SignIn\";\nimport SignUp from \"./authentication/SignUp\";\nimport { useAuthContext } from \"./context/UserAuthContext\";\n\nexport default function Header(){\n    const {user, logout} = useAuthContext();\n    const navigate = useNavigate();\n\n    const handleLogout = () => {\n        logout();\n        navigate(\"/\");\n    };\n    \n\n\n    return (\n        <nav className=\"navbar navbar-light bg-light\">\n            <Link className=\"navbar-brand\" to=\"/\">Tutorsphere</Link>\n            <Link className=\"navbar-brand\" to=\"/about\">About</Link>\n            <Link className=\"navbar-brand\" to=\"/appointments\">Appointments</Link>\n            <Link className=\"navbar-brand\" to=\"/profile\">Profile</Link>\n\n\n{/* TODO: fix register/signin in navbar showing up for around 1 second when refreshing the site while the user is login */}\n            {user && <a className=\"link-dark\" style={{cursor: \"pointer\"}} onClick={handleLogout}>Logout</a>}\n            {user && <p>{user.email}</p>}\n            {!user && <Link className=\"navbar-brand\" to=\"/register\">Register</Link>}\n            {!user && <Link className=\"navbar-brand\" to=\"/signin\">Sign In</Link>}\n        </nav>\n    )\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/Header.js b/src/components/Header.js
+--- a/src/components/Header.js	
++++ b/src/components/Header.js	
+@@ -18,6 +18,7 @@
+         <nav className="navbar navbar-light bg-light">
+             <Link className="navbar-brand" to="/">Tutorsphere</Link>
+             <Link className="navbar-brand" to="/about">About</Link>
++            <Link className="navbar-brand" to="/tutors">Tutors</Link>
+             <Link className="navbar-brand" to="/appointments">Appointments</Link>
+             <Link className="navbar-brand" to="/profile">Profile</Link>
+ 
+Index: src/App.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import { UserAuthContextProvider } from \"./components/context/UserAuthContext\";\nimport Header from \"./components/Header\";\nimport { Route, Routes } from \"react-router-dom\";\nimport HomePage from \"./pages/HomePage\";\nimport SignIn from \"./components/authentication/SignIn\";\nimport SignUp from \"./components/authentication/SignUp\";\nimport AppointmentsPage from \"./pages/AppointmentsPage\";\nimport ProtectedRoute from \"./components/ProtectedRoute\";\nimport ProfilePage from \"./pages/ProfilePage\";\n\nfunction App(){\n    return (\n        <UserAuthContextProvider>\n            <div>\n                <Header />\n\n                {/* TODO: show a message in homepage saying user profile is not set and link to /profileSetup or appointment page for tutor\n// which has availability picker */}\n\n                <Routes>\n                    <Route path=\"/\" element={<HomePage />}></Route>\n                    <Route path=\"/register\" element={<SignUp />}></Route>\n                    <Route path=\"/signin\" element={<SignIn />}></Route>\n                    <Route path=\"/appointments\" element={\n                        <ProtectedRoute>\n                            <AppointmentsPage />\n                        </ProtectedRoute>\n                    }></Route>\n                    <Route path=\"/profile\" element = {\n                        <ProtectedRoute>\n                            <ProfilePage />\n                        </ProtectedRoute>\n                    }></Route>\n                </Routes>\n            </div>\n        </UserAuthContextProvider>\n    )\n}\n\nexport default App;
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/App.js b/src/App.js
+--- a/src/App.js	
++++ b/src/App.js	
+@@ -7,6 +7,7 @@
+ import AppointmentsPage from "./pages/AppointmentsPage";
+ import ProtectedRoute from "./components/ProtectedRoute";
+ import ProfilePage from "./pages/ProfilePage";
++import TutorsPage from "./pages/TutorsPage";
+ 
+ function App(){
+     return (
+@@ -30,6 +31,9 @@
+                         <ProtectedRoute>
+                             <ProfilePage />
+                         </ProtectedRoute>
++                    }></Route>
++                    <Route path={"/tutors"} element={
++                            <TutorsPage />
+                     }></Route>
+                 </Routes>
+             </div>

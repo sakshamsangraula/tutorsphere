@@ -113,9 +113,6 @@ function AvailabilityPicker(){
                 const stringSchedule = schedule.map(date => date.toString());
                 const reactLibraryScheduleAdded = await updateDocument(USERS, user.uid, {reactLibrarySchedule: stringSchedule});
                 console.log("scheduleAddResponse", scheduleAddResponse)
-
-                // set profile setup to true TODO: also need to add about me description (maybe wrap this around form (about me, other values, and picking availability))
-                const updatedProfileSetupValue = await updateDocument(USERS, user.uid, {isProfileSetup: true});
             }else{
                 console.log("USER ROLE IS $$$$$$$$$$$$$$$$$$$$$$$$", user.userRole)
                 alert("Only Tutors can provide availability!", user);
@@ -178,7 +175,7 @@ function AvailabilityPicker(){
                         hourlyChunks={1}
                         onChange={handleChange}
             />
-            <button onClick={prepareWeeklySchedule}>Submit Schedule</button>
+            <button onClick={prepareWeeklySchedule}>Save Schedule</button>
         </div>
     )
       
