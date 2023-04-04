@@ -82,7 +82,6 @@ function ProfilePage(){
                         </Modal.Footer>
                     </Modal>
                 </div>
-
             }
 
             {/*<button onClick={() => setShowSetupProfile(prevShow => !prevShow)}>Toggle Setup Profile</button>*/}

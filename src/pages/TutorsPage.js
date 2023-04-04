@@ -42,36 +42,38 @@ export default function TutorsPage (){
     }
 
     return(
+
         <div>
             <h1>List of all Tutors</h1>
 
             <table className="table">
-            <thead>
-            <tr>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Username</th>
-                <th scope="col">Favorite</th>
-            </tr>
-            </thead>
-            <tbody>
-            {tutors.map((tutor) =>
+                <thead>
                 <tr>
-
-                    <td>{tutor?.firstName}</td>
-                    <td>{tutor?.lastName}</td>
-                    <td>{tutor?.username}</td>
-                    <td>
-                        <button style={buttonStyle} onClick={handleClick}>
-                            {favorite ? "Unfavorite" : "Favorite"}
-                        </button>
-                    </td>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Favorite</th>
                 </tr>
-            )}
-            </tbody>
+                </thead>
+                <tbody>
+                {tutors
+                    .filter((tutor) => tutor.isProfileSetup)
+                    .map((tutor) =>
+                    <tr>
+
+                        <td>{tutor?.firstName} {tutor?.lastName}</td>
+                        <td>{tutor?.username}</td>
+                        <td>
+                            <button style={buttonStyle} onClick={handleClick}>
+                                {favorite ? "Unfavorite" : "Favorite"}
+                            </button>
+                        </td>
+                    </tr>
+                )}
+                </tbody>
             </table>
 
         </div>
+
     )
 
 
