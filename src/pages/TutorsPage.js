@@ -65,7 +65,6 @@ export default function TutorsPage (){
             {tutors.map((tutor) =>
                 //favorite === tutor.id ? <Stuff/> :
                 <tr>
-
                     <td>{tutor?.firstName}</td>
                     <td>{tutor?.lastName}</td>
                     <td>{tutor?.username}</td>
