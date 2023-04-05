@@ -49,6 +49,7 @@ export default function TutorsPage (){
             <table className="table">
                 <thead>
                 <tr>
+                    <th>Pic</th>
                     <th scope="col">Full Name</th>
                     <th scope="col">Username</th>
                     <th scope="col">Favorite</th>
@@ -59,7 +60,13 @@ export default function TutorsPage (){
                     .filter((tutor) => tutor.isProfileSetup)
                     .map((tutor) =>
                     <tr>
-
+                        <td>
+                            <div className="d-flex align-items-center">
+                                <img className="rounded-circle"
+                                     src={tutor?.url}
+                                     width="50"/>
+                            </div>
+                        </td>
                         <td>{tutor?.firstName} {tutor?.lastName}</td>
                         <td>{tutor?.username}</td>
                         <td>

@@ -4,8 +4,10 @@ import { useAuthContext } from "../components/context/UserAuthContext";
 import SetupProfile from "../components/profile/SetupProfile";
 import useFirestore from "../firestore";
 import { useNavigate } from "react-router-dom";
-import Popup from 'reactjs-popup';
 import { Modal, Button } from 'react-bootstrap';
+import {storage} from "../firebase"
+import {ref, uploadBytes, getDownloadURL} from "firebase/storage"
+import "../styles/App.css"
 
 
 function ProfilePage(){
@@ -17,11 +19,17 @@ function ProfilePage(){
     const {data} = useFirestore(); 
     const [displayPickAvailabilityMsg, setDisplayPickAvailabilityMsg] = useState(false);
     const [showSetupProfile, setShowSetupProfile] = useState(true);
+    const {addDocumentToCollection} = useFirestore();
+    const {updateDocument} = useFirestore()
 
     // for the "tutor profile setup" popup modal
     const [show, setShow] = useState(true);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    // for upload profile pic
+    const [image, setImage] = useState();
+    const [url, setUrl] = useState("https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp");
 
     // log out function
     const handleLogout = () => {
@@ -48,9 +56,32 @@ function ProfilePage(){
                 }
             }
         }
-
     }, [user, data]);
-    
+
+
+
+    // profile image handling
+    const handleImageChange = (e) => {
+        if (e.target.files[0]){ // if the file name exists -- then set it as the image (using file since that is input type)
+            setImage(e.target.files[0])
+        }
+    }
+
+    async function handleImageSubmit() {
+        const imageRef = ref(storage, "image") // inside storage you will create a field named image on submit (reference)
+        uploadBytes(imageRef, image) // upload image to that reference -> then get URl -> then set URL
+            .then(() => getDownloadURL(imageRef) // url is only used to store into database so we can fetch
+                .then((url) => setUrl(url))
+            )
+
+        // doing a put
+        const updatedProfileSetupValue = await updateDocument("users", user.uid, {url: url});
+        console.log("image: ", image)
+        console.log("url: ", url)
+    }
+
+
+
     // if student --- show profile and done
     // if tutor --- make them set it up (by displaying a big message saying "please set your profile with the button) and then give them a popup that its been set up instead of the text
     return (
@@ -97,9 +128,13 @@ function ProfilePage(){
                             <div className="card mb-4">
                                 <div className="card-body text-center">
                                     <img
-                                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                                        src={data?.url ? data.url : url}
                                         alt="avatar"
-                                        className="rounded-circle img-fluid"/>
+                                        className="rounded-circle img-fluid avatar-image"/>
+
+                                    <input type={"file"} onChange={handleImageChange}/>
+                                    <button type="submit" className="btn btn-secondary btn-sm" onClick={handleImageSubmit}>Submit</button>
+
                                     <h5 className="my-3">{data?.firstName} {data?.lastName}</h5>
                                     <p className="text-muted mb-1">{data?.userRole}</p>
                                     <p className="text-muted mb-4">{user?.email}</p>

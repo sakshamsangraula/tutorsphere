@@ -52,7 +52,8 @@ export default function SignUp(){
             try{
                 const userInfoToAdd = {
                     ...userInfo,
-                    isProfileSetup: false
+                    isProfileSetup: false,
+                    url:"https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
                 };
                 console.log("USER IN SIGN UP IS", response?.user)
                 if(response?.user){
