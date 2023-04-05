@@ -20,6 +20,8 @@ export default function Header(){
             <Link className="navbar-brand" to="/about">About</Link>
             <Link className="navbar-brand" to="/appointments">Appointments</Link>
             <Link className="navbar-brand" to="/profile">Profile</Link>
+            <Link className="navbar-brand" to="/tutors">Tutors</Link>
+
 
 
 {/* TODO: fix register/signin in navbar showing up for around 1 second when refreshing the site while the user is login */}
