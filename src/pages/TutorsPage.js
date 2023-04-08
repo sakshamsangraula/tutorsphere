@@ -2,6 +2,7 @@ import React from 'react';
 import { useAuthContext } from "../components/context/UserAuthContext";
 import { collection, getDocs } from "firebase/firestore";
 import useFirestore from "../firestore";
+import "../styles/App.css"
 
 import {useEffect, useState} from "react";
 
@@ -41,12 +42,42 @@ export default function TutorsPage (){
         cursor: "pointer"
     }
 
-    return(
+    // for search functionality
+    const [search, setSearch] = useState('');
+    const handleSearchChange = (e) => {
+      setSearch(e.target.value)
+    }
 
-        <div>
-            <h1>Tutors</h1>
-            <table className="table">
-                <thead>
+    return(
+        <div className="table-container">
+            <div className="table-header">
+                <h2>Tutors</h2>
+                <div className="search-container">
+                    <input type="text" value={search} onChange={handleSearchChange} placeholder="Search Tutor" />
+                    <div className="dropdown-row">
+                        {tutors
+                            .filter((tutor) => {
+                                const searchValue = search.toLowerCase()
+                                const fullName = tutor.firstName.toLowerCase() + " " + tutor.lastName.toLowerCase()
+
+                                return (
+                                    fullName.startsWith(searchValue) && searchValue
+                                )
+                            }) // gets a filtered list of tutors who match search value
+
+                            .map((e) => ( // map through the filtered list to access specefic names
+                                <div>
+                                    <a href={`/tutors/${e.id}`}>{e.firstName} {e.lastName}</a>
+                                </div>
+                            ))
+                        }
+                    </div>
+                </div>
+            </div>
+
+        <div className={"table-responsive"}>
+            <table className="table table-striped table-hover table-borderless">
+                <thead className={"thead-dark"}>
                 <tr>
                     <th>Pic</th>
                     <th scope="col">Full Name</th>
@@ -81,8 +112,11 @@ export default function TutorsPage (){
                     </tr>
                 )}
                 </tbody>
+
+
             </table>
 
+        </div>
         </div>
 
     )
