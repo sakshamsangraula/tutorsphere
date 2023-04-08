@@ -60,25 +60,7 @@ function ProfilePage(){
 
 
 
-    // profile image handling
-    const handleImageChange = (e) => {
-        if (e.target.files[0]){ // if the file name exists -- then set it as the image (using file since that is input type)
-            setImage(e.target.files[0])
-        }
-    }
 
-    async function handleImageSubmit() {
-        const imageRef = ref(storage, "image") // inside storage you will create a field named image on submit (reference)
-        uploadBytes(imageRef, image) // upload image to that reference -> then get URl -> then set URL
-            .then(() => getDownloadURL(imageRef) // url is only used to store into database so we can fetch
-                .then((url) => setUrl(url))
-            )
-
-        // doing a put
-        const updatedProfileSetupValue = await updateDocument("users", user.uid, {url: url});
-        console.log("image: ", image)
-        console.log("url: ", url)
-    }
 
 
 
@@ -215,11 +197,31 @@ function ProfilePage(){
 
 
         </div>
-
-
-
-
     )
 }
 
+// put these functions here so they can be imported by TutorProfile.js
+// profile image handling
+const handleImageChange = (e, setImage) => {
+    if (e.target.files[0]){ // if the file name exists -- then set it as the image (using file since that is input type)
+        setImage(e.target.files[0])
+    }
+}
+
+async function handleImageSubmit(setUrl, image, url, updateDocument, user) {
+    const imageRef = ref(storage, "image") // inside storage you will create a field named image on submit (reference)
+    uploadBytes(imageRef, image) // upload image to that reference -> then get URl -> then set URL
+        .then(() => getDownloadURL(imageRef) // url is only used to store into database so we can fetch
+            .then((url) => setUrl(url))
+        )
+
+    // doing a put
+    const updatedProfileSetupValue = await updateDocument("users", user.uid, {url: url});
+    console.log("image: ", image)
+    console.log("url: ", url)
+}
+
+
+
 export default ProfilePage;
+export {handleImageSubmit, handleImageChange}

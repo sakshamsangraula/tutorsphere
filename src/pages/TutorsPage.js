@@ -44,8 +44,7 @@ export default function TutorsPage (){
     return(
 
         <div>
-            <h1>List of all Tutors</h1>
-
+            <h1>Tutors</h1>
             <table className="table">
                 <thead>
                 <tr>
@@ -67,7 +66,12 @@ export default function TutorsPage (){
                                      width="50"/>
                             </div>
                         </td>
-                        <td>{tutor?.firstName} {tutor?.lastName}</td>
+
+                        <td>
+                            <a href={`/tutors/${tutor?.id}`}>
+                                {tutor?.firstName} {tutor?.lastName}
+                            </a>
+                        </td>
                         <td>{tutor?.username}</td>
                         <td>
                             <button style={buttonStyle} onClick={handleClick}>

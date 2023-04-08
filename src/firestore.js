@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDocs, onSnapshot, setDoc, updateDoc } from "@firebase/firestore";
+import { addDoc, collection, doc, getDocs, getDoc, onSnapshot, setDoc, updateDoc } from "@firebase/firestore";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "./components/context/UserAuthContext";
 import { firestore} from "./firebase";
@@ -80,6 +80,14 @@ const useFirestore = () => {
         return allTutors;
       }
 
+    async function getUser(id) {
+        const userRef = doc(collection(firestore, "users"), id) // reference specefic user
+        const userDoc = await getDoc(userRef) // get their document
+
+        const userData = userDoc.data() // get doc data
+        return userData;
+    }
+
       async function getAllSubjects(){
         const allUsersData = await getAllDocs("users");
         const uniqueSubjects = new Set();
@@ -122,7 +130,7 @@ const useFirestore = () => {
 
 
 
-    return {data, addDocumentToCollection, updateDocument, getAllDocs, getAllTutors, getAllSubjects, addDocumentToCollectionWithDefaultId, getCurrentUserFutureAppointments, appointmentsData}
+    return {data, addDocumentToCollection, updateDocument, getAllDocs, getUser,getAllTutors, getAllSubjects, addDocumentToCollectionWithDefaultId, getCurrentUserFutureAppointments, appointmentsData}
 };
 
 export default useFirestore;

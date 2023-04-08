@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c0889b6a-1b05-4be0-b2f3-36bb589b7213" name="Changes" comment="Tutor page - addded filter to display profile setup tutors">
-      <change afterPath="$PROJECT_DIR$/src/styles/App.css" afterDir="false" />
+    <list default="true" id="c0889b6a-1b05-4be0-b2f3-36bb589b7213" name="Changes" comment="added upload pic functionality and updated tutor profile page">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/authentication/SignUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/authentication/SignUp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/firebase.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/firebase.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/firestore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/firestore.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/ProfilePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ProfilePage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/TutorsPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/TutorsPage.js" afterDir="false" />
@@ -77,7 +77,7 @@
       <updated>1679677816971</updated>
       <workItem from="1679677818805" duration="20699000" />
       <workItem from="1680287478078" duration="18580000" />
-      <workItem from="1680631309994" duration="13140000" />
+      <workItem from="1680631309994" duration="22732000" />
     </task>
     <task id="LOCAL-00001" summary="added list of tutors">
       <created>1679953628943</created>
@@ -121,7 +121,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680632614414</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="added upload pic functionality and updated tutor profile page">
+      <created>1680733789399</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1680733789399</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -156,6 +163,7 @@
     <MESSAGE value="added styling to profile page" />
     <MESSAGE value="added setup profile features to the profile page" />
     <MESSAGE value="Tutor page - addded filter to display profile setup tutors" />
-    <option name="LAST_COMMIT_MESSAGE" value="Tutor page - addded filter to display profile setup tutors" />
+    <MESSAGE value="added upload pic functionality and updated tutor profile page" />
+    <option name="LAST_COMMIT_MESSAGE" value="added upload pic functionality and updated tutor profile page" />
   </component>
 </project>

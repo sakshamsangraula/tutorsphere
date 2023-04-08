@@ -9,6 +9,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ProfilePage from "./pages/ProfilePage";
 import TutorsPage from "./pages/TutorsPage";
 import Favorites from "./pages/Favorites"
+import TutorProfile from "./pages/TutorProfile"
 
 function App(){
     return (
@@ -40,6 +41,14 @@ function App(){
                     </Route>
                     <Route path={"/favorites"} element={
                         <Favorites/>
+                    }>
+                    </Route>
+                    <Route path={"/favorites"} element={
+                        <Favorites/>
+                    }>
+                    </Route>
+                    <Route path={"/tutors/:id"} element={
+                        <TutorProfile/>
                     }>
                     </Route>
                 </Routes>
