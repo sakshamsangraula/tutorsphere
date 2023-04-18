@@ -7,6 +7,7 @@ import SignUp from "./components/authentication/SignUp";
 import AppointmentsPage from "./pages/AppointmentsPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ProfilePage from "./pages/ProfilePage";
+import Favorites from "./pages/Favorites";
 import TutorsPage from "./pages/TutorsPage";
 import Favorites from "./pages/Favorites"
 import TutorProfile from "./pages/TutorProfile"
