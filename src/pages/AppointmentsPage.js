@@ -184,6 +184,7 @@ export default function AppointmentsPage(){
                                             <td>
                                             <Button variant="secondary" onClick={() => setCancelAppointment(appointment?.id)}>
                                                 Cancel Appointment
+                                                
                                             </Button>
                                             </td>
                                         </tr>
