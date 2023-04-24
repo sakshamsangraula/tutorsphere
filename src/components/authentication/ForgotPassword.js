@@ -9,7 +9,7 @@ export default function ForgotPassword(){
 
     const [authInfo, setAuthInfo] = useState({email: "", password: ""});
 
-    const [error, setError] = useState("Email does not exist, or error finding email");
+    const [error, setError] = useState();
 
     const handleAuthChange = (e) => {
         const {name, value} = e.target;
@@ -21,15 +21,16 @@ export default function ForgotPassword(){
         try{
             console.log("authInfo.password "+ authInfo.password);
             const response = await changePassword(authInfo.email);
-            navigate("/signin")
+            setError();
         }catch(err){
             console.log("error from fp component" + err);
-            setError(err.message);
+            setError("Email not found");
         }
     };
     return (
         <div>
-            {error && <p>{error.message}</p>}
+            {!error && <div class = "alert alert-success" role ="alert"> Reset Password email sent!</div> }
+            {error && <div class = "alert alert-danger" role ="alert"> Reset Password email not sent!</div>}
             <div className="vh-100 bg-image"
             style={{backgroundImage: "url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp')"}}>
             <div className="mask d-flex align-items-center h-100 gradient-custom-3">
