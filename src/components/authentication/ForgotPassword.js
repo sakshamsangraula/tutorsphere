@@ -4,24 +4,24 @@ import { useAuthContext } from "../context/UserAuthContext";
 
 export default function ForgotPassword(){
 
-    const {user, login} = useAuthContext();
+    const {user, changePassword} = useAuthContext();
     const navigate = useNavigate();
 
-    const [authInfo, setAuthInfo] = useState({password: ""});
+    const [authInfo, setAuthInfo] = useState({email: "", password: ""});
 
-    const [error, setError] = useState("");
+    const [error, setError] = useState("Email does not exist, or error finding email");
 
     const handleAuthChange = (e) => {
         const {name, value} = e.target;
-        setAuthInfo({...authInfo, [name]: value});
+        setAuthInfo({...authInfo, [name]:value});
     };
 
      // TODO: make sure all values are filled and clean/trim before validating and submitting
      const handleSubmit = async () => {
         try{
-            // TODO: decide whether response is needed or not
-            const response = await login(authInfo.email, authInfo.password);
-            navigate("/profile")
+            console.log("authInfo.password "+ authInfo.password);
+            const response = await changePassword(authInfo.email);
+            navigate("/signin")
         }catch(err){
             setError(err.message);
         }
@@ -37,22 +37,17 @@ export default function ForgotPassword(){
                 <div className="col-12 col-md-9 col-lg-7 col-xl-6">
                     <div className="card" style={{borderRadius: "15px"}}>
                     <div className="card-body p-4">
-                        <h2 className="text-center mb-5">Change your password</h2>
-        
+                        <h2 className="text-center mb-5">Forgot password</h2>
                         <form onSubmit={handleSubmit}>
-        
                         <div className="form-outline mb-4">
                             <label className="form-label">Email address</label>
                             <input required name="email" type="email" className="form-control form-control-lg" value={authInfo.email} onChange={handleAuthChange}/>
-                        </div>
-                        <div className="form-outline mb-4">
-                            <label className="form-label">Enter a new Password</label>
-                            <input required name="password" type="password" className="form-control form-control-lg" value={authInfo.password} onChange={handleAuthChange}/>
                         </div>
                         <div className="d-flex justify-content-center">
                             <button type="button" onClick={handleSubmit}
                             className="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Submit</button>
                         </div>
+                        <p className="text-center text-muted mt-5 mb-0">You will receive an email to reset your password. Follow the link to reset your password.</p>
                         </form>
                     </div>
                     </div>
