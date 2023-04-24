@@ -56,6 +56,8 @@ export default function SignIn(){
                             <button type="button" onClick={handleSubmit}
                             className="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Login</button>
                         </div>
+                        <p className="text-center text-muted mt-2 mb-0"> <a onClick={() => navigate("/forgotPassword")} style={{cursor: "pointer"}}
+                            className="fw-bold text-body"><u>Forgot Password</u></a></p>
                         <p className="text-center text-muted mt-5 mb-0">Don't have an account? <a onClick={() => navigate("/register")} style={{cursor: "pointer"}}
                             className="fw-bold text-body"><u>Register here</u></a></p>
                         </form>

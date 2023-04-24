@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import SignIn from "./components/authentication/SignIn";
 import SignUp from "./components/authentication/SignUp";
+import ForgotPassword from "./components/authentication/ForgotPassword";
 import AppointmentsPage from "./pages/AppointmentsPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ProfilePage from "./pages/ProfilePage";
@@ -22,6 +23,7 @@ function App(){
                 <Routes>
                     <Route path="/" element={<HomePage />}></Route>
                     <Route path="/register" element={<SignUp />}></Route>
+                    <Route path="/forgotPassword" element={<ForgotPassword />}></Route>
                     <Route path="/signin" element={<SignIn />}></Route>
                     <Route path="/appointments" element={
                         <ProtectedAppointmentsRoute>
