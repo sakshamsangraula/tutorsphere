@@ -30,27 +30,14 @@ export function UserAuthContextProvider({children}){
     }
 
     function changePassword(email){
-        sendPasswordResetEmail(auth, email)
-        .then(() => {
-            Promise.resolve();
-        })
+        return sendPasswordResetEmail(auth, email)
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
             console.log("errormessage"+errorMessage);
-            Promise.reject(errorMessage);
+            throw new Error(errorMessage);
         });
-        // console.log("newPassword" + newPassword);
-        // console.log("user"+user);
-        // const emailExists = auth().getUserByEmail(email).then(() => true).catch(() => false);
-        // console.log("user"+user);
-        // if(emailExists){
-        //     console.log("user"+user);
-        //     return updatePassword(user, newPassword);
-        // }
-        // else{
-        //     Promise.reject("User not found");
-        // }
+        
     }
 
     useEffect(() => {

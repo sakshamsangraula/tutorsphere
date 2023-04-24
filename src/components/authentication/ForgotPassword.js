@@ -23,6 +23,7 @@ export default function ForgotPassword(){
             const response = await changePassword(authInfo.email);
             navigate("/signin")
         }catch(err){
+            console.log("error from fp component" + err);
             setError(err.message);
         }
     };
