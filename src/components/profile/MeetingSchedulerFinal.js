@@ -4,8 +4,13 @@ import useFirestore from '../../firestore';
 import { useAuthContext } from '../context/UserAuthContext';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { Navigate, useNavigate } from 'react-router-dom';
+import Select from 'react-select';
+import SendGridApi from '../utils/SendGridApi';
+import axios from "axios"
 
-export default function MeetingSchedulerFinal({allTutors, selectedSubjects}) {
+
+export default function MeetingSchedulerFinal({allTutors, filteredTutors, selectedSubjects, firstShow}) {
 
     // TODO: use environment variable instead of a constant here
     const APPOINTMENTS_COLLECTION = "appointments";
@@ -37,8 +42,30 @@ export default function MeetingSchedulerFinal({allTutors, selectedSubjects}) {
   const [appointmentDescription, setAppointmentDescription] = useState("");
   const [appointmentData, setAppointmentData] = useState({});
   const [selectedTutorExistingAppointments, setSelectedTutorExistingAppointments] = useState([]);
+  const [selectedSubjectsForTutor, setSelectedSubjectsForTutor] = useState([]);
 
   const daysOrder = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+  const navigate = useNavigate();
+
+  console.log("selectedSubjectsForTutor", selectedSubjectsForTutor)
+
+  
+  const sendEmail = async (to, subject, text) => {
+    const data = {
+      to,
+      subject,
+      text,
+    };
+  
+    try {
+      const response = await axios.post("http://localhost:3001/send-email", data);
+      console.log("Email sent:", response.data);
+    } catch (error) {
+      console.error("Error sending email:", error);
+    }
+  };
+  
+
 
 //   const availabilitySlots = Object.keys(schedule).map((day) => {
 //     const dayIdx = daysOrder?.indexOf(day);
@@ -128,19 +155,19 @@ const availabilitySlots = tutorSchedule && Object.keys(tutorSchedule)?.map((day)
 
 // TODO: if the student doesn't select a subject then it'll be empty (instead have the subject as the list of subjects that the tutor has by default if the student doesn't select a subject)
 
-const allTutorElements = allTutors.map(tutor => {
-    return (
+// const allTutorElements = allTutors.map(tutor => {
+//     return (
 
-      <button key={tutor.id} type="button" onClick={() => handleTutorClick(tutor)} className="btn btn-primary">
-        <p>{tutor.firstName} {tutor.lastName}</p>
-      </button>
-      // <div className="card">
-      //   <div className="card-body">
-      //     <p>{tutor.firstName} {tutor.lastName}</p>
-      //   </div>
-      // </div>
-    )
-  })
+//       <button key={tutor.id} type="button" onClick={() => handleTutorClick(tutor)} className="btn btn-primary">
+//         <p>{tutor.firstName} {tutor.lastName}</p>
+//       </button>
+//       // <div className="card">
+//       //   <div className="card-body">
+//       //     <p>{tutor.firstName} {tutor.lastName}</p>
+//       //   </div>
+//       // </div>
+//     )
+//   })
 
   function handleTutorClick(tutor){
     console.log("called handletutorclick TUTORIS", tutor);
@@ -166,9 +193,11 @@ const allTutorElements = allTutors.map(tutor => {
     return cstDateTimeString;
   }
 
-  function prepareAppointmentData(appointmentSelection){
+  function prepareAppointmentData(appointmentSelection, passedInSubjects){
     // reset the description state so each time will have an empty description/notes section
     setAppointmentDescription("");
+
+    console.log("passedInSubjects", passedInSubjects)
 
     // TODO: generate and add google meets link here to the appointmentData so that it can be saved in the appointments collection
     const appointmentData = {
@@ -186,7 +215,7 @@ const allTutorElements = allTutors.map(tutor => {
       // },
       startTime: convertTimeStampToCDTDate(appointmentSelection.availableTimeslot.startTime),
       endTime: convertTimeStampToCDTDate(appointmentSelection.availableTimeslot.endTime),
-      subjects: selectedSubjects
+      subjects: passedInSubjects
     }
 
     setShowModal(true);
@@ -194,12 +223,44 @@ const allTutorElements = allTutors.map(tutor => {
     console.log("appointmentData", appointmentData);
   }
 
+        // TODO: show a success create appointment message when appointment is created (use state to store message)
   async function createAppointment(){
     // save appointment data along with appointment description to firestore
     try{
       const docRef = await addDocumentToCollectionWithDefaultId(APPOINTMENTS_COLLECTION, {...appointmentData, appointmentDescription});
       // TODO: show a success create appointment message when appointment is created (use state to store message)
       setShowModal(false);
+
+      // send email with appointment data
+      // TODO: send email to student and tutor saying that appointment was created
+
+      try{
+        let emailContent = `Appointment with ${appointmentData?.studentName} and ${appointmentData?.tutorName}
+        \n. The meeting will start on ${appointmentData?.startTime} and end on ${appointmentData?.endTime}. The meeting will cover the following subjects: ${appointmentData?.subjects.join(",")}`;
+  
+        if(appointmentDescription){
+          emailContent += `\nAppointment Description is: ${appointmentDescription}`
+        }
+  
+        sendEmail("sakshamsangraula45@gmail.com", "Tutoring Appointment With Tutorsphere Confirmed", emailContent)
+  
+      }catch(err){
+        console.log("Error sending email via sendgrid", err);
+        alert("Error sending email via sendgrid")
+      }
+      
+      // reload the window once appointment is created
+      // window.location.reload();
+      // navigate("/appointments");
+      // setReloadPage(true);
+
+
+      // return <Navigate to="/appointments" />
+
+      // window.history.pushState({}, "", '/appointments');
+    
+
+
     }catch(err){
       console.log("Error adding document to appointments collection", err);
       // TODO: save error to state and show error on the screen in an error box instead of alert
@@ -207,6 +268,46 @@ const allTutorElements = allTutors.map(tutor => {
     }
 
   }
+
+  const allTutorsOptions = allTutors?.map(tutor => {
+    return {
+      label: tutor.firstName + " " + tutor.lastName,
+      value: tutor
+    }
+  })
+
+  const allFilteredTutorsOptions = filteredTutors.map(tutor => {
+    return {
+      label: tutor.firstName + " " + tutor.lastName,
+      value: tutor
+    }
+  })
+
+  console.log("selectedSubjectsis---", selectedSubjects);
+
+  function handleTutorSelect(selectedOption, actionMeta){
+    const userSelectedTutor = selectedOption?.value
+    if(userSelectedTutor){
+      setSelectedTutor(userSelectedTutor);
+      // if the tutor doesn't have a schedule then it won't create maximum
+      // depth exceeded recursion error because we explicitly check if
+      // tutor schedule exists and only set the schedule if it exists
+      if(userSelectedTutor?.schedule){
+        setTutorSchedule(userSelectedTutor.schedule);
+      }
+    }
+  }
+
+  function getLabelAndValue(listOfValues){
+    return listOfValues?.map(listElement => {
+      return {
+        label: listElement,
+        value: listElement
+      }
+    })
+  }
+
+console.log("selectedTutorselectedTutor", selectedTutor)
 
   return (
     // <div>
@@ -219,12 +320,14 @@ const allTutorElements = allTutors.map(tutor => {
     //   />
     // </div>
 
+    
     <div>
 
-      <h1>All Tutors</h1>
-      <div className="container-sm">
+      {/* <h1>All Tutors</h1> */}
+      {/* <div className="container-sm">
         {allTutorElements}
-      </div>    
+      </div>     */}
+
 
       <Modal show={showModal} onHide={() => setShowModal(false)} size="xl" animation={false}>
         <Modal.Header closeButton>
@@ -282,14 +385,79 @@ const allTutorElements = allTutors.map(tutor => {
         </Modal.Footer>
       </Modal>
 
-      <ScheduleMeeting
+      {/* TODO: make sure that appointment can only be created if tutor is selected and subjects are also selected and if no subject is selected then that's ok. Also, add a feature to filter based on favorite tutors so favorite tutors will be shown instead of all tutors */}
+
+      {/* TODO: create a google meets link and add it in the appointment object in firestore so that it's saved with the appointment, update the upcoming appointments table with the google meets link */}
+
+      {/* TODO: maybe also sort the appointments by start date if it's not already done by default */}
+
+      {firstShow === "subjectsFirst" ? 
+
+      <div>
+      {selectedSubjects?.length > 0 && <div className="mt-4 d-flex justify-content-start custom-gap align-items-center">
+            <p>Step 2: Select a tutor </p>
+            <Select
+              name="tutors"
+              options={allFilteredTutorsOptions}
+              classNamePrefix="select"
+              onChange={handleTutorSelect}
+              menuPortalTarget={document.body} 
+              styles={{ 
+                menuPortal: (base) => ({ ...base, zIndex: 9999 })
+              }} // make sure the list of options is not blocked by the calendar
+            />
+      </div>}
+
+      {selectedSubjects?.length > 0 && selectedTutor && <ScheduleMeeting
         borderRadius={10}
         primaryColor="#3f5b85"
         availableTimeslots={finalAvailabilitySlots}
         // TODO: right now, appointments can only be made for 1 hour but try to see if dynamic duration can work by updating approach
         eventDurationInMinutes={60}
-        onStartTimeSelect={prepareAppointmentData}
-      />
+        onStartTimeSelect={(appointmentSelection) => prepareAppointmentData(appointmentSelection, selectedSubjects)}/>}
+      </div>
+      : 
+        <div>
+          <div className="mt-4 d-flex justify-content-start custom-gap align-items-center">
+            <p>Step 1: Select a tutor </p>
+            <Select
+              name="tutors"
+              options={allTutorsOptions}
+              classNamePrefix="select"
+              onChange={handleTutorSelect}
+              menuPortalTarget={document.body} 
+              styles={{ 
+                menuPortal: (base) => ({ ...base, zIndex: 9999 })
+              }} // make sure the list of options is not blocked by the calendar
+            />
+          </div>
+
+          {selectedTutor && <div className="mt-4 d-flex justify-content-start custom-gap align-items-center">
+            <p>Step 2: Select subject(s) </p>
+            <Select
+              isMulti
+              options={getLabelAndValue(selectedTutor?.subjects)}
+              classNamePrefix="select"
+              onChange={(selectedValue, actionMeta) => setSelectedSubjectsForTutor(selectedValue?.map(selected => selected.value))}
+              menuPortalTarget={document.body} 
+              styles={{ 
+                menuPortal: (base) => ({ ...base, zIndex: 9999 })
+              }} // make sure the list of options is not blocked by the calendar
+            />
+          </div>}
+
+          {selectedTutor && selectedSubjectsForTutor?.length > 0 && 
+            <ScheduleMeeting
+            borderRadius={10}
+            primaryColor="#3f5b85"
+            availableTimeslots={finalAvailabilitySlots}
+            // TODO: right now, appointments can only be made for 1 hour but try to see if dynamic duration can work by updating approach
+            eventDurationInMinutes={60}
+            onStartTimeSelect={(appointmentSelection) => prepareAppointmentData(appointmentSelection, selectedSubjectsForTutor)}
+            />
+          }
+        </div>
+      }
     </div>
   );
 }

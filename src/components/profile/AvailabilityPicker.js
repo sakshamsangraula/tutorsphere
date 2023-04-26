@@ -25,7 +25,7 @@ function AvailabilityPicker(){
 
     // useEffect only runs once here --> get reactlibrary schedule and set schedule to it so previous tutor availability selection is shown
     useEffect(() =>{
-        console.log("data.reactLibrarySchedule", data)
+        // console.log("data.reactLibrarySchedule", data)
         if(data?.reactLibrarySchedule?.length > 0){
             const reactLibraryScheduleDates = data?.reactLibrarySchedule?.map(time => new Date(time));
             setSchedule(reactLibraryScheduleDates);
@@ -42,7 +42,7 @@ function AvailabilityPicker(){
 
     useEffect(() => {
         
-        console.log("SCHEDULECHANGED--------------------------", schedule);
+        // console.log("SCHEDULECHANGED--------------------------", schedule);
 
         // if schedule is empty set weekly schedule to empty (better to just reset weekly schedule to empty every time schedule changes and then readd all the schedule)
         setWeekSchedule({
@@ -62,7 +62,7 @@ function AvailabilityPicker(){
                 if(!updatedAppointments.includes(hour)){
                     updatedAppointments.push(hour);
                 }
-                console.log("weekscheduleAFTERADDING{...prevWeekSchedule, [dayName]: updatedAppointments}", {...prevWeekSchedule, [dayName]: updatedAppointments})
+                // console.log("weekscheduleAFTERADDING{...prevWeekSchedule, [dayName]: updatedAppointments}", {...prevWeekSchedule, [dayName]: updatedAppointments})
                 return {...prevWeekSchedule, [dayName]: updatedAppointments};
             });
         });
@@ -71,11 +71,11 @@ function AvailabilityPicker(){
 
 
     // console.log("SCHEDULE IS",  schedule);
-    console.log("= SCHEDULE IS", schedule);
+    // console.log("= SCHEDULE IS", schedule);
 
     const handleChange = newSchedule => {
-        console.log("(((((((((((((( PREVIOUS SCHEDULE WAS", schedule);
-        console.log(")))))))))))))))) NEW Schedule is", newSchedule);
+        // console.log("(((((((((((((( PREVIOUS SCHEDULE WAS", schedule);
+        // console.log(")))))))))))))))) NEW Schedule is", newSchedule);
         setSchedule([...newSchedule]);
     }
 
@@ -85,7 +85,7 @@ function AvailabilityPicker(){
             const dayName = dayNames[availability.getDay()];
             // const timeInHourAndMinutes = `${availability.getHours()}:${availability.getMinutes()}`;
             const hour = availability.getHours();
-            console.log("BEFOREEEEEEEEEEEEEEEEEEEEEE$$$$$$$$$$$$$$$WEEKLY SCHEDULE $$$$$$$$$$$$$$$$", weekSchedule);
+            // console.log("BEFOREEEEEEEEEEEEEEEEEEEEEE$$$$$$$$$$$$$$$WEEKLY SCHEDULE $$$$$$$$$$$$$$$$", weekSchedule);
 
             setWeekSchedule(prevWeekSchedule => {
                 const updatedAppointments = [...prevWeekSchedule[dayName]];
@@ -94,7 +94,7 @@ function AvailabilityPicker(){
                 }
                 return {...prevWeekSchedule, [dayName]: updatedAppointments};
             });
-            console.log("AFTERRRRRRRRRRRRRRRRRRRRR$$$$$$$$$$$$$$$WEEKLY SCHEDULE $$$$$$$$$$$$$$$$", weekSchedule);
+            // console.log("AFTERRRRRRRRRRRRRRRRRRRRR$$$$$$$$$$$$$$$WEEKLY SCHEDULE $$$$$$$$$$$$$$$$", weekSchedule);
         });
 
     }
@@ -103,18 +103,18 @@ function AvailabilityPicker(){
         // updateWeeklySchedule();
         // add schedule to firestore if user is tutor
         try{
-            console.log("$$$$$$$$$$$$$$$WEEKLY SCHEDULE $$$$$$$$$$$$$$$$", weekSchedule);
+            // console.log("$$$$$$$$$$$$$$$WEEKLY SCHEDULE $$$$$$$$$$$$$$$$", weekSchedule);
             if(user && data.userRole === TUTOR){
                 const scheduleAddResponse = await updateDocument(USERS, user.uid, {schedule: weekSchedule});
-                console.log("weekScheduleAFTERADDING", weekSchedule)
+                // console.log("weekScheduleAFTERADDING", weekSchedule)
 
                 // convert each item from schedule to string so firebase doesn't convert it to
                 // it's format of schedule
                 const stringSchedule = schedule.map(date => date.toString());
                 const reactLibraryScheduleAdded = await updateDocument(USERS, user.uid, {reactLibrarySchedule: stringSchedule});
-                console.log("scheduleAddResponse", scheduleAddResponse)
+                // console.log("scheduleAddResponse", scheduleAddResponse)
             }else{
-                console.log("USER ROLE IS $$$$$$$$$$$$$$$$$$$$$$$$", user.userRole)
+                // console.log("USER ROLE IS $$$$$$$$$$$$$$$$$$$$$$$$", user.userRole)
                 alert("Only Tutors can provide availability!", user);
                 
             }

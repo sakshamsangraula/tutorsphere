@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDocs, getDoc, onSnapshot, setDoc, updateDoc } from "@firebase/firestore";
+import { addDoc, collection, doc, getDocs, getDoc, onSnapshot, setDoc, updateDoc, query } from "@firebase/firestore";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "./components/context/UserAuthContext";
 import { firestore} from "./firebase";
@@ -11,9 +11,9 @@ const useFirestore = () => {
     const [isProfileSetup, setIsProfileSetup] = useState();
     const [appointmentsData, setAppointmentsData] = useState([]);
     const [futureAppointments, setFutureAppointments] = useState([]);
+    const [documents, setDocuments] = useState([]);
     const USERS_COLLECTION_NAME = "users";
 
-    console.log("firestore data is", data);
 
     async function addDocumentToCollectionWithDefaultId(COLLECTION_NAME, documentInfo){
         const docRef = await addDoc(collection(firestore, COLLECTION_NAME), documentInfo);
@@ -26,7 +26,6 @@ const useFirestore = () => {
     }
 
     async function updateDocument(COLLECTION_NAME, documentId, newField){
-        console.log("UPDATE DOCUMENT ******** COLLECTION_NAME, documentId, newField", COLLECTION_NAME, documentId, newField)
         const documentRef = doc(firestore, COLLECTION_NAME, documentId);
         return updateDoc(documentRef, newField)
     }
@@ -35,10 +34,8 @@ const useFirestore = () => {
         // gets data for specific user document (current document)
         const getDataFromFirestore = async() => {
             if(user){
-                console.log("username is", user.uid)
 
                 const unsub = onSnapshot(doc(firestore, USERS_COLLECTION_NAME, user.uid), (doc) => {
-                    console.log("doc.data()", doc.data())
                     const documentData =  doc.data();
                     setData({id: doc.id, ...doc.data()});
                     setLoading(false);
@@ -48,27 +45,52 @@ const useFirestore = () => {
         };
         getDataFromFirestore();
 
-        const getAppointmentsDataFromFirestore = async() => {
-            if(user){
-                const collectionRef = collection(firestore, "appointments");
+        console.log("APPOINTMENTSDATACHANGEDORNOT", appointmentsData)
 
-                const allAppointments = [];
-                const unsubscribe = onSnapshot(collectionRef, (snapshot) => {
-                snapshot.forEach((doc) => {
-                    allAppointments.push({id: doc.id, ...doc.data()});         
-                    });
-                });
-                setAppointmentsData(allAppointments);
-                return () => unsubscribe();
-            }
-        }
+        // const getAppointmentsDataFromFirestore = async() => {
+        //     if(user){
+        //         console.log("getAppointmentsDataFromFirestorecalled")
+        //         const collectionRef = collection(firestore, "appointments");
 
-        getAppointmentsDataFromFirestore();
+        //         const allAppointments = [];
+        //         const unsubscribe = onSnapshot(collectionRef, (snapshot) => {
+        //         snapshot.forEach((doc) => {
+        //             allAppointments.push({id: doc.id, ...doc.data()});         
+        //             });
+        //         });
+        //         console.log("getCurrentUserFutureAppointmentscalledinuseeffectALLAPPOINTMENTS", allAppointments);
+
+        //         setAppointmentsData(allAppointments);
+        //         return () => unsubscribe();
+        //     }
+        // }
+
+        // getAppointmentsDataFromFirestore();
     }, [user]);
+
+
 
     useEffect(() => {
 
+        // Note getting apopintments data like this gives the most updated appointment data and everything updates nicely
+        const q = query(collection(firestore, 'appointments'));
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+          const docs = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          console.log("INSIDENEWUSEEFFECTFORAPPOINTMENTS", docs)
+          setAppointmentsData(docs);
+        });
+        // Clean up the listener on component unmount
+        return () => {
+          unsubscribe();
+        };
+      }, []);
 
+    useEffect(() => {
+
+console.log("getCurrentUserFutureAppointmentscalledinuseeffect");
         async function getCurrentUserFutureAppointments(){
             const allCurrentUserAppointments = await getCurrentUserAppointments();
             const now = new Date();
@@ -81,6 +103,8 @@ const useFirestore = () => {
                 }
             });
             console.log("currentUserFutureAppointments", currentUserFutureAppointments);
+            console.log("getCurrentUserFutureAppointmentscalledinuseeffectappointments", currentUserFutureAppointments);
+
             setFutureAppointments(currentUserFutureAppointments);
     
             // return currentUserFutureAppointments;
@@ -89,7 +113,7 @@ const useFirestore = () => {
           getCurrentUserFutureAppointments();
     
 
-    }, [data]);
+    }, [data, appointmentsData]);
 
     const getAllDocs = async (collectionName) => {
         const querySnapshot = await getDocs(collection(firestore, collectionName));
@@ -138,7 +162,7 @@ const useFirestore = () => {
       }
 
       
-      console.log("futureAppointments", futureAppointments)
+    //   console.log("futureAppointments", futureAppointments)
 
     return {data, addDocumentToCollection, updateDocument, getAllDocs, getUser,getAllTutors, getAllSubjects, addDocumentToCollectionWithDefaultId, futureAppointments, appointmentsData}
 };
