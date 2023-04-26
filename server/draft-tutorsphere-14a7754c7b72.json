@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "draft-tutorsphere",
+  "private_key_id": "14a7754c7b72e51811ffaa9f0430b8eb597640a6",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDAqCx3CbQL6iJo\nDTCTd9YCSQE7XoRDqXb8QzSH5Jq5d8eXIVq7GUGHWaBP5fwOW3bLIF3hOvEa/Ell\nEH5j8BMNsgoZX8CiZ2Nj50QiZMTmIvCgdgsT4NsVMU4/f4M/LHXAch7Cwj2eC4xw\n9tgjz9A4ZjsnOcfB/Mi8ZkzQA6Zc9JBTIBVolXzJliYpWY2tQQvi3Napwe56eKZw\nSg3Ykxa4JJaBbiqq5bomUnRcZB0EwFaJ+Cq+ayemV8+QtC6hECp0uYBkfzHm17iL\nE8RGxsLm/YfnGnW+z7NetQ17YR5yfqSAu4TJEDlpngqNPSghlByoGBv0iMzLFjzo\nIveEP/lLAgMBAAECggEAA0LPEd3yFFUmHoqOnNUyVz9cf0bclUQ1wkclVfsdtVYp\nZJqV0961eCPuINWwCQXHHBQUErjLlcNy2JX8lbBEGkvxSNGqmI67pQuOk/uoEfJb\np7oOLb8O5kWh4SHe5/K9AYEAM7Egl6xZXoLtg9mqJbI+F3r7MYJ+Wu+eWdNqyir5\np/p8tGZvP4pwvzBeOpwEwcLhe+znz/pmvJRhj3zMXlLcvG5yJYDMeD3WtM/sdIcN\nw0haGuUUhGKnt18vKB/wDspEoSnJ5u5Os2AU3u+f9yYZ0XAXEKS7ld01plImPx1J\ndsloJYW0dXLJ43ah6SQ/Lau2DIL9g8KBBDgJ7iupLQKBgQDjocgJwyXWGyHiMBpZ\nkXqqM7a7Xd7odruqF5lmSlkzEPEkVz85hIFpz3NwWXzHyMqA42Nr1aMZau2S1Dyi\n7MnfqlerZyHc7TKetZwhtlW9s7jH+Am2H59a3NCLMh7HEspEy8zuGdQjBDJm1Lqp\n9zJTXArFa6b5tZulwXFFfimT1QKBgQDYqpJ7Xi+87xjhinKjsacwO8Zwf2AYby83\nbfapqbKwC+eTd5zpdC0SgU8XtTesdK7ZnJXDlVAqJBEcccO9zbr/65ujCuJEWtKU\nYUaPtKyhJEyI1rGNfU+5gNrznQIN+Oi98FFCxIAaAc548icch7e5BffBhGtKtOr1\n+MetUFSInwKBgCqnDcyGfHh57Qds7AMMd2ec+QhytmnolZFxipTYKY6gBg9BKd+l\nLHqfHIpYukDVJtyvvtld1onUt19j1VjR9aGrUXIUiQvUhj+m1/KZL8ez/VO67lbp\n5foolgr/ATVcF/p8FZIn1NAa4TbTdYaTgyKLhJkpasgvd1K/xHG5CiFhAoGALHFY\nmKuqOSQGQ4VFnKQ9OhyYyMyn5nswATuyI/0mJQxcFRis/AoTkL8rfR5z7BEHKKYA\n5lyDVBGP3PjNAOrpV8N5akk6PnEuzrbhZWrXGjq65Dq9stsodlGjF+N1323WN9fK\no1pxOGR0eMSbFzQTkIVT28MQywMvSwMb2kYnANsCgYEAxUTGdx4guPPy95vrpTzn\no/QO3uQSJsYX+J81pL/a2B3CQixqXfJyNahuC//iKdnsCG9gu6Fc34TkQieO4jWt\n3wdYyfUBXdt+QDCt7jp5wtB5xY+z0fm8o6CCSPJ/F86ewGWwM2pHahUO+k4bXsHt\n6A95Z7S2nGi23EH2RbKJYos=\n-----END PRIVATE KEY-----\n",
+  "client_email": "tutorsphere-service-account@draft-tutorsphere.iam.gserviceaccount.com",
+  "client_id": "106574774730138076419",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/tutorsphere-service-account%40draft-tutorsphere.iam.gserviceaccount.com"
+}
