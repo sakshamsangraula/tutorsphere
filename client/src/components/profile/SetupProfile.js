@@ -125,85 +125,49 @@ function SetupProfile() {
                 Setup Profile
             </button>
 
-            <Modal show={show} onHide={handleClose} size="xl" animation={false}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Setup Tutor Profile</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <div>
-                        <div className={"center"}>
-                            <img
-                                src={data?.url}
-                                alt="avatar"
-                                className="rounded-circle img-fluid avatar-image"/>
-                            <div></div>
-                            <input type={"file"} onChange={handleImageChange}/>
-                            <div></div>
-                            <button type="submit" className="btn btn-secondary btn-sm" onClick={handleImageSubmit}>Add Profile Picture</button>
-                        </div>
-
-                        <br/>
-                        <div className="form-group">
-                            <label htmlFor="exampleFormControlTextarea1">Enter an About Me (250 charcters): </label>
-                            <textarea onChange={(e) => setAboutMe(e.target.value)} className="form-control" id="exampleFormControlTextarea1" rows="3" max></textarea>
-                        </div>
-
-
-                        <p>Select subjects you would like to teach: </p>
-                        {/*<p>selection box</p>*/}
-
-                        <CreatableSelect
-                            isMulti
-                            options={subjectOptions}
-                            onChange={handleSelectChange}
       <Modal show={show} onHide={handleClose} size="xl" animation={false}>
         <Modal.Header closeButton>
           <Modal.Title>Setup Tutor Profile</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+            <div className={"center"}>
+                <img
+                    src={data?.url}
+                    alt="avatar"
+                    className="rounded-circle img-fluid avatar-image"/>
+                <div></div>
+                <input type={"file"} onChange={handleImageChange}/>
+                <div></div>
+                <button type="submit" className="btn btn-secondary btn-sm" onClick={handleImageSubmit}>Add Profile Picture</button>
+            </div>
+
+            <br/>
+            <div className="form-group">
+                <label htmlFor="exampleFormControlTextarea1">Enter an About Me (250 charcters): </label>
+                <textarea onChange={(e) => setAboutMe(e.target.value)} className="form-control" id="exampleFormControlTextarea1" rows="3" max></textarea>
+            </div>
             <div>
-                <p>Select subjects you would like to teach</p>
-                <CreatableSelect
-                    isMulti
-                    options={subjectOptions}
-                    onChange={handleSelectChange}
-                    value={selectedOptions}
-
-                        />
-
-                        <br/>
-                        <p>Select your availability: </p>
-                        <AvailabilityPicker />
-                    </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleSubmit}>
-                        Submit
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </>
-    );
                 <div>Select your availability</div>
                 <AvailabilityPicker handleSaveSchedule={handleSaveSchedule}/>
             </div>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          {didSaveSchedule && selectedOptions?.length > 0 && <Button variant="primary" onClick={handleSubmit}>
-            Submit
-          </Button>}
-          {(didSaveSchedule && selectedOptions?.length > 0) || <Alert>
-            You must select at least one subject and click on Save Availability to submit and setup your profile </Alert>}
-        </Modal.Footer>
+          <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                  Close
+              </Button>
+              {didSaveSchedule && selectedOptions?.length > 0 && <Button variant="primary" onClick={handleSubmit}>
+                  Submit
+              </Button>}
+              {(didSaveSchedule && selectedOptions?.length > 0) || <Alert>
+                  You must select at least one subject and click on Save Availability to submit and setup your profile </Alert>}
+          </Modal.Footer>
       </Modal>
-    </>
-  );
+        </>
+    );
+
+
+
+
 }
 
 export default SetupProfile;

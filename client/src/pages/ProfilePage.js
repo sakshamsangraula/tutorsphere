@@ -124,16 +124,6 @@ function ProfilePage(){
 
             <div className="container py-5">
 
-                {/*this is for the left card with the image*/}
-                <div className="row">
-                    <div className="col-lg-4">
-                        <div className="card mb-4">
-                            <div className="card-body text-center">
-                                {/*<ProfilePic data={data} handleImageSubmit={handleImageSubmit} handleImageChange={handleImageChange()}/>*/}
-                                <img
-                                    src={data?.url}
-                                    alt="avatar"
-                                    className="rounded-circle img-fluid avatar-image"/>
                     {/*this is for the left card with the image*/}
                     <div className="row">
                         <div className="col-lg-4">
@@ -144,8 +134,6 @@ function ProfilePage(){
                                         alt="avatar"
                                         className="rounded-circle img-fluid avatar-image mb-2"/>
 
-                                <input type={"file"} onChange={handleImageChange}/>
-                                <button type="submit" className="btn btn-secondary btn-sm" onClick={handleImageSubmit}>Submit</button>
                                     <input type={"file"} onChange={handleImageChange}/>
                                     <button type="submit" className="btn btn-secondary btn-sm mt-2" onClick={handleImageSubmit}>Submit</button>
 
@@ -162,20 +150,6 @@ function ProfilePage(){
                             </div>
                         </div>
                     </div>
-                                    <h5 className="my-3">{data?.firstName} {data?.lastName}</h5>
-                                    <p className="text-muted mb-1">{data?.userRole}</p>
-                                    <p className="text-muted mb-4">{data?.email}</p>
-                                    {data?.userRole === "tutors" && <div className="mb-2">
-                                        <SetupProfile />
-                                    </div>}
-                                    <div className="d-flex justify-content-center mb-2">
-                                        <button type="button" className="btn btn-primary mr-2" onClick={handleLogout}>Logout</button>
-                                        <button type="button" className="btn btn-outline-primary ms-1" onClick={() => navigate("/appointments")}>Appointments
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                     {/*this is for the right card section*/}
                     <div className="col-lg-8">
@@ -250,16 +224,18 @@ function ProfilePage(){
                         </div>
                     </div>
 
-                </div>
-            </div>
-
-            {/*<p>First Name: {data?.firstName}</p>*/}
-            {/*<p>Last Name: {data?.lastName}</p>*/}
-            {/*/!* TODO: also include email in firestore document for each user so we can do data?.email instead of user?.email *!/*/}
-            {/*<p>Email: {user?.email}</p>*/}
-
-
+                    </div>
+                            </div>
         </div>
+
+
+
+
+
+
+
+
+
     )
 }
 
