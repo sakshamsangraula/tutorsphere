@@ -10,6 +10,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ProfilePage from "./pages/ProfilePage";
 import TutorsPage from "./pages/TutorsPage";
 import ProtectedAppointmentsRoute from "./components/utils/ProtectedAppointmentsRoute";
+import SingleTutorPage from "./pages/SingleTutorPage";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App(){
     return (
@@ -35,11 +38,18 @@ function App(){
                             <ProfilePage />
                         </ProtectedRoute>
                     }></Route>
-                     <Route path="/tutors" element = {
+                        <Route path="/tutors/:id" element = {
+                         <ProtectedRoute>
+                            <SingleTutorPage />
+                         </ProtectedRoute>
+                    }></Route>
+                    <Route path="/tutors" exact element = {
                         <ProtectedRoute>
                             <TutorsPage />
                         </ProtectedRoute>
                     }></Route>
+                
+                  
                 </Routes>
             </div>
         </UserAuthContextProvider>

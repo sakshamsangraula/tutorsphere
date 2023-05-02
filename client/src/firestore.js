@@ -1,5 +1,5 @@
 import { addDoc, collection, doc, getDocs, getDoc, onSnapshot, setDoc, updateDoc, query } from "@firebase/firestore";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAuthContext } from "./components/context/UserAuthContext";
 import { firestore} from "./firebase";
 
@@ -30,12 +30,25 @@ const useFirestore = () => {
         return updateDoc(documentRef, newField)
     }
 
+    const fetchDocumentById = useCallback(async (collectionName, documentId) => {
+      const docRef = doc(firestore, collectionName, documentId);
+      const docSnapshot = await getDoc(docRef);
+    
+      if (docSnapshot.exists()) {
+        return docSnapshot.data();
+      } else {
+        throw new Error("Document with document Id of " + documentId + " not found!");
+      }
+    }, [firestore]); 
+    
+    
+
     useEffect(() => {
         // gets data for specific user document (current document)
         const getDataFromFirestore = async() => {
             if(user){
 
-                const unsub = onSnapshot(doc(firestore, USERS_COLLECTION_NAME, user.uid), (doc) => {
+                const unsub = onSnapshot(doc(firestore, USERS_COLLECTION_NAME, user?.uid), (doc) => {
                     const documentData =  doc.data();
                     setData({id: doc.id, ...doc.data()});
                     setLoading(false);
@@ -45,7 +58,7 @@ const useFirestore = () => {
         };
         getDataFromFirestore();
 
-        console.log("APPOINTMENTSDATACHANGEDORNOT", appointmentsData)
+        // console.log("APPOINTMENTSDATACHANGEDORNOT", appointmentsData)
 
         // const getAppointmentsDataFromFirestore = async() => {
         //     if(user){
@@ -164,7 +177,7 @@ console.log("getCurrentUserFutureAppointmentscalledinuseeffect");
       
     //   console.log("futureAppointments", futureAppointments)
 
-    return {data, addDocumentToCollection, updateDocument, getAllDocs, getUser,getAllTutors, getAllSubjects, addDocumentToCollectionWithDefaultId, futureAppointments, appointmentsData}
+    return {data, addDocumentToCollection, updateDocument, getAllDocs, getUser,getAllTutors, getAllSubjects, addDocumentToCollectionWithDefaultId, fetchDocumentById, futureAppointments, appointmentsData}
 };
 
 export default useFirestore;

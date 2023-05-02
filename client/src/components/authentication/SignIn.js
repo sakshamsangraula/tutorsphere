@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/UserAuthContext";
+import { Alert } from "react-bootstrap";
 
 export default function SignIn(){
 
@@ -13,6 +14,11 @@ export default function SignIn(){
     });
 
     const [error, setError] = useState("");
+    const [alert, setAlert] = useState({
+        variant: "success",
+        message: "",
+        show: false,
+      });
 
     const handleAuthChange = (e) => {
         const {name, value} = e.target;
@@ -22,16 +28,18 @@ export default function SignIn(){
      // TODO: make sure all values are filled and clean/trim before validating and submitting
      const handleSubmit = async () => {
         try{
+            if(!authInfo.email || !authInfo.password){
+                throw new Error("You must provide both email and password to log in.")
+            }
             // TODO: decide whether response is needed or not
             const response = await login(authInfo.email, authInfo.password);
             navigate("/profile")
         }catch(err){
-            setError(err.message);
+            setAlert(prevAlert => {return {...prevAlert, variant: "danger",  message: "Error logging in. Your username or password is incorrect" , show: true}});
         }
     };
     return (
         <div>
-            {error && <p>{error.message}</p>}
             <div className="vh-100 bg-image"
             style={{backgroundImage: "url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp')"}}>
             <div className="mask d-flex align-items-center h-100 gradient-custom-3">
@@ -40,6 +48,9 @@ export default function SignIn(){
                 <div className="col-12 col-md-9 col-lg-7 col-xl-6">
                     <div className="card" style={{borderRadius: "15px"}}>
                     <div className="card-body p-4">
+                    {alert.show && <Alert variant={alert.variant} onClose={() => setAlert(prevAlert => {return {...prevAlert, show: false}})} dismissible>
+                            {alert.message}
+                    </Alert>}
                         <h2 className="text-center mb-5">Login to Tutorsphere</h2>
         
                         <form onSubmit={handleSubmit}>

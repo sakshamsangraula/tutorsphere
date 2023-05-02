@@ -73,9 +73,9 @@ function ProfilePage(){
 
                 <div>
                     <div className={"alert alert-warning"} role={"alert"} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>Please set up tutor profile
-                        <div className="btn pull-right">
+                        {data?.userRole === "tutors" && <div className="btn pull-right">
                             <SetupProfile/>
-                        </div>
+                        </div>}
                     </div>
 
 
@@ -109,19 +109,22 @@ function ProfilePage(){
                         <div className="col-lg-4">
                             <div className="card mb-4">
                                 <div className="card-body text-center">
-                                    <img
+                                    <img 
                                         src={data?.url ? data.url : url}
                                         alt="avatar"
-                                        className="rounded-circle img-fluid avatar-image"/>
+                                        className="rounded-circle img-fluid avatar-image mb-2"/>
 
                                     <input type={"file"} onChange={handleImageChange}/>
-                                    <button type="submit" className="btn btn-secondary btn-sm" onClick={handleImageSubmit}>Submit</button>
+                                    <button type="submit" className="btn btn-secondary btn-sm mt-2" onClick={handleImageSubmit}>Submit</button>
 
                                     <h5 className="my-3">{data?.firstName} {data?.lastName}</h5>
                                     <p className="text-muted mb-1">{data?.userRole}</p>
-                                    <p className="text-muted mb-4">{user?.email}</p>
+                                    <p className="text-muted mb-4">{data?.email}</p>
+                                    {data?.userRole === "tutors" && <div className="mb-2">
+                                        <SetupProfile />
+                                    </div>}
                                     <div className="d-flex justify-content-center mb-2">
-                                        <button type="button" className="btn btn-primary" onClick={handleLogout}>Logout</button>
+                                        <button type="button" className="btn btn-primary mr-2" onClick={handleLogout}>Logout</button>
                                         <button type="button" className="btn btn-outline-primary ms-1" onClick={() => navigate("/appointments")}>Appointments
                                         </button>
                                     </div>

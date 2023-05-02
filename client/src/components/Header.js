@@ -3,10 +3,12 @@ import SignIn from "./authentication/SignIn";
 import SignUp from "./authentication/SignUp";
 import { useAuthContext } from "./context/UserAuthContext";
 import Dropdown from 'react-bootstrap/Dropdown';
+import useFirestore from "../firestore";
 
 
 export default function Header(){
     const {user, logout} = useAuthContext();
+    const {data} = useFirestore();
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -34,7 +36,7 @@ export default function Header(){
 
                     <Dropdown.Menu>
                         <Dropdown.Item onClick={() => navigate("/profile")}>Profile</Dropdown.Item>
-                        <Dropdown.Item onClick={() => navigate("/favorites")}>Favroited Tutors</Dropdown.Item>
+                        {data?.userRole === "students" && <Dropdown.Item onClick={() => navigate("/favorites")}>Favorited Tutors</Dropdown.Item>}
                         <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>

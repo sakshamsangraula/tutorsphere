@@ -1,26 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import AvailabilityPicker from './AvailabilityPicker';
 import CreatableSelect from 'react-select/creatable';
 import useFirestore from '../../firestore';
 import { useAuthContext } from '../context/UserAuthContext';
+import { Alert } from 'react-bootstrap';
 
 function SetupProfile() {
 
   const {user} = useAuthContext();
-  const {updateDocument} = useFirestore();
+  const {data, updateDocument} = useFirestore();
   const [show, setShow] = useState(false);
+  const [didSaveSchedule, setDidSaveSchedule] = useState(false);
   const USERS = "users";
 
   const subjectOptions = [
     {
-        label: "Science",
+        label: "science",
         value: "science"
     },
     {
-        label: "Math",
+        label: "math",
         value: "math"
+    },
+    {
+      label: "english",
+      value: "english"
+    },
+    {
+      label: "coding",
+      value: "coding"
     }
   ]
 
@@ -28,6 +38,24 @@ function SetupProfile() {
   console.log("selectedoptions", selectedOptions)
   function handleSelectChange(newValue, actionMeta) {
     setSelectedOptions(newValue);
+  }
+
+  useEffect(() =>{
+    // console.log("data.reactLibrarySchedule", data)
+    if(data?.userRole === "tutors" && data?.subjects?.length > 0){
+        setSelectedOptions(getLabelAndValue(data?.subjects))
+    }else{
+        setSelectedOptions([]);
+    }
+}, [data]);
+
+  function getLabelAndValue(listOfValues){
+    return listOfValues?.map(listElement => {
+      return {
+        label: listElement,
+        value: listElement
+      }
+    })
   }
 
   const handleSubmit = async () => {
@@ -46,6 +74,7 @@ function SetupProfile() {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleSaveSchedule = () => setDidSaveSchedule(true);
 
 // TODO: reuse modal in setupProfile (here) and MeetingSchedulerFinal modal
   return (
@@ -61,26 +90,27 @@ function SetupProfile() {
         <Modal.Body>
             <div>
                 <p>Select subjects you would like to teach</p>
-                <p>selection box</p>
-
                 <CreatableSelect 
                     isMulti 
                     options={subjectOptions} 
                     onChange={handleSelectChange}
+                    value={selectedOptions}
 
                 />
 
-                <p>Select your availability</p>
-                <AvailabilityPicker />
+                <div>Select your availability</div>
+                <AvailabilityPicker handleSaveSchedule={handleSaveSchedule}/>
             </div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleSubmit}>
+          {didSaveSchedule && selectedOptions?.length > 0 && <Button variant="primary" onClick={handleSubmit}>
             Submit
-          </Button>
+          </Button>}
+          {(didSaveSchedule && selectedOptions?.length > 0) || <Alert>
+            You must select at least one subject and click on Save Availability to submit and setup your profile </Alert>}
         </Modal.Footer>
       </Modal>
     </>

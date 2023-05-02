@@ -9,6 +9,8 @@ const UserAuthContext = createContext();
 export function UserAuthContextProvider({children}){
 
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
     // const [userRole, setUserRole] = useState(null);
 
     // function updateUserRole(roleName){
@@ -16,6 +18,8 @@ export function UserAuthContextProvider({children}){
     // }
 
     // console.log("userRole in userauthcontext", userRole)
+
+    console.log("USERISLOGGEDINORNOT", user)
 
     function registerUser(email, password){
         return createUserWithEmailAndPassword(auth, email, password);
@@ -45,6 +49,7 @@ export function UserAuthContextProvider({children}){
             console.log("user in userauthcontext is", user)
             if(user){
                 setUser(user);
+                setLoading(false);
             }else{
                 setUser(null);
             }
@@ -53,7 +58,7 @@ export function UserAuthContextProvider({children}){
     }, []);
     
     return (
-        <UserAuthContext.Provider value={{user, registerUser, login, logout, changePassword}}>
+        <UserAuthContext.Provider value={{user, loading, registerUser, login, logout, changePassword}}>
             {children}
         </UserAuthContext.Provider>
     )

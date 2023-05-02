@@ -24,16 +24,16 @@ export default function AppointmentsPage(){
     const [cancelAppointment, setCancelAppointment] = useState();
     const [userFutureAppointments, setUserFutureAppointments] = useState([]);
     // const [appointmentsUpdated, setAppointmentsUpdated] = useState(false);
-    const tutorsOrSubjectsOptions = [
-        {
-          label: "Select all tutors",
-          value: "tutorsFirst"
-        },
-        {
-          label: "Select all subjects",
-          value: "subjectsFirst"
-        }
-      ]
+    // const tutorsOrSubjectsOptions = [
+    //     {
+    //       label: "Select all tutors",
+    //       value: "tutorsFirst"
+    //     },
+    //     {
+    //       label: "Select all subjects",
+    //       value: "subjectsFirst"
+    //     }
+    //   ]
     const [firstShow, setFirstShow] = useState("tutorsFirst");
 
     const selectedSubjectsList = selectedSubjects.map(subject => subject.value);
@@ -127,8 +127,8 @@ export default function AppointmentsPage(){
     
     return (
         <div>
-            {data?.userRole === "tutors" && <button onClick={() => setShowAvailabilityPicker(prevValue => !prevValue)}>Toggle Availability</button>}
-            {showAvailabilityPicker && <AvailabilityPicker />}
+            {/* {data?.userRole === "tutors" && <Button className="mt-2 mb-2" onClick={() => setShowAvailabilityPicker(prevValue => !prevValue)}>Toggle Availability</Button>}
+            {showAvailabilityPicker && <AvailabilityPicker />} */}
 
             <div className="d-flex justify-content-end mt-2 mr-3">
                 <Button variant="success" onClick={() => setShowUpcomingAppointments(true)}>
@@ -137,8 +137,8 @@ export default function AppointmentsPage(){
             </div>
 
             {/* TODO: move this to appointments page and pass the selected value as a prop to this component so we can show the way that the user chooses */}
-
-            <div className="d-flex justify-content-center align-items-center mt-2 mr-3 custom-gap">
+{/* 
+            {data?.userRole === "students" && <div className="d-flex justify-content-center align-items-center mt-2 mr-3 custom-gap">
                 <div className="alert alert-primary mt-4 text-center" role="alert">
                    You can set up an appointment by first looking at the tutors or looking at the subjects and then picking the tutor
                 </div> 
@@ -156,7 +156,12 @@ export default function AppointmentsPage(){
                         menuPortal: (base) => ({ ...base, zIndex: 9999 })
                     }} // make sure the list of options is not blocked by the calendar
                 />
-            </div>
+            </div>} */}
+
+
+            {data?.userRole === "students" && <div className="alert alert-primary mt-4 text-center" role="alert">
+                   Select a tutor, then select a subject and setup an appointment based on tutor's availability!
+            </div>} 
 
             <Modal show={showUpcomingAppointments} onHide={() => setShowUpcomingAppointments(false)} size="xl" animation={false}>
                 <Modal.Header closeButton>
@@ -208,14 +213,14 @@ export default function AppointmentsPage(){
                 </Button> */}
                 </Modal.Footer>
             </Modal>
-
-            {firstShow === "subjectsFirst" ? <div className="alert alert-primary mt-4 text-center" role="alert">
+ 
+            {/* {data?.userRole === "students" && firstShow === "subjectsFirst" ? <div className="alert alert-primary mt-4 text-center" role="alert">
                Select subject(s) first, then select a tutor, and select date and time to make an appointment
             </div> : <div className="alert alert-primary mt-4 text-center" role="alert">
                Select a tutor first, then select subject(s), and select date and time to make an appointment
-            </div> }
+            </div> } */}
 
-            {firstShow === "subjectsFirst" && <div className="d-flex justify-content-start custom-gap align-items-center">
+            {/* {data?.userRole === "students" && firstShow === "subjectsFirst" && <div className="d-flex justify-content-start custom-gap align-items-center">
                 <p>Step 1: Select a subject</p>
                 <Select
                     isMulti
@@ -225,10 +230,11 @@ export default function AppointmentsPage(){
                     classNamePrefix="select"
                     onChange={handleSubjectSelect}
                 />
-            </div>}
+            </div>} */}
 
             <MeetingSchedulerFinal filteredTutors={filteredTutors.length === 0 ? allTutors : filteredTutors} allTutors={allTutors} selectedSubjects={selectedSubjectsList} firstShow={firstShow}
                 />
+
 
 {/* TODO: use nodejs to create the google meets link and get a new link when needed - when creating an appointment */}
                 {/* <GoogleMeetLinkGenerator /> */}

@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import ScheduleSelector from 'react-schedule-selector';
 import useFirestore from '../../firestore';
 import { useAuthContext } from '../context/UserAuthContext';
+import Button from 'react-bootstrap/Button';
+import { Alert } from 'react-bootstrap';
 
-function AvailabilityPicker(){
+function AvailabilityPicker({handleSaveSchedule}){
     // TODO: set schedule to be from firestore user?.schedule or else empty if not there
 
     const {user} = useAuthContext();
@@ -22,6 +24,11 @@ function AvailabilityPicker(){
     const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
     const USERS = "users";
     const TUTOR = "tutors";
+    const [alert, setAlert] = useState({
+        alertType: "success",
+        message: ""
+    });
+    const [showAlert, setShowAlert] = useState(false);
 
     // useEffect only runs once here --> get reactlibrary schedule and set schedule to it so previous tutor availability selection is shown
     useEffect(() =>{
@@ -113,13 +120,34 @@ function AvailabilityPicker(){
                 const stringSchedule = schedule.map(date => date.toString());
                 const reactLibraryScheduleAdded = await updateDocument(USERS, user.uid, {reactLibrarySchedule: stringSchedule});
                 // console.log("scheduleAddResponse", scheduleAddResponse)
+
+                // save schedule so setup profile can show the submit button
+                handleSaveSchedule();
+
+                setAlert({
+                    alertType: "success",
+                    message: "Availability saved!"
+                });
+                setTimeout(() => {
+                    setShowAlert(true);
+                }, 5000);
             }else{
                 // console.log("USER ROLE IS $$$$$$$$$$$$$$$$$$$$$$$$", user.userRole)
                 alert("Only Tutors can provide availability!", user);
-                
+                setAlert({
+                    alertType: "danger",
+                    message: "Only Tutors can provide availability"
+                });
+                setTimeout(() => {
+                    setShowAlert(true);
+                }, 5000);
             }
         }catch(err){
             console.log("error adding schedule to firestore for tutor", err);
+            setAlert({
+                alertType: "danger",
+                message: "Error saving tutor availability"
+            });
         }
     }
 
@@ -175,7 +203,8 @@ function AvailabilityPicker(){
                         hourlyChunks={1}
                         onChange={handleChange}
             />
-            <button onClick={prepareWeeklySchedule}>Save Schedule</button>
+            <Button variant="success" onClick={prepareWeeklySchedule}>Save Availability</Button>
+            {showAlert && <Alert>{alert.message}</Alert>}
         </div>
     )
       

@@ -2,6 +2,8 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import useFirestore from "../../firestore";
 import { useAuthContext } from "../context/UserAuthContext";
+import AlertWithCloseButton from "../utils/AlertWithCloseButton";
+import { Alert } from "react-bootstrap";
 
 export default function SignUp(){
 
@@ -9,6 +11,12 @@ export default function SignUp(){
     const {addDocumentToCollection} = useFirestore();
     const navigate = useNavigate();
     const USERS_COLLECTION = "users";
+    const [alert, setAlert] = useState({
+        variant: "success",
+        message: "",
+        show: false,
+      });
+    const [disabled, setDisabled] = useState(true);
     
     const [userInfo, setUserInfo] = useState({
         firstName: "",
@@ -44,6 +52,11 @@ export default function SignUp(){
     const handleSubmit = async () => {
         // create new user
         try{
+
+            if(!userInfo.firstName || !userInfo.lastName || !userInfo.userRole || !userInfo.username || !authInfo.email || !authInfo.password){
+                throw new Error("You must fill out all the fields in order to register as a user.")
+            }
+
             // TODO: decide whether response is needed or not
             const response = await registerUser(authInfo.email, authInfo.password);
             // const userId = response?.user?.uid;
@@ -52,6 +65,7 @@ export default function SignUp(){
             try{
                 const userInfoToAdd = {
                     ...userInfo,
+                    email: authInfo.email,
                     isProfileSetup: false,
                     url:"https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
                 };
@@ -61,13 +75,13 @@ export default function SignUp(){
                     console.log("addresult", addResult);
                     navigate("/profile");
                 }
-                setError("Error registering. Please contact the administrator")
+                setAlert(prevAlert => {return {...prevAlert, variant: "danger",  message: "Error registering. Please contact the administrator", show: true}});
             }catch(err){
-                setError(err.message);
+                setAlert(prevAlert => {return {...prevAlert, variant: "danger",  message: "Error registering " + err.message, show: true}});
             }
 
         }catch(err){
-            setError(err.message);
+                setAlert(prevAlert => {return {...prevAlert, variant: "danger",  message: "Error registering " + err.message, show: true}});
         }
     };
 
@@ -80,6 +94,10 @@ export default function SignUp(){
                 <div className="col-12 col-md-9 col-lg-7 col-xl-6">
                     <div className="card max-height-100" style={{borderRadius: "15px"}}>
                     <div className="card-body p-4 max-height-100" >
+                       
+                    {alert.show && <Alert variant={alert.variant} onClose={() => setAlert(prevAlert => {return {...prevAlert, show: false}})} dismissible>
+                            {alert.message}
+                    </Alert>}
                         <h2 className="text-center mb-5">Register as a User</h2>
         
                         <form onSubmit={handleSubmit}>
@@ -112,8 +130,10 @@ export default function SignUp(){
                             <input required name="password" type="password" className="form-control form-control-lg" value={authInfo.password} onChange={handleAuthChange}/>
                         </div>
                         <div className="d-flex justify-content-center">
-                            <button type="button" onClick={handleSubmit}
-                            className="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>
+                            {/* {disabled && <button type="button" onClick={handleSubmit}
+                            className="btn btn-success btn-block btn-lg gradient-custom-4 text-body disabled">Register</button>} */}
+                            {<button type="button" onClick={handleSubmit}
+                            className="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>}
                         </div>
                         <p className="text-center text-muted mt-5 mb-0">Already have an account? <a onClick={() => navigate("/signin")} style={{cursor: "pointer"}}
                             className="fw-bold text-body"><u>Login here</u></a></p>
@@ -125,7 +145,6 @@ export default function SignUp(){
             </div>
             </div>
         </div>
-        {error}
         </div>
     )
 }

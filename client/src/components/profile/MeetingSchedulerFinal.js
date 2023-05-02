@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ScheduleMeeting } from 'react-schedule-meeting';
 import useFirestore from '../../firestore';
 import { useAuthContext } from '../context/UserAuthContext';
@@ -7,7 +7,10 @@ import Modal from 'react-bootstrap/Modal';
 import { Navigate, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import SendGridApi from '../utils/SendGridApi';
-import axios from "axios"
+import axios from "axios";
+import { renderToStaticMarkup } from 'react-dom/server';
+import { Alert } from 'react-bootstrap';
+import AlertWithCloseButton from '../utils/AlertWithCloseButton';
 
 
 export default function MeetingSchedulerFinal({allTutors, filteredTutors, selectedSubjects, firstShow}) {
@@ -15,7 +18,7 @@ export default function MeetingSchedulerFinal({allTutors, filteredTutors, select
     // TODO: use environment variable instead of a constant here
     const APPOINTMENTS_COLLECTION = "appointments";
     const {user} = useAuthContext();
-    const {data, appointmentsData, getAllTutors, addDocumentToCollectionWithDefaultId} = useFirestore();
+    const {data, appointmentsData, getAllTutors, addDocumentToCollectionWithDefaultId, fetchDocumentById} = useFirestore();
     const schedule = {
       monday: [8, 17, 18],
       tuesday: [10],
@@ -35,14 +38,22 @@ export default function MeetingSchedulerFinal({allTutors, filteredTutors, select
     friday: 5,
     saturday: 6,
   };
+
+  const emailConfirmationSubject = "Confirmation of Tutoring Appointment With Tutorsphere";
   
   const [tutorSchedule, setTutorSchedule] = useState({});
-  const [selectedTutor, setSelectedTutor] = useState();
+  const [selectedTutor, setSelectedTutor] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [appointmentDescription, setAppointmentDescription] = useState("");
   const [appointmentData, setAppointmentData] = useState({});
   const [selectedTutorExistingAppointments, setSelectedTutorExistingAppointments] = useState([]);
   const [selectedSubjectsForTutor, setSelectedSubjectsForTutor] = useState([]);
+  const [showSubjects, setShowSubjects] = useState(false);
+  const [alert, setAlert] = useState({
+    variant: "success",
+    message: "",
+    show: false,
+  });
 
   const daysOrder = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
   const navigate = useNavigate();
@@ -60,8 +71,10 @@ export default function MeetingSchedulerFinal({allTutors, filteredTutors, select
     try {
       const response = await axios.post("http://localhost:3001/send-email", data);
       console.log("Email sent:", response.data);
+      return response.data;
     } catch (error) {
-      console.error("Error sending email:", error);
+      throw new Error("Error sending email " + error.message);
+      console.log("Error sending email " + error.message)
     }
   };
   
@@ -85,39 +98,137 @@ useEffect(() => {
     }
 }, [appointmentsData, selectedTutor])
 
+const resetSelectedSubjects = useCallback(() => {
+  setSelectedSubjectsForTutor([]);
+}, [selectedTutor])
+
+useEffect(() => {
+  resetSelectedSubjects()
+}, [resetSelectedSubjects])
+
 
 console.log("tutorSchedule", tutorSchedule)
-const availabilitySlots = tutorSchedule && Object.keys(tutorSchedule)?.map((day) => {
-    const dayIdx = daysOrder.indexOf(day);
-    console.log("DAYANDIDX", day, dayIdx);
-    return tutorSchedule[day].map(availableTime => {
-        const date = new Date();
+// const availabilitySlots = tutorSchedule && Object.keys(tutorSchedule)?.map((day) => {
+//     const dayIdx = daysOrder.indexOf(day);
+//     console.log("DAYANDIDX", day, dayIdx);
+//     return tutorSchedule[day].map(availableTime => {
+//         const date = new Date();
 
-        const dayOfWeek = date.getDay();
-        const daysUntilNextMatchingDay = (7 - dayOfWeek + daysInWeekMap[day]) % 7;
-        date.setDate(date.getDate() + daysUntilNextMatchingDay);
+//         const dayOfWeek = date.getDay();
+//         const daysUntilNextMatchingDay = (7 - dayOfWeek + daysInWeekMap[day]) % 7;
+//         date.setDate(date.getDate() + daysUntilNextMatchingDay);
 
-        const matchingDates = [];
+//         const matchingDates = [];
 
-        // Generate all matching dates in the next 4 weeks
-        // for (let i = 0; i < 4; i++) {
-          const matchingDate = new Date(date);
-          matchingDate.setDate(date.getDate() + 0 * 7);
-        //   matchingDates.push(matchingDate.toISOString().slice(0, 10));
-        // }
+//         // Generate all matching dates in the next 4 weeks
+//         // for (let i = 0; i < 4; i++) {
+//           const matchingDate = new Date(date);
+//           matchingDate.setDate(date.getDate() + 0 * 7);
+//         //   matchingDates.push(matchingDate.toISOString().slice(0, 10));
+//         // }
 
-      const startEndObj =  {
-        // startTime: new Date(new Date(new Date().setDate(new Date().getDate() + dayIdx)) 
-        //                   .setHours(availableTime, 0, 0, 0)),
-        // endTime: new Date(new Date(new Date().setDate(new Date().getDate() + dayIdx))
-        //                   .setHours(availableTime + 1, 0, 0, 0)),
-        startTime: matchingDate.setHours(availableTime, 0, 0, 0),
-        endTime: matchingDate.setHours(availableTime + 1, 0, 0, 0),
-      }
+//       const startEndObj =  {
+//         // startTime: new Date(new Date(new Date().setDate(new Date().getDate() + dayIdx)) 
+//         //                   .setHours(availableTime, 0, 0, 0)),
+//         // endTime: new Date(new Date(new Date().setDate(new Date().getDate() + dayIdx))
+//         //                   .setHours(availableTime + 1, 0, 0, 0)),
+//         startTime: matchingDate.setHours(availableTime, 0, 0, 0),
+//         endTime: matchingDate.setHours(availableTime + 1, 0, 0, 0),
+//       }
 
       // TODO: do not add the date if it exists on the appointments collection for the specific selected tutor
       // can return null in those cases and then filter the null values using filter function
       // have selected tutor as a dependency in useeffect and set already created appointments for the tutor in state and loop over the list here so that each start time we're adding doesn't already exist in the appointments collection
+
+//       const startDate = new Date(startEndObj.startTime);
+//       for(let i=0; i< selectedTutorExistingAppointments.length; i++){
+//         const appointment = selectedTutorExistingAppointments[i];
+//         const appointmentStartDate = new Date(appointment.startTime);
+//         if(startDate.getTime() === appointmentStartDate.getTime()){
+//           return null;
+//         }
+//       }
+
+//       return startEndObj;
+//     });
+//   })
+
+//   const finalAvailabilitySlots = availabilitySlots?.flat()?.filter(slot => slot !== null);
+
+// const availabilitySlots = tutorSchedule && Object.keys(tutorSchedule)?.map((day) => {
+//   const dayIdx = daysOrder.indexOf(day);
+//   console.log("DAYANDIDX", day, dayIdx);
+//   return tutorSchedule[day].map(availableTime => {
+//     const date = new Date();
+
+//     const dayOfWeek = date.getDay();
+//     const daysUntilNextMatchingDay = (7 - dayOfWeek + daysInWeekMap[day]) % 7;
+//     date.setDate(date.getDate() + daysUntilNextMatchingDay);
+
+//     const matchingDates = [];
+
+//     // Generate all matching dates in the next 4 weeks
+//     for (let i = 0; i < 4; i++) {
+//       const matchingDate = new Date(date);
+//       matchingDate.setDate(date.getDate() + i * 7);
+//       matchingDates.push(matchingDate.toISOString().slice(0, 10));
+//     }
+
+//     return matchingDates.map(matchingDate => {
+//       const startEndObj = {
+//         startTime: new Date(matchingDate).setHours(availableTime, 0, 0, 0),
+//         endTime: new Date(matchingDate).setHours(availableTime + 1, 0, 0, 0),
+//       }
+
+//       // TODO: do not add the date if it exists on the appointments collection for the specific selected tutor
+//       // can return null in those cases and then filter the null values using filter function
+//       // have selected tutor as a dependency in useeffect and set already created appointments for the tutor in state and loop over the list here so that each start time we're adding doesn't already exist in the appointments collection
+
+//       const startDate = new Date(startEndObj.startTime);
+//       for(let i=0; i< selectedTutorExistingAppointments.length; i++){
+//         const appointment = selectedTutorExistingAppointments[i];
+//         const appointmentStartDate = new Date(appointment.startTime);
+//         if(startDate.getTime() === appointmentStartDate.getTime()){
+//           return null;
+//         }
+//       }
+
+//       return startEndObj;
+//     });
+//   })
+// })
+
+const availabilitySlots = tutorSchedule && Object.keys(tutorSchedule)?.map((day) => {
+  const dayIdx = daysOrder.indexOf(day);
+  console.log("DAYANDIDX", day, dayIdx);
+  return tutorSchedule[day].map(availableTime => {
+    const date = new Date();
+
+    const dayOfWeek = date.getDay();
+    const daysUntilNextMatchingDay = (7 - dayOfWeek + daysInWeekMap[day]) % 7;
+    date.setDate(date.getDate() + daysUntilNextMatchingDay);
+
+    const matchingDates = [];
+
+    // Calculate the number of weeks in a year (52 or 53)
+    const weeksInYear = date.getFullYear() % 4 === 0 && (date.getFullYear() % 100 !== 0 || date.getFullYear() % 400 === 0) ? 53 : 52;
+
+    // Generate all matching dates in the next year
+    for (let i = 0; i < weeksInYear; i++) {
+      const matchingDate = new Date(date);
+      matchingDate.setDate(date.getDate() + i * 7);
+      matchingDates.push(matchingDate.toISOString().slice(0, 10));
+    }
+
+    return matchingDates.map(matchingDate => {
+      const startEndObj = {
+        startTime: new Date(matchingDate).setHours(availableTime, 0, 0, 0),
+        endTime: new Date(matchingDate).setHours(availableTime + 1, 0, 0, 0),
+      }
+
+//       // TODO: do not add the date if it exists on the appointments collection for the specific selected tutor
+//       // can return null in those cases and then filter the null values using filter function
+//       // have selected tutor as a dependency in useeffect and set already created appointments for the tutor in state and loop over the list here so that each start time we're adding doesn't already exist in the appointments collection
 
       const startDate = new Date(startEndObj.startTime);
       for(let i=0; i< selectedTutorExistingAppointments.length; i++){
@@ -131,8 +242,9 @@ const availabilitySlots = tutorSchedule && Object.keys(tutorSchedule)?.map((day)
       return startEndObj;
     });
   })
+})
 
-  const finalAvailabilitySlots = availabilitySlots?.flat()?.filter(slot => slot !== null);
+const finalAvailabilitySlots = availabilitySlots?.flat()?.flat()?.filter(slot => slot !== null);
   
 //   // Convert the schedule object into an array of date-time objects
 //   const availableTimeSlots = Object.entries(schedule).flatMap(([day, times]) => {
@@ -223,6 +335,102 @@ const availabilitySlots = tutorSchedule && Object.keys(tutorSchedule)?.map((day)
     console.log("appointmentData", appointmentData);
   }
 
+function EmailContent() {
+  // Inline styles for the email content
+  // const containerStyle = {
+  //   backgroundColor: '#f0f0f0',
+  //   padding: '20px',
+  //   fontFamily: 'Arial, sans-serif',
+  //   fontSize: '14px',
+  //   lineHeight: '1.5',
+  //   color: '#333',
+  // };
+
+  // const headingStyle = {
+  //   fontSize: '20px',
+  //   fontWeight: 'bold',
+  //   marginBottom: '10px',
+  // };
+
+  // const paragraphStyle = {
+  //   marginBottom: '15px',
+  // };
+
+  // const linkStyle = {
+  //   color: '#1a73e8',
+  //   textDecoration: 'none',
+  // };
+
+  // // Render the email content with inline styles
+  // return (
+  //   <div style={containerStyle}>
+  //     <h1 style={headingStyle}>Hello, John Doe!</h1>
+  //     <p style={paragraphStyle}>We're glad to have you as a member of our community.</p>
+  //     <p style={paragraphStyle}>Please take a moment to <a href="#" style={linkStyle}>verify your email address</a>.</p>
+  //     <p style={paragraphStyle}>If you have any questions, feel free to <a href="#" style={linkStyle}>contact us</a>.</p>
+  //     <p style={paragraphStyle}>Thank you!</p>
+  //   </div>
+  // );
+
+  return (
+    `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email Template</title>
+  </head>
+  <body>
+    <div style="background-color:#f0f0f0; padding:20px; font-family:Arial, sans-serif; font-size:14px; line-height:1.5; color:#333;">
+      <div style="max-width:600px; margin:0 auto; background-color:#ffffff; padding:30px; border-radius:5px; box-shadow:0 3px 6px rgba(0, 0, 0, 0.1);">
+        <h1 style="font-size:20px; font-weight:bold; margin-bottom:10px;">Hello, John Doe!</h1>
+        <p style="margin-bottom:15px;">We're glad to have you as a member of our community.</p>
+        <p style="margin-bottom:15px;">Please take a moment to <a href="#" style="color:#1a73e8; text-decoration:none;">verify your email address</a>.</p>
+        <p style="margin-bottom:15px;">If you have any questions, feel free to <a href="#" style="color:#1a73e8; text-decoration:none;">contact us</a>.</p>
+        <p style="margin-bottom:15px;">Thank you!</p>
+      </div>
+    </div>
+  </body>
+</html>`
+
+  )
+}
+
+function getEmailContent(emailReceiverName, appointmentPersonName, startTime, endTime, subjects, appointmentDescription){
+  return `        <!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Tutorsphere Appointment Confirmation </title>
+    </head>
+    <body>
+      <div style="background-color:#f0f0f0; padding:20px; font-family:Arial, sans-serif; font-size:14px; line-height:1.5; color:#333;">
+        <div style="max-width:600px; margin:0 auto; background-color:#ffffff; padding:30px; border-radius:5px; box-shadow:0 3px 6px rgba(0, 0, 0, 0.1);">
+          <h1 style="font-size:20px; font-weight:bold; margin-bottom:10px;">Hello, ${emailReceiverName}!</h1>
+          <p style="margin-bottom:15px;">This is a confirmation of your appointment with ${appointmentPersonName}</p>
+          <p style="margin-bottom:15px;">The meeting starts on ${startTime} and end on ${endTime}</p>
+          <p style="margin-bottom:15px;">The meeting will cover the following subjects: ${subjects.join(",")}</p>
+          <p style="margin-bottom:15px;">${appointmentDescription && `Appointment Note is: ${appointmentDescription}`}</p>
+          <p style="margin-bottom:15px;">Thank you! Feel free to contact us through email if you have any questions!</p>
+        </div>
+      </div>
+    </body>
+  </html>`;
+    
+}
+
+async function getUserDetails(userId) {
+  try {
+    const tutorData = await fetchDocumentById("users", userId);
+    return tutorData;
+  } catch (error) {
+    console.error("Error getting user by id", error);
+    throw new Error("Error getting user by id " + error.message)
+  }
+}
+
+
         // TODO: show a success create appointment message when appointment is created (use state to store message)
   async function createAppointment(){
     // save appointment data along with appointment description to firestore
@@ -245,6 +453,7 @@ const availabilitySlots = tutorSchedule && Object.keys(tutorSchedule)?.map((day)
       const docRef = await addDocumentToCollectionWithDefaultId(APPOINTMENTS_COLLECTION, {...appointmentData, appointmentDescription});
       // TODO: show a success create appointment message when appointment is created (use state to store message)
       setShowModal(false);
+      setAlert(prevAlert => {return {...prevAlert, variant: "success", message: "Appointment Created Successfully", show: true}});
 
 
 
@@ -255,16 +464,34 @@ const availabilitySlots = tutorSchedule && Object.keys(tutorSchedule)?.map((day)
       try{
         let emailContent = `Appointment with ${appointmentData?.studentName} and ${appointmentData?.tutorName}
         \n. The meeting will start on ${appointmentData?.startTime} and end on ${appointmentData?.endTime}. The meeting will cover the following subjects: ${appointmentData?.subjects.join(",")}`;
+
+        const emailHtml = renderToStaticMarkup(<EmailContent />);
+
+        const emailContentToStudent = getEmailContent(appointmentData?.studentName, appointmentData?.tutorName, appointmentData?.startTime, appointmentData?.endTime, appointmentData?.subjects, appointmentDescription);
+        const emailContentToTutor = getEmailContent(appointmentData?.tutorName, appointmentData?.studentName, appointmentData?.startTime, appointmentData?.endTime, appointmentData?.subjects, appointmentDescription);
   
-        if(appointmentDescription){
-          emailContent += `\nAppointment Description is: ${appointmentDescription}`
+        try{
+          const studentData = await getUserDetails(appointmentData?.studentId);
+          const tutorData = await getUserDetails(appointmentData?.tutorId);
+
+          await sendEmail(studentData?.email, emailConfirmationSubject, emailContentToStudent);
+          await sendEmail(tutorData?.email, emailConfirmationSubject, emailContentToTutor);
+
+          setAlert(prevAlert => {return {...prevAlert, variant: "success", message: `Email sent with Appointment Details. Check your email for confirmation`, show: true}});
+
+        }catch(err){
+          setAlert(prevAlert => {return {...prevAlert, variant: "danger", message: "Error sending email: " + err.message, show: true}});
         }
-  
-        sendEmail("sakshamsangraula45@gmail.com", "Tutoring Appointment With Tutorsphere Confirmed", emailContent);
+        // setTimeout(() => {
+        //   setAlert(prevAlert => {return {...prevAlert, show: false}})
+        // }, 8000);
   
       }catch(err){
         console.log("Error sending email via sendgrid", err);
-        alert("Error sending email via sendgrid")
+        setAlert(prevAlert => {return {...prevAlert, variant: "danger",  message: "Error senidng email via sendgrid " + err.message, show: true}});
+        // setTimeout(() => {
+        //   setAlert(prevAlert => {return {...prevAlert, variant: "danger", show: false}})
+        // }, 3000);
       }
       
       // reload the window once appointment is created
@@ -280,9 +507,7 @@ const availabilitySlots = tutorSchedule && Object.keys(tutorSchedule)?.map((day)
 
 
     }catch(err){
-      console.log("Error adding document to appointments collection", err);
-      // TODO: save error to state and show error on the screen in an error box instead of alert
-      alert("Error creating an appointment!");
+      setAlert(prevAlert => {return {...prevAlert, variant: "danger",  message: "Error creating Appointment " + err.message, show: true}});
     }
 
   }
@@ -347,6 +572,11 @@ console.log("selectedTutorselectedTutor", selectedTutor)
       </div>     */}
 
 
+{alert.show && <Alert variant={alert.variant} onClose={() => setAlert(prevAlert => {return {...prevAlert, show: false}})} dismissible>
+                            {alert.message}
+                    </Alert>}
+
+
       <Modal show={showModal} onHide={() => setShowModal(false)} size="xl" animation={false}>
         <Modal.Header closeButton>
           <Modal.Title>Create your appointment</Modal.Title>
@@ -409,10 +639,10 @@ console.log("selectedTutorselectedTutor", selectedTutor)
 
       {/* TODO: maybe also sort the appointments by start date if it's not already done by default */}
 
-      {firstShow === "subjectsFirst" ? 
+      {/* {firstShow === "subjectsFirst" ? 
 
       <div>
-      {selectedSubjects?.length > 0 && <div className="mt-4 d-flex justify-content-start custom-gap align-items-center">
+      {data?.userRole === "students" && selectedSubjects?.length > 0 && <div className="mt-4 d-flex justify-content-start custom-gap align-items-center">
             <p>Step 2: Select a tutor </p>
             <Select
               name="tutors"
@@ -434,12 +664,16 @@ console.log("selectedTutorselectedTutor", selectedTutor)
         eventDurationInMinutes={60}
         onStartTimeSelect={(appointmentSelection) => prepareAppointmentData(appointmentSelection, selectedSubjects)}/>}
       </div>
-      : 
-        <div>
+      :  */}
+        {data?.userRole === "students" && <div>
           <div className="mt-4 d-flex justify-content-start custom-gap align-items-center">
             <p>Step 1: Select a tutor </p>
             <Select
               name="tutors"
+              value={selectedTutor ? {
+                label: selectedTutor?.firstName + " " + selectedTutor?.lastName,
+                value: selectedTutor
+              } : null}
               options={allTutorsOptions}
               classNamePrefix="select"
               onChange={handleTutorSelect}
@@ -448,6 +682,7 @@ console.log("selectedTutorselectedTutor", selectedTutor)
                 menuPortal: (base) => ({ ...base, zIndex: 9999 })
               }} // make sure the list of options is not blocked by the calendar
             />
+            {selectedTutor && <a onClick={() => window.open(`/tutors/${selectedTutor?.id}`, "_blank")} className="link-primary" style={{color: "blue", cursor: "pointer"}}>Learn more about {selectedTutor?.firstName + " " + selectedTutor?.lastName}</a>}
           </div>
 
           {selectedTutor && <div className="mt-4 d-flex justify-content-start custom-gap align-items-center">
@@ -455,6 +690,7 @@ console.log("selectedTutorselectedTutor", selectedTutor)
             <Select
               isMulti
               options={getLabelAndValue(selectedTutor?.subjects)}
+              value={getLabelAndValue(selectedSubjectsForTutor)}
               classNamePrefix="select"
               onChange={(selectedValue, actionMeta) => setSelectedSubjectsForTutor(selectedValue?.map(selected => selected.value))}
               menuPortalTarget={document.body} 
@@ -474,8 +710,7 @@ console.log("selectedTutorselectedTutor", selectedTutor)
             onStartTimeSelect={(appointmentSelection) => prepareAppointmentData(appointmentSelection, selectedSubjectsForTutor)}
             />
           }
-        </div>
-      }
+        </div>}
     </div>
   );
 }

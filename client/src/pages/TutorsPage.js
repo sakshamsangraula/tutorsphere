@@ -5,13 +5,14 @@ import useFirestore from "../firestore";
 import "../styles/App.css"
 import { useEffect, useState } from "react";
 import Tutor from '../components/tutors/Tutor';
+import { Alert } from 'react-bootstrap';
 
 // need to map through all the user datas
 export default function TutorsPage() {
 
     // for storing tutors
     const [tutors, setTutors] = useState([]);
-    const { getAllTutors } = useFirestore();
+    const { data, getAllTutors } = useFirestore();
 
     // to check and uncheck tutors
     const [favorite, setFavorite] = useState(false)
@@ -77,8 +78,8 @@ export default function TutorsPage() {
     }
 
     return (
-        <div>
-            <div className="table-container">
+      <div>
+            {data?.userRole === "students" && <div className="table-container">
                 <div className="table-header">
                     <h2>Tutors</h2>
                     <div className="search-container">
@@ -124,7 +125,9 @@ export default function TutorsPage() {
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div>}
+            {data?.userRole === "tutors" && <Alert className="text-center mt-2">
+            Only students can see a list of tutors and favorite them </Alert>}
         </div>
     )
 }
