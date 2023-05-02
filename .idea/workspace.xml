@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c0889b6a-1b05-4be0-b2f3-36bb589b7213" name="Changes" comment="added tutor search functionality on tutors page">
+    <list default="true" id="c0889b6a-1b05-4be0-b2f3-36bb589b7213" name="Changes" comment="pulled changes from dev-main">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_3_31_23,_6_48_PM_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_3_31_23__6_48_PM__Changes_1.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/profile/SetupProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/profile/SetupProfile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/HomePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/HomePage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/ProfilePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/ProfilePage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/TutorProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/TutorProfile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/styles/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/styles/App.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="origin/dev-main" />
   </component>
   <component name="Git.Settings">
     <favorite-branches>
@@ -25,7 +35,7 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="f98b67298b8a7cfc0f56b7aff26eb9603d5dd86b" />
+        <entry key="$PROJECT_DIR$" value="ashar" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -47,16 +57,33 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/syedashar/Downloads/tutorsphere/public/images&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;ts.external.directory.path&quot;: &quot;/Applications/IntelliJ IDEA.app/Contents/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public/images" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/pages" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="ProfilePage.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/src/pages/ProfilePage.js" working-dir="$PROJECT_DIR$/src/pages">
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Node.js.ProfilePage.js" />
+        <item itemvalue="Node.js.ProfilePage.js" />
+        <item itemvalue="Node.js.ProfilePage.js" />
+        <item itemvalue="Node.js.ProfilePage.js" />
         <item itemvalue="Node.js.ProfilePage.js" />
       </list>
     </recent_temporary>
@@ -72,6 +99,12 @@
       <workItem from="1679677818805" duration="20699000" />
       <workItem from="1680287478078" duration="18580000" />
       <workItem from="1680631309994" duration="27431000" />
+      <workItem from="1680998082022" duration="12000" />
+      <workItem from="1681325131296" duration="8090000" />
+      <workItem from="1681961819549" duration="29568000" />
+      <workItem from="1682476123327" duration="9239000" />
+      <workItem from="1682525271744" duration="6961000" />
+      <workItem from="1683045091757" duration="2325000" />
     </task>
     <task id="LOCAL-00001" summary="added list of tutors">
       <created>1679953628943</created>
@@ -136,7 +169,35 @@
       <option name="project" value="LOCAL" />
       <updated>1680940454371</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="fixed profile picture upload bug">
+      <created>1681975786306</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1681975786306</updated>
+    </task>
+    <task id="LOCAL-00011" summary="added aboutMe input box and profile picture upload to SetupProfile.js">
+      <created>1682057007939</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1682057007939</updated>
+    </task>
+    <task id="LOCAL-00012" summary="added aboutMe functionality and setupprofile for tutors after first time (for editing it)">
+      <created>1682059920706</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1682059920706</updated>
+    </task>
+    <task id="LOCAL-00013" summary="edited home page and deleted zoom link for users collection">
+      <created>1682530917008</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1682530917008</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -174,6 +235,10 @@
     <MESSAGE value="added upload pic functionality and updated tutor profile page" />
     <MESSAGE value="added functionality to lead users to tutorprofile page from tutors list" />
     <MESSAGE value="added tutor search functionality on tutors page" />
-    <option name="LAST_COMMIT_MESSAGE" value="added tutor search functionality on tutors page" />
+    <MESSAGE value="fixed profile picture upload bug" />
+    <MESSAGE value="added aboutMe input box and profile picture upload to SetupProfile.js" />
+    <MESSAGE value="added aboutMe functionality and setupprofile for tutors after first time (for editing it)" />
+    <MESSAGE value="edited home page and deleted zoom link for users collection" />
+    <option name="LAST_COMMIT_MESSAGE" value="edited home page and deleted zoom link for users collection" />
   </component>
 </project>

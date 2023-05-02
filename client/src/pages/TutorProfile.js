@@ -4,8 +4,6 @@ import useFirestore from "../firestore";
 import {useParams} from  "react-router-dom"
 import { useAuthContext } from "../components/context/UserAuthContext";
 import {useNavigate} from "react-router-dom"
-import {handleImageSubmit} from "./ProfilePage"
-import {handleImageChange} from "./ProfilePage"
 
 export default function TutorProfile (){
     const [tutor, setTutor] = useState();
@@ -25,13 +23,12 @@ export default function TutorProfile (){
         setTutor(tutorData)
     }
 
-    const [image, setImage] = useState();
-    const [url, setUrl] = useState("https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp");
-
     const handleLogout = () => {
         logout();
         navigate("/");
     };
+
+
     return(
         <div className="container py-5">
 
@@ -45,8 +42,6 @@ export default function TutorProfile (){
                                 alt="avatar"
                                 className="rounded-circle img-fluid avatar-image"/>
 
-                            <input type={"file"} onChange={handleImageChange}/>
-                            <button type="submit" className="btn btn-secondary btn-sm" onClick={handleImageSubmit}>Submit</button>
 
                             <h5 className="my-3">{tutor?.firstName} {tutor?.lastName}</h5>
                             <p className="text-muted mb-1">{tutor?.userRole}</p>
