@@ -130,6 +130,7 @@ function SetupProfile() {
           <Modal.Title>Setup Tutor Profile</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+            <p>* Indicates a required field</p>
             <div className={"center"}>
                 <img
                     src={data?.url}
@@ -143,11 +144,23 @@ function SetupProfile() {
 
             <br/>
             <div className="form-group">
-                <label htmlFor="exampleFormControlTextarea1">Enter an About Me (250 charcters): </label>
+                <label htmlFor="exampleFormControlTextarea1">Enter an About Me (Up to 250 charcters) * </label>
                 <textarea onChange={(e) => setAboutMe(e.target.value)} className="form-control" id="exampleFormControlTextarea1" rows="3" max></textarea>
             </div>
+
+            <br/>
+
             <div>
-                <div>Select your availability</div>
+                <p>Select subjects you would like to teach *</p>
+                <CreatableSelect
+                    isMulti
+                    options={subjectOptions}
+                    onChange={handleSelectChange}
+                    value={selectedOptions}
+
+                />
+                <br/>
+                <div>Select your availability *</div>
                 <AvailabilityPicker handleSaveSchedule={handleSaveSchedule}/>
             </div>
         </Modal.Body>
@@ -155,11 +168,11 @@ function SetupProfile() {
               <Button variant="secondary" onClick={handleClose}>
                   Close
               </Button>
-              {didSaveSchedule && selectedOptions?.length > 0 && <Button variant="primary" onClick={handleSubmit}>
+              {didSaveSchedule && aboutMe && selectedOptions?.length > 0 && <Button variant="primary" onClick={handleSubmit}>
                   Submit
               </Button>}
-              {(didSaveSchedule && selectedOptions?.length > 0) || <Alert>
-                  You must select at least one subject and click on Save Availability to submit and setup your profile </Alert>}
+              {(didSaveSchedule && aboutMe && selectedOptions?.length > 0 ) || <Alert>
+                  Please fill in the required fields. </Alert>}
           </Modal.Footer>
       </Modal>
         </>
