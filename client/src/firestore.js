@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDocs, getDoc, onSnapshot, setDoc, updateDoc, query } from "@firebase/firestore";
+import { addDoc, collection, doc, deleteDoc, getDocs, getDoc, onSnapshot, setDoc, updateDoc, query } from "@firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
 import { useAuthContext } from "./components/context/UserAuthContext";
 import { firestore} from "./firebase";
@@ -175,9 +175,15 @@ console.log("getCurrentUserFutureAppointmentscalledinuseeffect");
       }
 
       
+        async function cancelAppointment(appointmentId){   
+          deleteDoc(doc(firestore, 'appointments', appointmentId));
+        }
+        
+
+      
     //   console.log("futureAppointments", futureAppointments)
 
-    return {data, addDocumentToCollection, updateDocument, getAllDocs, getUser,getAllTutors, getAllSubjects, addDocumentToCollectionWithDefaultId, fetchDocumentById, futureAppointments, appointmentsData}
+    return {data, addDocumentToCollection, updateDocument, getAllDocs, getUser,getAllTutors, getAllSubjects, addDocumentToCollectionWithDefaultId, fetchDocumentById, futureAppointments, appointmentsData, cancelAppointment}
 };
 
 export default useFirestore;

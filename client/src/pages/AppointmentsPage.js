@@ -13,7 +13,7 @@ import GoogleMeetLinkGenerator from "./GoogleMeetLinkGenerator";
 export default function AppointmentsPage(){
 
     const {user} = useAuthContext();
-    const {data, appointmentsData, getAllSubjects, getAllTutors, futureAppointments} = useFirestore();
+    const {data, appointmentsData, getAllSubjects, getAllTutors, futureAppointments, cancelAppointment} = useFirestore();
     const [showAvailabilityPicker, setShowAvailabilityPicker] = useState(false);
     const [showMeetingSchedule, setMeetingSchedule] = useState(false);
     const [allSubjects, setAllSubjects] = useState([]);
@@ -21,7 +21,7 @@ export default function AppointmentsPage(){
     const [selectedSubjects, setSelectedSubjects] = useState([]);
     const [filteredTutors, setFilteredTutors] = useState([]);
     const [showUpcomingAppointments, setShowUpcomingAppointments] = useState(false);
-    const [cancelAppointment, setCancelAppointment] = useState();
+    const [cancelAppointmentId, setCancelAppointment] = useState();
     const [userFutureAppointments, setUserFutureAppointments] = useState([]);
     // const [appointmentsUpdated, setAppointmentsUpdated] = useState(false);
     // const tutorsOrSubjectsOptions = [
@@ -88,6 +88,15 @@ export default function AppointmentsPage(){
         getAndSetFutureAppointments();
 
       }, [data, futureAppointments]);
+
+     useEffect(()=> {
+        async function cancelThisAppointment(){
+            cancelAppointment(cancelAppointmentId);
+    }
+    cancelThisAppointment();
+},[cancelAppointmentId]) 
+
+
 
     //   useEffect(() => {
     //     async function getAndSetFutureAppointments(){
