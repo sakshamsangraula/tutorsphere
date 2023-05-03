@@ -1,4 +1,4 @@
-import { Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import { useAuthContext } from "./context/UserAuthContext";
 import Dropdown from 'react-bootstrap/Dropdown';
 import useFirestore from "../firestore";
@@ -81,8 +81,9 @@ export default function Header(){
                 {user && (
                     <div className="d-flex justify-content-between move-right">
                         <div className="search-container position-relative">
-                            <input className="form-control mr-sm-2" type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search Tutors" aria-label="Search" />
-                            {search &&
+                            {data?.userRole === "students" &&
+                            <input className="form-control mr-sm-2" type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search Tutors" aria-label="Search" />}
+                                {search &&
                                 <div className="dropdown-row">
                                     {tutors
                                         .filter((tutor) => {
