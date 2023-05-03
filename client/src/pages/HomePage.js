@@ -28,20 +28,20 @@ export default function HomePage(){
         <div>
 
             {/*this is the carasoul*/}
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                     <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
                     <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
                 </ol>
 
-                <div class="carousel-inner">
+                <div class="carousel-inner ">
                     <div class="carousel-item active">
-                        <img className="d-block w-100 slide-images" src="https://media.istockphoto.com/id/1353372066/photo/male-university-or-college-student-working-at-computer-in-library-being-helped-by-tutor.jpg?b=1&s=170667a&w=0&k=20&c=xEekRmfc-fcnQ3rXZwVN-6MzT_xJHHwBdRz1PgjbYMs="
-                             alt="Second slide" style={{ height: "750px"}}/>
+                        <img className="d-block w-100 slide-images image-black aspect-ratio" src="https://www.languagebird.com/wp-content/uploads/2022/03/LB_lessonsBG_dark_3.jpg"
+                             alt="Second slide" style={{height: '750px', objectFit: 'cover'}}/>
                         <div className="container">
                             <div className="carousel-caption text-left">
-                                <h1>TutorSphere.</h1>
+                                <h1>TutorSphere</h1>
                                 <p>At our online tutoring platform, we believe that every student has the potential to succeed, regardless of their background or circumstances.
                                     That's why we offer free, high-quality tutoring to underprivileged students. Our expert tutors are here to help you unlock your potential and achieve your academic goals.
                                 </p>
@@ -53,7 +53,7 @@ export default function HomePage(){
 
 
                     <div class="carousel-item">
-                        <img class="d-block w-100 img-fluid" src="https://www.languagebird.com/wp-content/uploads/2022/03/LB_lessonsBG_dark_3.jpg" alt="Second slide" style={{ height: "750px"}}/>
+                        <img class="d-block w-100 img-fluid image-black aspect-ratio" src="https://scholarshipinstitute.org/wp-content/uploads/2022/09/scholarship-for-non-traditional-students.jpg" alt="Second slide" style={{height: '750px', objectFit: 'cover'}}/>
                         <div className="container">
                             <div className="carousel-caption">
                                 <h1>Join a Supportive Community of Learners</h1>
@@ -65,10 +65,10 @@ export default function HomePage(){
                     </div>
 
                     <div class="carousel-item">
-                        <img class="d-block w-100 img-fluid" src="https://parentingteensandtweens.com/wp-content/uploads/2022/01/ACT-and-SAT-Is-a-Tutor-Or-A-Course-Right-For-Your-Teen-FB1.jpg" style={{ height: "750px"}}/>
+                        <img class="d-block w-100 img-fluid image-black aspect-ratio" src="https://www.ecampusnews.com/files/2014/01/notes221.jpg" style={{height: '750px', objectFit: 'cover'}}/>
                         <div className="container">
                             <div className="carousel-caption text-right">
-                                <h1>Personalized Learning Plans for Every Student</h1>*
+                                <h1>Personalized Learning Plans for Every Student</h1>
                                 <p>
                                     We understand that every student has unique needs and learning styles. That's why we create personalized learning plans for every student who joins our platform. Our tutors work with you to identify your strengths and weaknesses,
                                     and then develop a customized plan that's tailored
@@ -95,23 +95,31 @@ export default function HomePage(){
             {/*this is the about me pages fo tutors*/}
             <div class="container marketing">
                 <div class="row">
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         <img class="rounded-circle" src={allDocs[0]?.url} alt="Generic placeholder image" width="140" height="140"/>
                         <h2>{allDocs[0]?.firstName} {allDocs[0]?.lastName}</h2>
                         <p>{allDocs[0]?.aboutMe}</p>
                         <p><a class="btn btn-secondary" href={`/tutors/${allDocs[0]?.id}`} role="button">View details &raquo;</a></p>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         <img class="rounded-circle" src={allDocs[1]?.url} alt="Generic placeholder image" width="140" height="140"/>
                         <h2>{allDocs[1]?.firstName} {allDocs[1]?.lastName}</h2>
                         <p>{allDocs[1]?.aboutMe}</p>
                         <p><a class="btn btn-secondary" href={`/tutors/${allDocs[1]?.id}`} role="button">View details &raquo;</a></p>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         <img class="rounded-circle" src={allDocs[3]?.url} alt="Generic placeholder image" width="140" height="140"/>
                         <h2>{allDocs[3]?.firstName} {allDocs[3]?.lastName}</h2>
                         <p>{allDocs[3]?.aboutMe}</p>
                         <p><a class="btn btn-secondary" href={`/tutors/${allDocs[3]?.id}`} role="button">View details &raquo;</a></p>
+                    </div>
+                    <div className="col-lg-3">
+                        <img className="rounded-circle" src={allDocs[4]?.url} alt="Generic placeholder image"
+                             width="140" height="140"/>
+                        <h2>{allDocs[4]?.firstName} {allDocs[4]?.lastName}</h2>
+                        <p>{allDocs[4]?.aboutMe}</p>
+                        <p><a className="btn btn-secondary" href={`/tutors/${allDocs[4]?.id}`} role="button">View
+                            details &raquo;</a></p>
                     </div>
                 </div>
 

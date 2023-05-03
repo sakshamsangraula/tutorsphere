@@ -130,8 +130,8 @@ export default function AppointmentsPage(){
             {/* {data?.userRole === "tutors" && <Button className="mt-2 mb-2" onClick={() => setShowAvailabilityPicker(prevValue => !prevValue)}>Toggle Availability</Button>}
             {showAvailabilityPicker && <AvailabilityPicker />} */}
 
-            <div className="d-flex justify-content-end mt-2 mr-3">
-                <Button variant="success" onClick={() => setShowUpcomingAppointments(true)}>
+            <div className="d-flex justify-content-center mt-2">
+                <Button variant="success" onClick={() => setShowUpcomingAppointments(true)} className="mx-auto">
                     Show Upcoming Appointments
                 </Button>
             </div>

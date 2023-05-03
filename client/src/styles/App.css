@@ -27,15 +27,21 @@
     width: 200px;
 }
 
+.search-container {
+    position: relative;
+}
+
 .dropdown-row {
     position: absolute;
-    border: 1px solid #ccc;
-    border-top: none;
-    border-radius: 0 0 5px 5px;
+    top: 100%;
+    left: 0;
+    z-index: 999;
+    width: 100%;
     background-color: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-height: 200px;
-    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .dropdown-row div {
@@ -65,4 +71,18 @@ textarea {
 .home-background {
     background-color: lightgoldenrodyellow;
     min-height: 100vh;
+}
+
+.image-black{
+    background-color: black;
+    opacity: .8;
+}
+
+.move-right {
+    margin-left: auto !important;
+}
+
+.aspect-ratio {
+    aspect-ratio: 16/9;
+    width: 100%;
 }

@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c0889b6a-1b05-4be0-b2f3-36bb589b7213" name="Changes" comment="added tutor search functionality on tutors page">
+    <list default="true" id="c0889b6a-1b05-4be0-b2f3-36bb589b7213" name="Changes" comment="added updates on homepage and profile page">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/profile/SetupProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/profile/SetupProfile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/ProfilePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/ProfilePage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AppointmentsPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AppointmentsPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/HomePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/HomePage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/TutorsPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/TutorsPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/styles/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/styles/App.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +35,7 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="ashar" />
+        <entry key="$PROJECT_DIR$" value="dev-main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -47,15 +52,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Applications/IntelliJ IDEA.app/Contents/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "ts.external.directory.path": "/Applications/IntelliJ IDEA.app/Contents/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="ProfilePage.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/src/pages/ProfilePage.js" working-dir="$PROJECT_DIR$/src/pages">
       <method v="2" />
@@ -141,7 +147,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680940454371</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="added updates on homepage and profile page">
+      <created>1683049451671</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1683049451671</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -179,6 +192,7 @@
     <MESSAGE value="added upload pic functionality and updated tutor profile page" />
     <MESSAGE value="added functionality to lead users to tutorprofile page from tutors list" />
     <MESSAGE value="added tutor search functionality on tutors page" />
-    <option name="LAST_COMMIT_MESSAGE" value="added tutor search functionality on tutors page" />
+    <MESSAGE value="added updates on homepage and profile page" />
+    <option name="LAST_COMMIT_MESSAGE" value="added updates on homepage and profile page" />
   </component>
 </project>

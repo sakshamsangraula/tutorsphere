@@ -84,24 +84,26 @@ export default function TutorsPage() {
                     <h2>Tutors</h2>
                     <div className="search-container">
                         <input type="text" value={search} onChange={handleSearchChange} placeholder="Search Tutor" />
-                        <div className="dropdown-row">
-                            {tutors
-                                .filter((tutor) => {
-                                    const searchValue = search.toLowerCase()
-                                    const fullName = tutor.firstName.toLowerCase() + " " + tutor.lastName.toLowerCase()
+                        {search &&
+                            <div className="dropdown-row">
+                                {tutors
+                                    .filter((tutor) => {
+                                        const searchValue = search.toLowerCase()
+                                        const fullName = tutor.firstName.toLowerCase() + " " + tutor.lastName.toLowerCase()
 
-                                    return (
-                                        fullName.startsWith(searchValue) && searchValue
-                                    )
-                                }) // gets a filtered list of tutors who match search value
+                                        return (
+                                            fullName.startsWith(searchValue) && searchValue
+                                        )
+                                    }) // gets a filtered list of tutors who match search value
 
-                                .map((tutor) => ( // map through the filtered list to access specefic names
-                                    <div>
-                                        <a href={`/tutors/${tutor?.id}`}>{tutor?.firstName} {tutor?.lastName}</a>
-                                    </div>
-                                ))
-                            }
-                        </div>
+                                    .map((tutor) => ( // map through the filtered list to access specefic names
+                                        <div>
+                                            <a href={`/tutors/${tutor?.id}`}>{tutor?.firstName} {tutor?.lastName}</a>
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        }
                     </div>
                 </div>
 
@@ -109,7 +111,7 @@ export default function TutorsPage() {
                     <table className="table table-striped table-hover table-borderless">
                         <thead className={"thead-dark"}>
                             <tr>
-                                <th>Pic</th>
+                                <th>Profile Pic</th>
                                 <th scope="col">Full Name</th>
                                 <th scope="col">Username</th>
                                 <th scope="col">Favorite</th>
