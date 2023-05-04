@@ -14,6 +14,7 @@ import ProtectedAppointmentsRoute from "./components/utils/ProtectedAppointments
 import SingleTutorPage from "./pages/SingleTutorPage";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AppointmentDetailPage from "./pages/AppointmentDetailPage";
+import FavoritesPage from "./pages/FavoritesPage";
 
 
 function App(){
@@ -54,6 +55,11 @@ function App(){
                     <Route path="/tutors" exact element = {
                         <ProtectedRoute>
                             <TutorsPage />
+                        </ProtectedRoute>
+                    }></Route>
+                     <Route path="/favorites" element = {
+                        <ProtectedRoute>
+                            <FavoritesPage />
                         </ProtectedRoute>
                     }></Route>
                 

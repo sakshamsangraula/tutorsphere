@@ -1,8 +1,16 @@
 import { useState } from "react";
+import { useEffect } from "react";
 
-function Tutor({ tutor, changeFavoriteList }) {
-
+function Tutor({ tutor, changeFavoriteList, favoritesList }) {
     const [isFavorite, setIsFavorite] = useState(false);
+    
+    useEffect(() => {
+        if(favoritesList.includes(tutor?.id)){
+            setIsFavorite(true);
+        }else{
+            setIsFavorite(false);
+        }
+    }, [tutor, favoritesList]);
 
     function toggleFavorite(tutorId, favoriteStatus) {
         const newFavoriteStatus = !isFavorite;
@@ -16,15 +24,14 @@ function Tutor({ tutor, changeFavoriteList }) {
         border: "1px solid black",
         borderRadius: "4px",
         cursor: "pointer"
-
     }
+
     return (
         <tr>
             <td>
                 <div className="d-flex align-items-center">
                     <img className="rounded-circle"
                         src={tutor?.url}
-                        alt="tutor profile"
                         width="50" />
                 </div>
             </td>
@@ -37,10 +44,12 @@ function Tutor({ tutor, changeFavoriteList }) {
             <td>{tutor?.username}</td>
             <td>
                 <button style={buttonStyle} onClick={() => toggleFavorite(tutor.id, isFavorite)}>
+                    {/* {favorite ? "Unfavorite" : "Favorite"}  */}
                     {isFavorite ? "Unfavorite" : "Favorite"}
                 </button>
             </td>
         </tr>
     )
 }
+
 export default Tutor;
