@@ -28,7 +28,7 @@ function ProfilePage(){
     const handleShow = () => setShow(true);
 
     // for upload profile pic
-    const [image, setImage] = useState();
+    const [image, setImage] = useState("");
     const [url, setUrl] = useState("https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp");
 
     // log out function
@@ -127,7 +127,7 @@ function ProfilePage(){
                     {/*this is for the left card with the image*/}
                     <div className="row">
                         <div className="col-lg-4">
-                            <div className="card mb-4">
+                            <div className="card mb-4" style={{paddingRight: "70px", paddingLeft: "70px"}}>
                                 <div className="card-body text-center">
                                     <img
                                         src={data?.url ? data.url : url}
@@ -142,7 +142,7 @@ function ProfilePage(){
                                 <p className="text-muted mb-4">{user?.email}</p>
                                 <div className="d-flex justify-content-center mb-2">
                                     <button type="button" className="btn btn-primary" onClick={handleLogout}>Logout</button>
-                                    <button type="button" className="btn btn-outline-primary ms-1" onClick={() => navigate("/appointments")}>Appointments</button>
+                                    <button type="button" className="btn btn-outline-primary ms-1" onClick={() => navigate("/reservations")}>Appointments</button>
                                     {data?.userRole === "tutors" &&
                                         <SetupProfile/>
                                     }

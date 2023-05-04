@@ -17,7 +17,7 @@ import {ref, uploadBytes, getDownloadURL} from "firebase/storage"
 
 
 function SetupProfile() {
-    const [image, setImage] = useState();
+    const [image, setImage] = useState("");
     const [url, setUrl] = useState("https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp");
 
   const {user} = useAuthContext();
@@ -52,13 +52,29 @@ function SetupProfile() {
         setSelectedOptions(newValue);
     }
 
+
   useEffect(() =>{
     // console.log("data.reactLibrarySchedule", data)
     if(data?.userRole === "tutors" && data?.subjects?.length > 0){
         setSelectedOptions(getLabelAndValue(data?.subjects))
-    }else{
-        setSelectedOptions([]);
     }
+
+    if(data?.userRole === "tutors" && data?.aboutMe){
+        console.log("datainsetprofile", data.aboutMe)
+        setAboutMe(data?.aboutMe)
+    }
+
+    if(data?.userRole === "tutors" && data?.schedule){
+        setDidSaveSchedule(true)
+    }
+
+    if(data?.userRole === "tutors" && data?.url){
+        setUrl(data.url)
+    }
+
+
+
+    
 }, [data]);
 
   function getLabelAndValue(listOfValues){
@@ -94,21 +110,24 @@ function SetupProfile() {
     }
 
     const handleImageSubmit = () => {
+        console.log("storage", storage)
         try{
             if (image){
-                const imageRef = ref(storage, `users/${user.uid}/profilePic`);
+                const imageRef = ref(storage, `users/${user?.uid}/profilePic`);
+                console.log("imageRef", imageRef)
+
                 uploadBytes(imageRef, image)
                     .then(() => {
                         getDownloadURL(imageRef)
                             .then((url) => {
                                 setUrl(url);
-                                updateDocument("users", user.uid, { url: url });
+                                updateDocument("users", user?.uid, { url: url });
                             });
                     })
             }
 
         }catch(error){
-            console.log("error in submitting pic: ", error)
+            window.alert("error in submitting pic: " +  error.message)
         }
 
     };
@@ -116,7 +135,12 @@ function SetupProfile() {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const handleSaveSchedule = () => setDidSaveSchedule(true);
+  const handleSaveSchedule = () => {
+    setDidSaveSchedule(true);
+    console.log("handleSaveSchedule called save schedule is", data, didSaveSchedule)
+  }
+
+  console.log("handleSaveSchedule called save schedule is2", data, didSaveSchedule)
 
 // TODO: reuse modal in setupProfile (here) and MeetingSchedulerFinal modal
     return (
@@ -133,7 +157,7 @@ function SetupProfile() {
             <p>* Indicates a required field</p>
             <div className={"center"}>
                 <img
-                    src={data?.url}
+                    src={url}
                     alt="avatar"
                     className="rounded-circle img-fluid avatar-image"/>
                 <div></div>
@@ -145,7 +169,7 @@ function SetupProfile() {
             <br/>
             <div className="form-group">
                 <label htmlFor="exampleFormControlTextarea1">Enter an About Me (Up to 250 charcters) * </label>
-                <textarea onChange={(e) => setAboutMe(e.target.value)} className="form-control" id="exampleFormControlTextarea1" rows="3" max></textarea>
+                <textarea value={aboutMe} onChange={(e) => setAboutMe(e.target.value)} className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
             </div>
 
             <br/>
@@ -160,7 +184,7 @@ function SetupProfile() {
 
                 />
                 <br/>
-                <div>Select your availability *</div>
+                <div>Select your availability (Save availability to persist your changes) *</div>
                 <AvailabilityPicker handleSaveSchedule={handleSaveSchedule}/>
             </div>
         </Modal.Body>

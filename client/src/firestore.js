@@ -176,7 +176,7 @@ console.log("getCurrentUserFutureAppointmentscalledinuseeffect");
 
       
         async function cancelAppointment(appointmentId){   
-          deleteDoc(doc(firestore, 'appointments', appointmentId));
+          await deleteDoc(doc(firestore, 'appointments', appointmentId));
         }
         
 

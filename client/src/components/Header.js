@@ -52,14 +52,11 @@ export default function Header(){
                         </li>
                     }
 
-
-                    }
-
                     {user &&
                         <li className="nav-item active">
-                            <a className="nav-link" href="/appointments" onClick={(e) => {
+                            <a className="nav-link" href="/reservations" onClick={(e) => {
                                 e.preventDefault();
-                                navigate('/appointments');
+                                navigate('/reservations');
                             }}>Appointments<span className="sr-only"></span></a>
                         </li>
                     }

@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import "./appointments.css"
 import GoogleMeetLinkGenerator from "./GoogleMeetLinkGenerator";
+import { useNavigate } from "react-router-dom";
 
 export default function AppointmentsPage(){
 
@@ -23,6 +24,7 @@ export default function AppointmentsPage(){
     const [showUpcomingAppointments, setShowUpcomingAppointments] = useState(false);
     const [cancelAppointmentId, setCancelAppointment] = useState();
     const [userFutureAppointments, setUserFutureAppointments] = useState([]);
+    const navigate = useNavigate();
     // const [appointmentsUpdated, setAppointmentsUpdated] = useState(false);
     // const tutorsOrSubjectsOptions = [
     //     {
@@ -89,14 +91,12 @@ export default function AppointmentsPage(){
 
       }, [data, futureAppointments]);
 
-     useEffect(()=> {
-        async function cancelThisAppointment(){
-            cancelAppointment(cancelAppointmentId);
+     
+    async function cancelThisAppointment(cancelAppointmentId){
+        await cancelAppointment(cancelAppointmentId);
     }
-    cancelThisAppointment();
-},[cancelAppointmentId]) 
-
-
+   
+    
 
     //   useEffect(() => {
     //     async function getAndSetFutureAppointments(){
@@ -180,6 +180,7 @@ export default function AppointmentsPage(){
                     <table className="table">
                         <thead>
                             <tr>
+                            <th scope="col">Appointment ID</th>
                             <th scope="col">Student Name</th>
                             <th scope="col">Tutor Name</th>
                             <th scope="col">Start Date and Time</th>
@@ -194,6 +195,9 @@ export default function AppointmentsPage(){
                                 userFutureAppointments.map(appointment => {
                                     return (
                                         <tr key={appointment?.id}>
+                                            <td onClick={() => navigate(`/reservations/${appointment?.id}`)}>
+                                            <p className="link-primary" style={{cursor: "pointer"}}>                                               {appointment?.id}</p>
+                                            </td>
                                             <td>{appointment?.studentName}</td>
                                             <td>{appointment?.tutorName}</td>
                                             <td>{appointment?.startTime}</td>
@@ -201,9 +205,8 @@ export default function AppointmentsPage(){
                                             <td>{appointment?.subjects?.join(", ")}</td>
                                             <td>{appointment?.appointmentDescription}</td>
                                             <td>
-                                            <Button variant="secondary" onClick={() => setCancelAppointment(appointment?.id)}>
-                                                Cancel Appointment
-                                                
+                                            <Button variant="secondary" onClick={() => cancelThisAppointment(appointment?.id)}>
+                                                Cancel Appointment 
                                             </Button>
                                             </td>
                                         </tr>

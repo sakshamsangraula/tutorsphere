@@ -13,6 +13,7 @@ import TutorsPage from "./pages/TutorsPage";
 import ProtectedAppointmentsRoute from "./components/utils/ProtectedAppointmentsRoute";
 import SingleTutorPage from "./pages/SingleTutorPage";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import AppointmentDetailPage from "./pages/AppointmentDetailPage";
 
 
 function App(){
@@ -30,9 +31,14 @@ function App(){
                     <Route path="/register" element={<SignUp />}></Route>
                     <Route path="/forgotPassword" element={<ForgotPassword />}></Route>
                     <Route path="/signin" element={<SignIn />}></Route>
-                    <Route path="/appointments" element={
+                    <Route path="/reservations" element={
                         <ProtectedAppointmentsRoute>
                             <AppointmentsPage />
+                        </ProtectedAppointmentsRoute>
+                    }></Route>
+                    <Route path="/reservations/:id" element={
+                        <ProtectedAppointmentsRoute>
+                            <AppointmentDetailPage />
                         </ProtectedAppointmentsRoute>
                     }></Route>
                     <Route path="/profile" element = {

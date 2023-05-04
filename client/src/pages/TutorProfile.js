@@ -48,7 +48,7 @@ export default function TutorProfile (){
                             {/*<p className="text-muted mb-4">{user?.email}</p>*/}
                             <div className="d-flex justify-content-center mb-2">
                                 <button type="button" className="btn btn-primary" onClick={handleLogout}>Logout</button>
-                                <button type="button" className="btn btn-outline-primary ms-1" onClick={() => navigate("/appointments")}>Appointments
+                                <button type="button" className="btn btn-outline-primary ms-1" onClick={() => navigate("/reservations")}>Appointments
                                 </button>
                             </div>
                         </div>

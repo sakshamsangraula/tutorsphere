@@ -221,7 +221,7 @@ export default function AppointmentsPage(){
 
             {/* ask the user to select subjects first */}
 
-            <div class="alert alert-primary mt-4 text-center" role="alert">
+            <div className="alert alert-primary mt-4 text-center" role="alert">
                Select subject(s) first, then select a tutor, and select date and time to make an appointment
             </div>
 

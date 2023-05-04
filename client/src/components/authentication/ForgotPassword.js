@@ -29,8 +29,8 @@ export default function ForgotPassword(){
     };
     return (
         <div>
-            {!error && <div class = "alert alert-success" role ="alert"> Reset Password email sent!</div> }
-            {error && <div class = "alert alert-danger" role ="alert"> Reset Password email not sent!</div>}
+            {!error && <div className = "alert alert-success" role ="alert"> Reset Password email sent!</div> }
+            {error && <div className = "alert alert-danger" role ="alert"> Reset Password email not sent!</div>}
             <div className="vh-100 bg-image"
             style={{backgroundImage: "url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp')"}}>
             <div className="mask d-flex align-items-center h-100 gradient-custom-3">

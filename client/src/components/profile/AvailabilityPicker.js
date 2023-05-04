@@ -105,13 +105,23 @@ function AvailabilityPicker({handleSaveSchedule}){
         });
 
     }
+
+
     async function prepareWeeklySchedule(){
+
+
+        const noAvailabilitySelected = Object.values(weekSchedule).every(value => Array.isArray(value) && value.length === 0);
+        if(noAvailabilitySelected){
+            window.alert("You have not selected any availability. You must select at least one availability.");
+            return;
+        }
         
         // updateWeeklySchedule();
         // add schedule to firestore if user is tutor
         try{
             // console.log("$$$$$$$$$$$$$$$WEEKLY SCHEDULE $$$$$$$$$$$$$$$$", weekSchedule);
             if(user && data.userRole === TUTOR){
+
                 const scheduleAddResponse = await updateDocument(USERS, user.uid, {schedule: weekSchedule});
                 // console.log("weekScheduleAFTERADDING", weekSchedule)
 
@@ -128,9 +138,10 @@ function AvailabilityPicker({handleSaveSchedule}){
                     alertType: "success",
                     message: "Availability saved!"
                 });
+                setShowAlert(true)
                 setTimeout(() => {
-                    setShowAlert(true);
-                }, 5000);
+                    setShowAlert(false);
+                }, 3000);
             }else{
                 // console.log("USER ROLE IS $$$$$$$$$$$$$$$$$$$$$$$$", user.userRole)
                 alert("Only Tutors can provide availability!", user);
@@ -189,7 +200,7 @@ function AvailabilityPicker({handleSaveSchedule}){
 
     return (
         <div>
-            <h4>Availability of {data?.firstName} {data?.lastName}</h4>
+            <p>You can click on a block below and drag your cursor to select multiple blocks at one time</p>
             <ScheduleSelector
                         selection={schedule}
                         startDate={new Date('2023-03-19T00:00:00')}							
