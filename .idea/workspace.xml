@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c0889b6a-1b05-4be0-b2f3-36bb589b7213" name="Changes" comment="fixed who could see the nav search bar">
+    <list default="true" id="c0889b6a-1b05-4be0-b2f3-36bb589b7213" name="Changes" comment="added footer and added styling on FavoritesPage.js">
+      <change afterPath="$PROJECT_DIR$/client/src/Footer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/profile/SetupProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/profile/SetupProfile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/About.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/About.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/FavoritesPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/FavoritesPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/HomePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/HomePage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/styles/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/styles/App.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +34,7 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev-main" />
+        <entry key="$PROJECT_DIR$" value="header-ash" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -81,6 +84,7 @@
       <workItem from="1680287478078" duration="18580000" />
       <workItem from="1680631309994" duration="27431000" />
       <workItem from="1683142654542" duration="1006000" />
+      <workItem from="1683238767357" duration="2551000" />
     </task>
     <task id="LOCAL-00001" summary="added list of tutors">
       <created>1679953628943</created>
@@ -199,6 +203,7 @@
     <MESSAGE value="added tutor search functionality on tutors page" />
     <MESSAGE value="added updates on homepage and profile page" />
     <MESSAGE value="fixed who could see the nav search bar" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed who could see the nav search bar" />
+    <MESSAGE value="added footer and added styling on FavoritesPage.js" />
+    <option name="LAST_COMMIT_MESSAGE" value="added footer and added styling on FavoritesPage.js" />
   </component>
 </project>

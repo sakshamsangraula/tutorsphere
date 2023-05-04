@@ -15,17 +15,18 @@ import SingleTutorPage from "./pages/SingleTutorPage";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AppointmentDetailPage from "./pages/AppointmentDetailPage";
 import FavoritesPage from "./pages/FavoritesPage";
+import Footer from "./Footer";
 
 
 function App(){
     return (
         <UserAuthContextProvider>
-            <div>
+            <div className={"App"}>
                 <Header />
 
                 {/* TODO: show a message in homepage saying user profile is not set and link to /profileSetup or appointment page for tutor
 // which has availability picker */}
-
+                <main className={'App-main'}>
                 <Routes>
                     <Route path="/" element={<HomePage />}></Route>
                     <Route path="/about" element={<About />}></Route>
@@ -62,10 +63,12 @@ function App(){
                             <FavoritesPage />
                         </ProtectedRoute>
                     }></Route>
-                
-                  
+
                 </Routes>
+            </main>
+                <Footer/>
             </div>
+
         </UserAuthContextProvider>
     )
 }

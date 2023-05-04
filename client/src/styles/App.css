@@ -153,4 +153,15 @@ textarea {
     font-size: 15px;
     text-align: center;
   }
+
+
+.App {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.App-main {
+    flex: 1 0 auto;
+}
   

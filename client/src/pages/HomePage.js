@@ -167,18 +167,12 @@ export default function HomePage(){
             </div>
 
 
-            <footer className="container">
-                <p className="float-right"><a href="#">Back to top</a></p>
-                <p>&copy; 2022-2023 TutorSphere, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-            </footer>
-
 
         </div>
 
 
 
 
-        // <div className="container marketing">
 
 
 

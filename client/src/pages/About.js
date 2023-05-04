@@ -40,9 +40,6 @@ export default function About(){
 
         <p>At TutorSphere, we are committed to protecting your privacy. We never share any user information with third parties, and we keep all information confidential. Our goal is to create a trusted educational resource where you can learn with confidence and privacy.</p>
       </div>
-      <footer className="container">
-            <p>&copy; 2022-2023 TutorSphere, Inc.</p>
-    </footer>
     </div>
     
   );
