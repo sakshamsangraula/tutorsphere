@@ -2,6 +2,7 @@ import { UserAuthContextProvider } from "./components/context/UserAuthContext";
 import Header from "./components/Header";
 import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
+import About from "./pages/About";
 import SignIn from "./components/authentication/SignIn";
 import SignUp from "./components/authentication/SignUp";
 import ForgotPassword from "./components/authentication/ForgotPassword";
@@ -25,6 +26,7 @@ function App(){
 
                 <Routes>
                     <Route path="/" element={<HomePage />}></Route>
+                    <Route path="/about" element={<About />}></Route>
                     <Route path="/register" element={<SignUp />}></Route>
                     <Route path="/forgotPassword" element={<ForgotPassword />}></Route>
                     <Route path="/signin" element={<SignIn />}></Route>
