@@ -12,7 +12,7 @@ export default function HomePage(){
 
     const fetchDocs = async () => {
         const docs = await getAllDocs("users");
-        const filteredDocs = docs?.filter((doc) => doc.isProfileSetup && doc.userRole === "tutors");
+        const filteredDocs = docs?.filter((doc) => doc?.aboutMe && doc.userRole === "tutors");
         setAllDocs(filteredDocs);
     }
 
