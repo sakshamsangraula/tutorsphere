@@ -20,7 +20,6 @@ export default function Header(){
 
     useEffect(() => {
         fetchData()
-        console.log("the tutors", tutors)
     }, [])
 
     const fetchData = async () => {
@@ -114,9 +113,6 @@ export default function Header(){
                         </Dropdown>
                     </div>
                 )}
-
-
-
             </div>
         </nav>
         </header>

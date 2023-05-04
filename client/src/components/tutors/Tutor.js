@@ -24,6 +24,7 @@ function Tutor({ tutor, changeFavoriteList }) {
                 <div className="d-flex align-items-center">
                     <img className="rounded-circle"
                         src={tutor?.url}
+                        alt="tutor profile"
                         width="50" />
                 </div>
             </td>
@@ -36,9 +37,7 @@ function Tutor({ tutor, changeFavoriteList }) {
             <td>{tutor?.username}</td>
             <td>
                 <button style={buttonStyle} onClick={() => toggleFavorite(tutor.id, isFavorite)}>
-                    {/* {favorite ? "Unfavorite" : "Favorite"}  */}
                     {isFavorite ? "Unfavorite" : "Favorite"}
-
                 </button>
             </td>
         </tr>

@@ -6,10 +6,6 @@ export default function ProtectedAppointmentsRoute({children}){
     const {user} = useAuthContext();
     const {data} = useFirestore();
 
-    // if(!user){
-    //     return <Navigate to="/">
-    // }
-
     if (!user){
         return <Navigate to='/' />
     }

@@ -1,8 +1,6 @@
-import { createContext, Profiler, useContext, useEffect, useState } from "react";
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, updatePassword, sendPasswordResetEmail } from "firebase/auth";
+import { createContext, useContext, useEffect, useState } from "react";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../firebase";
-import App from "../../App";
-import Header from "../Header";
 
 const UserAuthContext = createContext();
 
@@ -10,16 +8,6 @@ export function UserAuthContextProvider({children}){
 
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-
-    // const [userRole, setUserRole] = useState(null);
-
-    // function updateUserRole(roleName){
-    //     setUserRole(roleName);
-    // }
-
-    // console.log("userRole in userauthcontext", userRole)
-
-    console.log("USERISLOGGEDINORNOT", user)
 
     function registerUser(email, password){
         return createUserWithEmailAndPassword(auth, email, password);
@@ -36,9 +24,7 @@ export function UserAuthContextProvider({children}){
     function changePassword(email){
         return sendPasswordResetEmail(auth, email)
         .catch((error) => {
-            const errorCode = error.code;
             const errorMessage = error.message;
-            console.log("errormessage"+errorMessage);
             throw new Error(errorMessage);
         });
         
@@ -46,7 +32,6 @@ export function UserAuthContextProvider({children}){
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-            console.log("user in userauthcontext is", user)
             if(user){
                 setUser(user);
                 setLoading(false);

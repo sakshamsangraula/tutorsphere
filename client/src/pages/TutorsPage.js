@@ -1,6 +1,4 @@
 import React from 'react';
-import { useAuthContext } from "../components/context/UserAuthContext";
-import { collection, getDocs } from "firebase/firestore";
 import useFirestore from "../firestore";
 import "../styles/App.css"
 import { useEffect, useState } from "react";
@@ -13,33 +11,13 @@ export default function TutorsPage() {
     // for storing tutors
     const [tutors, setTutors] = useState([]);
     const { data, getAllTutors } = useFirestore();
-
-    // to check and uncheck tutors
-    const [favorite, setFavorite] = useState(false)
-
-    const handleClick = () => {
-        setFavorite(!favorite)
-    }
-
     const [favoriteTutorIds, setFavoriteTutorIds] = useState([]);
 
-
-    // function handleClick(id){
-    //     //e.target.favorite.value = !favorite
-    //     //id.favorite = !favorite
-    //     //setFavorite(!favorite)
-    //     favorite === id ? setFavorite(-1) : setFavorite(id);
-    //     //setFavorite(id)
-    // }
-
     function changeFavoriteList(tutorId, isFavorite) {
-        console.log("changeFavoriteList called with ", tutorId, isFavorite)
         if (favoriteTutorIds.includes(tutorId)) {
             if (!isFavorite) {
-                console.log("TUTORID BEING SET TO ", tutorId, isFavorite)
                 setFavoriteTutorIds(prevFavorites => {
                     const newFavorites = prevFavorites.filter(tutor => tutor !== tutorId);
-                    console.log("newFavorites", newFavorites);
                     return newFavorites;
                 })
             }
@@ -53,22 +31,11 @@ export default function TutorsPage() {
 
     useEffect(() => {
         fetchData()
-        console.log("the tutors", tutors)
     }, [])
 
     const fetchData = async () => {
         const allTutors = await getAllTutors()
         setTutors(allTutors)
-    }
-
-    // const buttonClassName = favorite ? "favorite-button active" : "favorite-button";
-    const buttonStyle = {
-        backgroundColor: favorite ? "red" : "white",
-        color: favorite ? "white" : "black",
-        padding: "8px 16px",
-        border: "1px solid black",
-        borderRadius: "4px",
-        cursor: "pointer"
     }
 
     // for search functionality

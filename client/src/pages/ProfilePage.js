@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import {useEffect, useState } from "react";
 import { useAuthContext } from "../components/context/UserAuthContext";
 import SetupProfile from "../components/profile/SetupProfile";
 import useFirestore from "../firestore";
@@ -12,20 +11,14 @@ import "../styles/App.css"
 
 function ProfilePage(){
     const navigate = useNavigate();
-
-    // TODO: allow student to update their profile by adding profile picture (and maybe description). Allow adding about-me and profile pic for tutor in their profile
-
     const {user, logout} = useAuthContext();
     const {data} = useFirestore();
     const [displayPickAvailabilityMsg, setDisplayPickAvailabilityMsg] = useState(false);
-    const [showSetupProfile, setShowSetupProfile] = useState(true);
-    const {addDocumentToCollection} = useFirestore();
+
     const {updateDocument} = useFirestore()
 
-    // for the "tutor profile setup" popup modal
     const [show, setShow] = useState(true);
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
     // for upload profile pic
     const [image, setImage] = useState("");
@@ -36,11 +29,8 @@ function ProfilePage(){
         logout();
         navigate("/");
     };
-    // const changePickAvailabilityMsg = useCallback((value) => {
-    //     setDisplayPickAvailabilityMsg(value);
-    // }, []);
 
-    let profileMessage = "Profile setup completed ✅";
+
     const handleImageChange = (e) => {
         if (e.target.files[0]){ // if the file name exists -- then set it as the image (using file since that is input type)
             setImage(e.target.files[0])
@@ -66,8 +56,6 @@ function ProfilePage(){
 
         if(user && data){
             if(data.userRole === "tutors"){
-                //setShowSetupProfile(true);
-
                 if(!data.isProfileSetup){
                     setDisplayPickAvailabilityMsg(true);
                 }
@@ -116,10 +104,6 @@ function ProfilePage(){
                     </Modal>
                 </div>
             }
-
-            {/*<button onClick={() => setShowSetupProfile(prevShow => !prevShow)}>Toggle Setup Profile</button>*/}
-
-            {/*{showSetupProfile && <SetupProfile />}*/}
 
 
             <div className="container py-5">
@@ -227,15 +211,6 @@ function ProfilePage(){
                     </div>
                             </div>
         </div>
-
-
-
-
-
-
-
-
-
     )
 }
 

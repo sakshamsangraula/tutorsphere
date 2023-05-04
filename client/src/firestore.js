@@ -7,11 +7,8 @@ const useFirestore = () => {
 
     const {user} = useAuthContext();
     const [data, setData] = useState();
-    const [loading, setLoading] = useState(true);
-    const [isProfileSetup, setIsProfileSetup] = useState();
     const [appointmentsData, setAppointmentsData] = useState([]);
     const [futureAppointments, setFutureAppointments] = useState([]);
-    const [documents, setDocuments] = useState([]);
     const USERS_COLLECTION_NAME = "users";
 
 
@@ -49,53 +46,25 @@ const useFirestore = () => {
             if(user){
 
                 const unsub = onSnapshot(doc(firestore, USERS_COLLECTION_NAME, user?.uid), (doc) => {
-                    const documentData =  doc.data();
                     setData({id: doc.id, ...doc.data()});
-                    setLoading(false);
                 });
                 return () => unsub();
             }
         };
         getDataFromFirestore();
-
-        // console.log("APPOINTMENTSDATACHANGEDORNOT", appointmentsData)
-
-        // const getAppointmentsDataFromFirestore = async() => {
-        //     if(user){
-        //         console.log("getAppointmentsDataFromFirestorecalled")
-        //         const collectionRef = collection(firestore, "appointments");
-
-        //         const allAppointments = [];
-        //         const unsubscribe = onSnapshot(collectionRef, (snapshot) => {
-        //         snapshot.forEach((doc) => {
-        //             allAppointments.push({id: doc.id, ...doc.data()});         
-        //             });
-        //         });
-        //         console.log("getCurrentUserFutureAppointmentscalledinuseeffectALLAPPOINTMENTS", allAppointments);
-
-        //         setAppointmentsData(allAppointments);
-        //         return () => unsubscribe();
-        //     }
-        // }
-
-        // getAppointmentsDataFromFirestore();
     }, [user]);
 
 
 
     useEffect(() => {
-
-        // Note getting apopintments data like this gives the most updated appointment data and everything updates nicely
         const q = query(collection(firestore, 'appointments'));
         const unsubscribe = onSnapshot(q, (snapshot) => {
           const docs = snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }));
-          console.log("INSIDENEWUSEEFFECTFORAPPOINTMENTS", docs)
           setAppointmentsData(docs);
         });
-        // Clean up the listener on component unmount
         return () => {
           unsubscribe();
         };
@@ -103,7 +72,6 @@ const useFirestore = () => {
 
     useEffect(() => {
 
-console.log("getCurrentUserFutureAppointmentscalledinuseeffect");
         async function getCurrentUserFutureAppointments(){
             const allCurrentUserAppointments = await getCurrentUserAppointments();
             const now = new Date();
@@ -115,12 +83,7 @@ console.log("getCurrentUserFutureAppointmentscalledinuseeffect");
                     return false;
                 }
             });
-            console.log("currentUserFutureAppointments", currentUserFutureAppointments);
-            console.log("getCurrentUserFutureAppointmentscalledinuseeffectappointments", currentUserFutureAppointments);
-
             setFutureAppointments(currentUserFutureAppointments);
-    
-            // return currentUserFutureAppointments;
           }
 
           getCurrentUserFutureAppointments();
@@ -174,23 +137,13 @@ console.log("getCurrentUserFutureAppointmentscalledinuseeffect");
         return currentUserAppointments;
       }
 
+      async function cancelAppointment(appointmentId){   
+        await deleteDoc(doc(firestore, 'appointments', appointmentId));
+      }
       
-        async function cancelAppointment(appointmentId){   
-          await deleteDoc(doc(firestore, 'appointments', appointmentId));
-        }
-        
-
-      
-    //   console.log("futureAppointments", futureAppointments)
-
     return {data, addDocumentToCollection, updateDocument, getAllDocs, getUser,getAllTutors, getAllSubjects, addDocumentToCollectionWithDefaultId, fetchDocumentById, futureAppointments, appointmentsData, cancelAppointment}
 };
 
 export default useFirestore;
-
-
-// Important questions to consider
-// TODO: can a person be student and a tutor at the same time? Right now, no, each
-// person can only have one student or tutor account
 
 

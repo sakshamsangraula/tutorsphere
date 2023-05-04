@@ -2,12 +2,11 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import useFirestore from "../../firestore";
 import { useAuthContext } from "../context/UserAuthContext";
-import AlertWithCloseButton from "../utils/AlertWithCloseButton";
 import { Alert } from "react-bootstrap";
 
 export default function SignUp(){
 
-    const {user, registerUser, updateUserRole} = useAuthContext();
+    const {registerUser} = useAuthContext();
     const {addDocumentToCollection} = useFirestore();
     const navigate = useNavigate();
     const USERS_COLLECTION = "users";
@@ -44,11 +43,6 @@ export default function SignUp(){
         setAuthInfo({...authInfo, [name]: value});
     };
 
-    console.log("ERROR IS", error)
-
-
-    console.log("user outside is", user);
-    // TODO: make sure all values are filled and clean/trim before validating and submitting
     const handleSubmit = async () => {
         // create new user
         try{
@@ -57,10 +51,7 @@ export default function SignUp(){
                 throw new Error("You must fill out all the fields in order to register as a user.")
             }
 
-            // TODO: decide whether response is needed or not
             const response = await registerUser(authInfo.email, authInfo.password);
-            // const userId = response?.user?.uid;
-            // console.log("userId is", userId);
 
             try{
                 const userInfoToAdd = {
@@ -69,10 +60,8 @@ export default function SignUp(){
                     isProfileSetup: false,
                     url:"https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
                 };
-                console.log("USER IN SIGN UP IS", response?.user)
                 if(response?.user){
-                    const addResult = await addDocumentToCollection(USERS_COLLECTION, response.user.uid, userInfoToAdd);
-                    console.log("addresult", addResult);
+                    await addDocumentToCollection(USERS_COLLECTION, response.user.uid, userInfoToAdd);
                     navigate("/profile");
                 }
                 setAlert(prevAlert => {return {...prevAlert, variant: "danger",  message: "Error registering. Please contact the administrator", show: true}});

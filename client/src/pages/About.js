@@ -1,12 +1,10 @@
-import useFirestore from "../firestore"
-import {useState, useEffect} from "react";
 import "./../styles/App.css";
 
 export default function About(){
   return (
     <div>
       <h1>About Us</h1>
-      <div class="container">
+      <div className="container">
         <p> At TutorSphere, we believe that education should be accessible to everyone, regardless of their financial background. We are a team of passionate developers with a mission to create a platform that provides free tutoring services to underprivileged children. Our team includes Soundarya Baskar, Syed Ashar, Varsha George, Akshay Jagadeesh, Saksham Sangraula, and Samriddhi Sangraula, all of whom are committed to making a difference in the lives of these students.
         </p>
         <p> We understand the transformative power of education and its impact on shaping one's future. By offering free tutoring services, we hope to give underprivileged children the opportunity to learn and succeed academically. We believe that every child deserves a chance to reach their full potential, and we are dedicated to making that a reality through our unique tutoring platform.
@@ -19,7 +17,7 @@ export default function About(){
         </p>
 
       </div>
-      <div class="contact-info">
+      <div className="contact-info">
         <div>
           <h3>Contact Us</h3>
           <p>Email: <a href="mailto:contact@tutorsphere.com">contact@tutorsphere.com</a></p>
@@ -34,7 +32,7 @@ export default function About(){
           <p>LinkedIn: <a href="#">TutorSphere</a></p>
         </div>
       </div>
-      <div class="privacy-info">
+      <div className="privacy-info">
         <h3>Privacy Information</h3>
         <p>TutorSphere is a charitable nonprofit organization based in the United States. Our primary goal is to provide free, world-class education for anyone, anywhere, without any profit motive. Our nonprofit status ensures that our mission is not hindered by any financial gain, and we use the information we collect solely to improve your user experience and fulfill our educational objectives.</p>
 

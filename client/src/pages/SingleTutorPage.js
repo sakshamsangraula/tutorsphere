@@ -7,23 +7,11 @@ export default function SingleTutorPage(){
     const { id } = useParams();
     const {fetchDocumentById} = useFirestore();
     const [tutor, setTutor] = useState();
-    const [schedule, setSchedule] = useState([]);
-    const [weekSchedule, setWeekSchedule] = useState({
-        "sunday": [],
-        "monday": [],
-        "tuesday": [],
-        "wednesday": [],
-        "thursday": [],
-        "friday": [],
-        "saturday": [],
-    });
-    const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
     useEffect(() => {
         async function getAndSetTutorBasedOnId() {
           try {
             const tutorData = await fetchDocumentById("users", id);
-            console.log("tutorData", tutorData);
             setTutor(tutorData);
           } catch (error) {
             console.error("Error getting user by id", error);
@@ -32,63 +20,6 @@ export default function SingleTutorPage(){
       
         getAndSetTutorBasedOnId();
       }, [fetchDocumentById, id]);
-
-      useEffect(() =>{
-        // console.log("data.reactLibrarySchedule", data)
-        if(tutor?.reactLibrarySchedule?.length > 0){
-            const reactLibraryScheduleDates = tutor?.reactLibrarySchedule?.map(time => new Date(time));
-            setSchedule(reactLibraryScheduleDates);
-        }else{
-            setSchedule([]);
-        }
-    }, [tutor]);
-
-    useEffect(() => {
-        
-        // console.log("SCHEDULECHANGED--------------------------", schedule);
-
-        // if schedule is empty set weekly schedule to empty (better to just reset weekly schedule to empty every time schedule changes and then readd all the schedule)
-        setWeekSchedule({
-            "sunday": [],
-            "monday": [],
-            "tuesday": [],
-            "wednesday": [],
-            "thursday": [],
-            "friday": [],
-            "saturday": [],
-        });
-        schedule.forEach(availability => {
-            const dayName = dayNames[availability.getDay()];
-            const hour = availability.getHours();
-            setWeekSchedule(prevWeekSchedule => {
-                const updatedAppointments = [...prevWeekSchedule[dayName]];
-                if(!updatedAppointments.includes(hour)){
-                    updatedAppointments.push(hour);
-                }
-                // console.log("weekscheduleAFTERADDING{...prevWeekSchedule, [dayName]: updatedAppointments}", {...prevWeekSchedule, [dayName]: updatedAppointments})
-                return {...prevWeekSchedule, [dayName]: updatedAppointments};
-            });
-        });
-        // updateWeeklySchedule()
-    }, [schedule]);
-
-      function ProfileTableRow({ tutor }) {
-        return (
-          <tr>
-            <td><img src={tutor?.url} alt={`${tutor?.firstName} ${tutor?.lastName}`} className="img-fluid rounded-circle" style={{ width: '50px', height: '50px' }} /></td>
-            <td>{tutor?.firstName}</td>
-            <td>{tutor?.lastName}</td>
-            <td>{tutor?.username}</td>
-            <td>{tutor?.userRole}</td>
-            <td>{tutor?.zoomUrl || 'Not provided'}</td>
-            <td>{tutor?.aboutMe}</td>
-          </tr>
-        );
-      }
-
-
-      console.log("weekScheduleisweekSchedule", weekSchedule)
-
 
     return (
         <div className="container py-5">

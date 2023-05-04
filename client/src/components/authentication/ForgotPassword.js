@@ -1,11 +1,9 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/UserAuthContext";
 
 export default function ForgotPassword(){
 
-    const {user, changePassword} = useAuthContext();
-    const navigate = useNavigate();
+    const {changePassword} = useAuthContext();
 
     const [authInfo, setAuthInfo] = useState({email: "", password: ""});
 
@@ -16,14 +14,11 @@ export default function ForgotPassword(){
         setAuthInfo({...authInfo, [name]:value});
     };
 
-     // TODO: make sure all values are filled and clean/trim before validating and submitting
      const handleSubmit = async () => {
         try{
-            console.log("authInfo.password "+ authInfo.password);
-            const response = await changePassword(authInfo.email);
+            await changePassword(authInfo.email);
             setError();
         }catch(err){
-            console.log("error from fp component" + err);
             setError("Email not found");
         }
     };

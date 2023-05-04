@@ -5,9 +5,6 @@ import "./../styles/App.css";
 export default function HomePage(){
 
     const {getAllDocs} = useFirestore();
-    const {data} = useFirestore();
-    console.log("data is", data)
-
     const [allDocs, setAllDocs] = useState([]);
 
     const fetchDocs = async () => {
@@ -19,10 +16,6 @@ export default function HomePage(){
     useEffect(() => {
         fetchDocs();
     }, [])
-
-    useEffect(() => {
-        console.log("all docs", allDocs);
-    }, [allDocs]);
 
     return (
         <div>

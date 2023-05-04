@@ -14,12 +14,10 @@ export default function TutorProfile (){
 
     useEffect(() => {
         fetchTutor()
-        console.log("tutor", tutor)
     }, [])
 
     const fetchTutor = async () => {
         const tutorData = await getUser(id)
-        console.log("tutorData", tutorData);
         setTutor(tutorData)
     }
 
@@ -45,7 +43,6 @@ export default function TutorProfile (){
 
                             <h5 className="my-3">{tutor?.firstName} {tutor?.lastName}</h5>
                             <p className="text-muted mb-1">{tutor?.userRole}</p>
-                            {/*<p className="text-muted mb-4">{user?.email}</p>*/}
                             <div className="d-flex justify-content-center mb-2">
                                 <button type="button" className="btn btn-primary" onClick={handleLogout}>Logout</button>
                                 <button type="button" className="btn btn-outline-primary ms-1" onClick={() => navigate("/reservations")}>Appointments
@@ -55,7 +52,6 @@ export default function TutorProfile (){
                     </div>
                 </div>
 
-                {/*this is for the right card section*/}
                 <div className="col-lg-8">
                     <div className="card mb-4">
                         <div className="card-body">

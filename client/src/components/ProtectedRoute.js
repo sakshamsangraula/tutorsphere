@@ -1,6 +1,6 @@
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "./context/UserAuthContext";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function ProtectedRoute({children}){
     const {user, loading} = useAuthContext();
@@ -11,10 +11,6 @@ export default function ProtectedRoute({children}){
             navigate("/");
         }
     }, [user, loading])
-
-    // if(!user){
-    //     return <Navigate to="/">
-    // }
 
     return children;
 }

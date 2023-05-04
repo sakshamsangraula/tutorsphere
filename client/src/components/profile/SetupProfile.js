@@ -7,14 +7,8 @@ import useFirestore from '../../firestore';
 import { useAuthContext } from '../context/UserAuthContext';
 import { Alert } from 'react-bootstrap';
 import "../../styles/App.css";
-
-import { useCallback} from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import {storage} from "../../firebase"
 import {ref, uploadBytes, getDownloadURL} from "firebase/storage"
-
-
 
 function SetupProfile() {
     const [image, setImage] = useState("");
@@ -47,20 +41,17 @@ function SetupProfile() {
   ]
 
     const [selectedOptions, setSelectedOptions] = useState([]);
-    console.log("selectedoptions", selectedOptions)
     function handleSelectChange(newValue, actionMeta) {
         setSelectedOptions(newValue);
     }
 
 
   useEffect(() =>{
-    // console.log("data.reactLibrarySchedule", data)
     if(data?.userRole === "tutors" && data?.subjects?.length > 0){
         setSelectedOptions(getLabelAndValue(data?.subjects))
     }
 
     if(data?.userRole === "tutors" && data?.aboutMe){
-        console.log("datainsetprofile", data.aboutMe)
         setAboutMe(data?.aboutMe)
     }
 
@@ -88,14 +79,11 @@ function SetupProfile() {
 
     const handleSubmit = async () => {
 
-        // add list of subjects to firestore
         const subjectTitles = selectedOptions.map(subject => subject.value);
         try{
-            // TODO: make sure at least one subject is selected by the tutor before saving data to the database. Also, try to get the selected values from firestore if it exists and show them by default
-            const subjectAddResponse = await updateDocument(USERS, user.uid, {subjects: subjectTitles});
-            // set profile setup to true TODO: also need to add about me description (maybe wrap this around form (about me, other values, and picking availability))
-            const updatedProfileSetupValue = await updateDocument(USERS, user.uid, {isProfileSetup: true});
-            const updatedProfileAboutMe = await updateDocument(USERS, user.uid, {aboutMe: aboutMe});
+           await updateDocument(USERS, user.uid, {subjects: subjectTitles});
+            await updateDocument(USERS, user.uid, {isProfileSetup: true});
+            await updateDocument(USERS, user.uid, {aboutMe: aboutMe});
             setShow(false);
         }catch(err){
             alert("Error submitting subjects to firestore", err);
@@ -110,12 +98,9 @@ function SetupProfile() {
     }
 
     const handleImageSubmit = () => {
-        console.log("storage", storage)
         try{
             if (image){
                 const imageRef = ref(storage, `users/${user?.uid}/profilePic`);
-                console.log("imageRef", imageRef)
-
                 uploadBytes(imageRef, image)
                     .then(() => {
                         getDownloadURL(imageRef)
@@ -137,12 +122,8 @@ function SetupProfile() {
   const handleShow = () => setShow(true);
   const handleSaveSchedule = () => {
     setDidSaveSchedule(true);
-    console.log("handleSaveSchedule called save schedule is", data, didSaveSchedule)
   }
 
-  console.log("handleSaveSchedule called save schedule is2", data, didSaveSchedule)
-
-// TODO: reuse modal in setupProfile (here) and MeetingSchedulerFinal modal
     return (
         <>
             <button className={"btn btn-danger"} onClick={handleShow}>
