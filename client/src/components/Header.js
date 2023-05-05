@@ -4,6 +4,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import useFirestore from "../firestore";
 import "../styles/App.css";
 import React, {useEffect, useState} from "react";
+import Logo from "../logo.png";
 
 
 export default function Header(){
@@ -32,7 +33,11 @@ export default function Header(){
     return (
         <header>
         <nav className="navbar navbar-expand-md navbar-dark bg-dark">
-                <a className="navbar-brand" href="/">TutorSphere</a>
+                <a className="navbar-brand" href="/">
+                    <img src={Logo} alt="TutorSphere Logo" width="70" height="70" className="d-inline-block align-top" />
+                    TutorSphere
+                </a>
+
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
                     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>

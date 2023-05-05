@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c0889b6a-1b05-4be0-b2f3-36bb589b7213" name="Changes" comment="added footer and added styling on FavoritesPage.js">
-      <change afterPath="$PROJECT_DIR$/client/public/logo2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/logo.png" afterDir="false" />
+    <list default="true" id="c0889b6a-1b05-4be0-b2f3-36bb589b7213" name="Changes" comment="added logo on index tile and header">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/public/logo192.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/HomePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/HomePage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/styles/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/styles/App.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -35,7 +30,7 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="da88786fe314553d6ba40ebb898ebfc6a0f786ed" />
+        <entry key="$PROJECT_DIR$" value="ashar" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -55,17 +50,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/syedashar/.Trash/tutorsphere/client/public",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "/Applications/IntelliJ IDEA.app/Contents/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/syedashar/.Trash/tutorsphere/client/public&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/IntelliJ IDEA.app/Contents/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/client/public" />
@@ -80,6 +75,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Node.js.ProfilePage.js" />
+        <item itemvalue="Node.js.ProfilePage.js" />
         <item itemvalue="Node.js.ProfilePage.js" />
         <item itemvalue="Node.js.ProfilePage.js" />
         <item itemvalue="Node.js.ProfilePage.js" />
@@ -99,6 +96,7 @@
       <workItem from="1680631309994" duration="27431000" />
       <workItem from="1683142654542" duration="1006000" />
       <workItem from="1683238767357" duration="2551000" />
+      <workItem from="1683309571229" duration="301000" />
     </task>
     <task id="LOCAL-00001" summary="added list of tutors">
       <created>1679953628943</created>

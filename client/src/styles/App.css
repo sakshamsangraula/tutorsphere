@@ -168,11 +168,11 @@ textarea {
 .navbar-brand img {
     width: 70px;
     height: 70px;
-    vertical-align: middle; /* align the image vertically with the text */
+    vertical-align: middle;
 }
 
 .navbar-brand {
     display: flex;
-    align-items: center; /* align the text vertically with the image */
+    align-items: center;
 }
   
