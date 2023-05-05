@@ -164,4 +164,15 @@ textarea {
 .App-main {
     flex: 1 0 auto;
 }
+
+.navbar-brand img {
+    width: 70px;
+    height: 70px;
+    vertical-align: middle; /* align the image vertically with the text */
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center; /* align the text vertically with the image */
+}
   

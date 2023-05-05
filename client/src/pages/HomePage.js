@@ -2,6 +2,7 @@ import useFirestore from "../firestore"
 import {useState, useEffect} from "react";
 import "./../styles/App.css";
 
+
 export default function HomePage(){
 
     const {getAllDocs} = useFirestore();
