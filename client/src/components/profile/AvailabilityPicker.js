@@ -59,7 +59,7 @@ function AvailabilityPicker({handleSaveSchedule}){
                 return {...prevWeekSchedule, [dayName]: updatedAppointments};
             });
         });
-    }, [schedule, dayNames]);
+    }, [schedule]);
 
     const handleChange = newSchedule => {
         setSchedule([...newSchedule]);

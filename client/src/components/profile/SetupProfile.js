@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import AvailabilityPicker from './AvailabilityPicker';
@@ -45,28 +45,60 @@ function SetupProfile() {
         setSelectedOptions(newValue);
     }
 
-
-  useEffect(() =>{
-    if(data?.userRole === "tutors" && data?.subjects?.length > 0){
-        setSelectedOptions(getLabelAndValue(data?.subjects))
-    }
-
-    if(data?.userRole === "tutors" && data?.aboutMe){
-        setAboutMe(data?.aboutMe)
-    }
-
-    if(data?.userRole === "tutors" && data?.schedule){
-        setDidSaveSchedule(true)
-    }
-
-    if(data?.userRole === "tutors" && data?.url){
-        setUrl(data.url)
-    }
-
-
+    const prevScheduleRef = useRef();
+    const prevSubjectsRef = useRef();
+    const prevAboutMeRef = useRef();
+    const prevUrlRef = useRef();
 
     
-}, [data]);
+    useEffect(() => {
+        if (data?.userRole === "tutors" && data?.url) {
+            setUrl(data.url);
+        }
+    }, [data]);
+    
+    useEffect(() => {
+        if (data?.userRole === "tutors" && data?.subjects?.length > 0) {
+            if (!prevSubjectsRef.current || prevSubjectsRef.current.toString() !== data?.subjects.toString()) {
+                setSelectedOptions(getLabelAndValue(data?.subjects));
+            }
+        }
+    
+        prevSubjectsRef.current = data?.subjects;
+    }, [data?.userRole, data?.subjects]);
+    
+    useEffect(() => {
+        if (data?.userRole === "tutors" && data?.aboutMe) {
+            if (!prevAboutMeRef.current || prevAboutMeRef.current !== data?.aboutMe) {
+                setAboutMe(data?.aboutMe);
+            }
+        }
+    
+        prevAboutMeRef.current = data?.aboutMe;
+    }, [data?.userRole, data?.aboutMe]);
+    
+    useEffect(() => {
+        if (data?.userRole === "tutors" && data?.schedule) {
+            if (!prevScheduleRef.current || JSON.stringify(prevScheduleRef.current) !== JSON.stringify(data?.schedule)) {
+                setDidSaveSchedule(true);
+            }
+        }
+    
+        prevScheduleRef.current = data?.schedule;
+    }, [data?.userRole, data?.schedule]);
+
+        
+    useEffect(() => {
+        if (data?.userRole === "tutors" && data?.url) {
+            if (!prevUrlRef.current || prevUrlRef.current !== data?.url) {
+                setUrl(data?.url);
+            }
+        }
+    
+        prevUrlRef.current = data?.url;
+    }, [data?.userRole, data?.url]);
+    
+    
 
   function getLabelAndValue(listOfValues){
     return listOfValues?.map(listElement => {
