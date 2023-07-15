@@ -5,7 +5,7 @@ import { Alert } from "react-bootstrap";
 
 export default function SignIn() {
 
-    const { user, login } = useAuthContext();
+    const { login } = useAuthContext();
     const navigate = useNavigate();
 
     const [authInfo, setAuthInfo] = useState({
