@@ -1,15 +1,15 @@
 import React from "react";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import useFirestore from "../firestore";
-import {useParams} from  "react-router-dom"
+import { useParams } from "react-router-dom"
 import { useAuthContext } from "../components/context/UserAuthContext";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
-export default function TutorProfile (){
+export default function TutorProfile() {
     const [tutor, setTutor] = useState();
-    const {getUser} = useFirestore()
-    const {logout} = useAuthContext()
-    const {id} = useParams()
+    const { getUser } = useFirestore()
+    const { logout } = useAuthContext()
+    const { id } = useParams()
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -27,7 +27,7 @@ export default function TutorProfile (){
     };
 
 
-    return(
+    return (
         <div className="container py-5">
 
             {/*this is for the left card with the image*/}
@@ -38,7 +38,7 @@ export default function TutorProfile (){
                             <img
                                 src={tutor?.url}
                                 alt="avatar"
-                                className="rounded-circle img-fluid avatar-image"/>
+                                className="rounded-circle img-fluid avatar-image" />
 
 
                             <h5 className="my-3">{tutor?.firstName} {tutor?.lastName}</h5>
@@ -75,7 +75,7 @@ export default function TutorProfile (){
                                 </div>
                             </div>
 
-                            <hr/>
+                            <hr />
                             <div className="row">
                                 <div className="col-sm-3">
                                     <p className="mb-0">Email</p>
@@ -85,7 +85,7 @@ export default function TutorProfile (){
                                 </div>
                             </div>
 
-                            <hr/>
+                            <hr />
                             <div className="row">
                                 <div className="col-sm-3">
                                     <p className="mb-0">Account Type</p>
@@ -95,7 +95,7 @@ export default function TutorProfile (){
                                 </div>
                             </div>
 
-                            <hr/>
+                            <hr />
                             <div className="row">
                                 <div className="col-sm-3">
                                     <p className="mb-0">Username</p>

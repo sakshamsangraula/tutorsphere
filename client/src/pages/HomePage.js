@@ -1,11 +1,11 @@
 import useFirestore from "../firestore"
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import "./../styles/App.css";
 
 
-export default function HomePage(){
+export default function HomePage() {
 
-    const {getAllDocs} = useFirestore();
+    const { getAllDocs } = useFirestore();
     const [allDocs, setAllDocs] = useState([]);
 
     const fetchDocs = async () => {
@@ -32,7 +32,7 @@ export default function HomePage(){
                 <div className="carousel-inner ">
                     <div className="carousel-item active">
                         <img className="d-block w-100 slide-images image-black aspect-ratio" src="https://www.languagebird.com/wp-content/uploads/2022/03/LB_lessonsBG_dark_3.jpg"
-                             alt="Second slide" style={{height: '750px', objectFit: 'cover'}}/>
+                            alt="Second slide" style={{ height: '750px', objectFit: 'cover' }} />
                         <div className="container">
                             <div className="carousel-caption text-left">
                                 <h1>TutorSphere</h1>
@@ -47,7 +47,7 @@ export default function HomePage(){
 
 
                     <div className="carousel-item">
-                        <img className="d-block w-100 img-fluid image-black aspect-ratio" src="https://scholarshipinstitute.org/wp-content/uploads/2022/09/scholarship-for-non-traditional-students.jpg" alt="Second slide" style={{height: '750px', objectFit: 'cover'}}/>
+                        <img className="d-block w-100 img-fluid image-black aspect-ratio" src="https://scholarshipinstitute.org/wp-content/uploads/2022/09/scholarship-for-non-traditional-students.jpg" alt="Second slide" style={{ height: '750px', objectFit: 'cover' }} />
                         <div className="container">
                             <div className="carousel-caption">
                                 <h1>Join a Supportive Community of Learners</h1>
@@ -59,7 +59,7 @@ export default function HomePage(){
                     </div>
 
                     <div className="carousel-item">
-                        <img className="d-block w-100 img-fluid image-black aspect-ratio" src="https://www.ecampusnews.com/files/2014/01/notes221.jpg" style={{height: '750px', objectFit: 'cover'}}/>
+                        <img className="d-block w-100 img-fluid image-black aspect-ratio" src="https://www.ecampusnews.com/files/2014/01/notes221.jpg" style={{ height: '750px', objectFit: 'cover' }} />
                         <div className="container">
                             <div className="carousel-caption text-right">
                                 <h1>Personalized Learning Plans for Every Student</h1>
@@ -84,32 +84,32 @@ export default function HomePage(){
                 </a>
             </div>
 
-            <br/>
+            <br />
 
             {/*this is the about me pages fo tutors*/}
             <div className="container marketing">
                 <div className="row">
                     <div className="col-lg-3">
-                        <img className="rounded-circle" src={allDocs[0]?.url} alt="Generic placeholder image" width="140" height="140"/>
+                        <img className="rounded-circle" src={allDocs[0]?.url} alt="Generic placeholder image" width="140" height="140" />
                         <h2>{allDocs[0]?.firstName} {allDocs[0]?.lastName}</h2>
                         <p>{allDocs[0]?.aboutMe}</p>
                         <p><a className="btn btn-secondary" href={`/tutors/${allDocs[0]?.id}`} role="button">View details &raquo;</a></p>
                     </div>
                     <div className="col-lg-3">
-                        <img className="rounded-circle" src={allDocs[1]?.url} alt="Generic placeholder image" width="140" height="140"/>
+                        <img className="rounded-circle" src={allDocs[1]?.url} alt="Generic placeholder image" width="140" height="140" />
                         <h2>{allDocs[1]?.firstName} {allDocs[1]?.lastName}</h2>
                         <p>{allDocs[1]?.aboutMe}</p>
                         <p><a className="btn btn-secondary" href={`/tutors/${allDocs[1]?.id}`} role="button">View details &raquo;</a></p>
                     </div>
                     <div className="col-lg-3">
-                        <img className="rounded-circle" src={allDocs[3]?.url} alt="Generic placeholder image" width="140" height="140"/>
+                        <img className="rounded-circle" src={allDocs[3]?.url} alt="Generic placeholder image" width="140" height="140" />
                         <h2>{allDocs[3]?.firstName} {allDocs[3]?.lastName}</h2>
                         <p>{allDocs[3]?.aboutMe}</p>
                         <p><a className="btn btn-secondary" href={`/tutors/${allDocs[3]?.id}`} role="button">View details &raquo;</a></p>
                     </div>
                     <div className="col-lg-3">
                         <img className="rounded-circle" src={allDocs[4]?.url} alt="Generic placeholder image"
-                             width="140" height="140"/>
+                            width="140" height="140" />
                         <h2>{allDocs[4]?.firstName} {allDocs[4]?.lastName}</h2>
                         <p>{allDocs[4]?.aboutMe}</p>
                         <p><a className="btn btn-secondary" href={`/tutors/${allDocs[4]?.id}`} role="button">View
@@ -117,10 +117,10 @@ export default function HomePage(){
                     </div>
                 </div>
 
-                <br/>
+                <br />
 
                 {/*this is the 3 information boxes on the bottom*/}
-                <hr className="featurette-divider"/>
+                <hr className="featurette-divider" />
                 {/*first*/}
                 <div className="row featurette">
                     <div className="col-md-7">
@@ -128,12 +128,12 @@ export default function HomePage(){
                         <p className="lead">Welcome to our online tutoring service, where we offer personalized and flexible tutoring to students of all levels and fields of study. We are committed to providing high-quality academic assistance and tailored guidance that aligns with your learning needs and goals.</p>
                     </div>
                     <div className="col-md-5">
-                        <img className="featurette-image img-fluid mx-auto" src="https://sdtimes.com/wp-content/uploads/2019/03/developer-4027337_640.png" alt="Image description"/>
+                        <img className="featurette-image img-fluid mx-auto" src="https://sdtimes.com/wp-content/uploads/2019/03/developer-4027337_640.png" alt="Image description" />
                     </div>
                 </div>
 
                 {/*second*/}
-                <hr className="featurette-divider"/>
+                <hr className="featurette-divider" />
                 <div className="row featurette">
                     <div className="col-md-7 order-md-2">
                         <h2 className="featurette-heading">What are we about? <span className="text-muted">See for yourself.</span></h2>
@@ -145,12 +145,12 @@ export default function HomePage(){
                         </p>
                     </div>
                     <div className="col-md-5 order-md-1">
-                        <img className="featurette-image img-fluid mx-auto" src={"https://media.istockphoto.com/id/1231898401/vector/%C3%B0%C3%B1%C3%B0%C3%B0%C3%B0%C3%B0%C3%B1%C3%B0%C2%B5-rgb.jpg?s=612x612&w=0&k=20&c=OpAH1-b7qULawK00Kia-uB9Y8IjBdQ9SuZ_hMph4VS4="} alt="Generic placeholder image"/>
+                        <img className="featurette-image img-fluid mx-auto" src={"https://media.istockphoto.com/id/1231898401/vector/%C3%B0%C3%B1%C3%B0%C3%B0%C3%B0%C3%B0%C3%B1%C3%B0%C2%B5-rgb.jpg?s=612x612&w=0&k=20&c=OpAH1-b7qULawK00Kia-uB9Y8IjBdQ9SuZ_hMph4VS4="} alt="Generic placeholder image" />
                     </div>
                 </div>
 
                 {/*third*/}
-                <hr className="featurette-divider"/>
+                <hr className="featurette-divider" />
                 <div className="row featurette">
                     <div className="col-md-7">
                         <h2 className="featurette-heading">Your Team.<span className="text-muted"> Our Mission.</span></h2>
@@ -160,25 +160,16 @@ export default function HomePage(){
                         </p>
                     </div>
                     <div className="col-md-5">
-                        <img className="featurette-image img-fluid mx-auto" src="https://img.freepik.com/premium-vector/online-tutoring-by-students-with-teacher-laptop-screen-illustration-concept_310941-82.jpg" alt="Generic placeholder image"/>
+                        <img className="featurette-image img-fluid mx-auto" src="https://img.freepik.com/premium-vector/online-tutoring-by-students-with-teacher-laptop-screen-illustration-concept_310941-82.jpg" alt="Generic placeholder image" />
                     </div>
                 </div>
 
-                <hr className="featurette-divider"/>
+                <hr className="featurette-divider" />
             </div>
 
 
 
         </div>
-
-
-
-
-
-
-
-
-
     );
 
 }

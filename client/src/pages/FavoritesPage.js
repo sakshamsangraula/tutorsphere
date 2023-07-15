@@ -23,22 +23,22 @@ export default function FavoritesPage() {
             <h2 className="my-4 text-center text-danger">Favorite Tutors</h2>
             <table className="table table-striped table-hover">
                 <thead className="thead-dark">
-                <tr>
-                    <th scope="col">Tutor Name</th>
-                    <th scope="col">Email</th>
-                </tr>
+                    <tr>
+                        <th scope="col">Tutor Name</th>
+                        <th scope="col">Email</th>
+                    </tr>
                 </thead>
                 <tbody>
-                {favoriteTutors.map((tutor) => (
-                    <tr key={tutor.id}>
-                        <td>
-                            <a href={`/tutors/${tutor?.id}`}>
-                                {tutor?.firstName} {tutor?.lastName}
-                            </a>
-                        </td>
-                        <td>{tutor?.email}</td>
-                    </tr>
-                ))}
+                    {favoriteTutors.map((tutor) => (
+                        <tr key={tutor.id}>
+                            <td>
+                                <a href={`/tutors/${tutor?.id}`}>
+                                    {tutor?.firstName} {tutor?.lastName}
+                                </a>
+                            </td>
+                            <td>{tutor?.email}</td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
         </div>

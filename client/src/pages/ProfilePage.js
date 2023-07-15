@@ -1,21 +1,21 @@
-import {useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthContext } from "../components/context/UserAuthContext";
 import SetupProfile from "../components/profile/SetupProfile";
 import useFirestore from "../firestore";
 import { useNavigate } from "react-router-dom";
 import { Modal, Button } from 'react-bootstrap';
-import {storage} from "../firebase"
-import {ref, uploadBytes, getDownloadURL} from "firebase/storage"
+import { storage } from "../firebase"
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import "../styles/App.css"
 
 
-function ProfilePage(){
+function ProfilePage() {
     const navigate = useNavigate();
-    const {user, logout} = useAuthContext();
-    const {data} = useFirestore();
+    const { user, logout } = useAuthContext();
+    const { data } = useFirestore();
     const [displayPickAvailabilityMsg, setDisplayPickAvailabilityMsg] = useState(false);
 
-    const {updateDocument} = useFirestore()
+    const { updateDocument } = useFirestore()
 
     const [show, setShow] = useState(true);
     const handleClose = () => setShow(false);
@@ -32,13 +32,13 @@ function ProfilePage(){
 
 
     const handleImageChange = (e) => {
-        if (e.target.files[0]){ // if the file name exists -- then set it as the image (using file since that is input type)
+        if (e.target.files[0]) { // if the file name exists -- then set it as the image (using file since that is input type)
             setImage(e.target.files[0])
         }
     }
 
     const handleImageSubmit = () => {
-        if (image){
+        if (image) {
             const imageRef = ref(storage, `users/${user.uid}/profilePic`);
             uploadBytes(imageRef, image)
                 .then(() => {
@@ -54,12 +54,12 @@ function ProfilePage(){
 
     useEffect(() => {
 
-        if(user && data){
-            if(data.userRole === "tutors"){
-                if(!data.isProfileSetup){
+        if (user && data) {
+            if (data.userRole === "tutors") {
+                if (!data.isProfileSetup) {
                     setDisplayPickAvailabilityMsg(true);
                 }
-                else{
+                else {
                     setDisplayPickAvailabilityMsg(false)
                 }
             }
@@ -77,12 +77,12 @@ function ProfilePage(){
     return (
         <div>
 
-            {!displayPickAvailabilityMsg ? <div className={"alert alert-success"} role={"alert"}>Profile is set up!</div>:
+            {!displayPickAvailabilityMsg ? <div className={"alert alert-success"} role={"alert"}>Profile is set up!</div> :
 
                 <div>
                     <div className={"alert alert-warning"} role={"alert"} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>Please set up tutor profile
                         {data?.userRole === "tutors" && <div className="btn pull-right">
-                            <SetupProfile/>
+                            <SetupProfile />
                         </div>}
                     </div>
 
@@ -98,7 +98,7 @@ function ProfilePage(){
                             <Button variant="secondary" onClick={handleClose}>
                                 Close
                             </Button>
-                            <SetupProfile onClick={() => handleClose()}/>
+                            <SetupProfile onClick={() => handleClose()} />
 
                         </Modal.Footer>
                     </Modal>
@@ -108,18 +108,18 @@ function ProfilePage(){
 
             <div className="container py-5">
 
-                    {/*this is for the left card with the image*/}
-                    <div className="row">
-                        <div className="col-lg-4">
-                            <div className="card mb-4" style={{paddingRight: "70px", paddingLeft: "70px"}}>
-                                <div className="card-body text-center">
-                                    <img
-                                        src={data?.url ? data.url : url}
-                                        alt="avatar"
-                                        className="rounded-circle img-fluid avatar-image mb-2"/>
+                {/*this is for the left card with the image*/}
+                <div className="row">
+                    <div className="col-lg-4">
+                        <div className="card mb-4" style={{ paddingRight: "70px", paddingLeft: "70px" }}>
+                            <div className="card-body text-center">
+                                <img
+                                    src={data?.url ? data.url : url}
+                                    alt="avatar"
+                                    className="rounded-circle img-fluid avatar-image mb-2" />
 
-                                    <input type={"file"} onChange={handleImageChange}/>
-                                    <button type="submit" className="btn btn-secondary btn-sm mt-2" onClick={handleImageSubmit}>Submit</button>
+                                <input type={"file"} onChange={handleImageChange} />
+                                <button type="submit" className="btn btn-secondary btn-sm mt-2" onClick={handleImageSubmit}>Submit</button>
 
                                 <h5 className="my-3">{data?.firstName} {data?.lastName}</h5>
                                 <p className="text-muted mb-1">{data?.userRole}</p>
@@ -128,7 +128,7 @@ function ProfilePage(){
                                     <button type="button" className="btn btn-primary" onClick={handleLogout}>Logout</button>
                                     <button type="button" className="btn btn-outline-primary ms-1" onClick={() => navigate("/reservations")}>Appointments</button>
                                     {data?.userRole === "tutors" &&
-                                        <SetupProfile/>
+                                        <SetupProfile />
                                     }
                                 </div>
                             </div>
@@ -159,7 +159,7 @@ function ProfilePage(){
                                     </div>
                                 </div>
 
-                                <hr/>
+                                <hr />
                                 <div className="row">
                                     <div className="col-sm-3">
                                         <p className="mb-0">Email</p>
@@ -169,7 +169,7 @@ function ProfilePage(){
                                     </div>
                                 </div>
 
-                                <hr/>
+                                <hr />
                                 <div className="row">
                                     <div className="col-sm-3">
                                         <p className="mb-0">Account Type</p>
@@ -179,7 +179,7 @@ function ProfilePage(){
                                     </div>
                                 </div>
 
-                                <hr/>
+                                <hr />
                                 <div className="row">
                                     <div className="col-sm-3">
                                         <p className="mb-0">Username</p>
@@ -192,7 +192,7 @@ function ProfilePage(){
 
                                 {data?.aboutMe &&
                                     <>
-                                        <hr/>
+                                        <hr />
                                         <div className="row">
                                             <div className="col-sm-3">
                                                 <p className="mb-0">About Me</p>
@@ -208,8 +208,8 @@ function ProfilePage(){
                         </div>
                     </div>
 
-                    </div>
-                            </div>
+                </div>
+            </div>
         </div>
     )
 }

@@ -7,12 +7,12 @@ import Tutor from '../components/tutors/Tutor';
 
 // need to map through all the user datas
 export default function TutorsPage() {
-        // for storing tutors
-        const [tutors, setTutors] = useState([]);
-        const { getAllTutors } = useFirestore();
-        const {data, addDocumentToCollection} = useFirestore();
-        const {user} = useAuthContext();
-    
+    // for storing tutors
+    const [tutors, setTutors] = useState([]);
+    const { getAllTutors } = useFirestore();
+    const { data, addDocumentToCollection } = useFirestore();
+    const { user } = useAuthContext();
+
 
     // to check and uncheck tutors
     const [favorite, setFavorite] = useState(false)
@@ -25,7 +25,7 @@ export default function TutorsPage() {
 
     useEffect(() => {
         console.log("favoriteTutorIds-UPDATE-DATA", data?.favoriteList)
-        if(data?.favoriteList){
+        if (data?.favoriteList) {
             console.log("favoriteTutorIds-UPDATE-DATA inside if statement")
             setFavoriteTutorIds(data?.favoriteList)
         }
@@ -46,12 +46,12 @@ export default function TutorsPage() {
 
     }, [favoriteTutorIds])
 
-    async function addFavoritesToFirebase(){
-        if(data?.userRole === "students"){
-            const updatedStudentData = {...data, favoriteList: favoriteTutorIds};
+    async function addFavoritesToFirebase() {
+        if (data?.userRole === "students") {
+            const updatedStudentData = { ...data, favoriteList: favoriteTutorIds };
             await addDocumentToCollection("users", user?.uid, updatedStudentData);
 
-          }
+        }
     }
 
     function changeFavoriteList(tutorId, isFavorite) {
@@ -142,7 +142,7 @@ export default function TutorsPage() {
                                 .filter((tutor) => tutor.isProfileSetup)
                                 .map((tutor) =>
 
-                                <Tutor key={tutor?.id} tutor={tutor} changeFavoriteList={changeFavoriteList} favoritesList={favoriteTutorIds} />                                )}
+                                    <Tutor key={tutor?.id} tutor={tutor} changeFavoriteList={changeFavoriteList} favoritesList={favoriteTutorIds} />)}
                         </tbody>
                     </table>
                 </div>
