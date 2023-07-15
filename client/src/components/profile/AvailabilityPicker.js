@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import ScheduleSelector from 'react-schedule-selector';
 import useFirestore from '../../firestore';
@@ -127,6 +128,5 @@ function AvailabilityPicker({ handleSaveSchedule }) {
             {showAlert && <Alert>{alert.message}</Alert>}
         </div>
     )
-
 }
 export default AvailabilityPicker;

@@ -1,3 +1,4 @@
+
 import React, { useCallback, useEffect, useState } from 'react';
 import { ScheduleMeeting } from 'react-schedule-meeting';
 import useFirestore from '../../firestore';
@@ -22,7 +23,7 @@ export default function MeetingSchedulerFinal({ allTutors, filteredTutors, selec
     saturday: 6,
   };
 
-  const emailConfirmationSubject = "Confirmation of Tutoring Appointment With Tutorsphere";
+  const emailConfirmationSubject = "Confirmation of a Tutoring Appointment With Tutorsphere";
 
   const [tutorSchedule, setTutorSchedule] = useState({});
   const [selectedTutor, setSelectedTutor] = useState(null);
