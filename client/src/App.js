@@ -18,7 +18,7 @@ import FavoritesPage from "./pages/FavoritesPage";
 import Footer from "./Footer";
 
 
-function App(){
+function App() {
     return (
         <UserAuthContextProvider>
             <div className={"App"}>
@@ -27,46 +27,46 @@ function App(){
                 {/* TODO: show a message in homepage saying user profile is not set and link to /profileSetup or appointment page for tutor
 // which has availability picker */}
                 <main className={'App-main'}>
-                <Routes>
-                    <Route path="/" element={<HomePage />}></Route>
-                    <Route path="/about" element={<About />}></Route>
-                    <Route path="/register" element={<SignUp />}></Route>
-                    <Route path="/forgotPassword" element={<ForgotPassword />}></Route>
-                    <Route path="/signin" element={<SignIn />}></Route>
-                    <Route path="/reservations" element={
-                        <ProtectedAppointmentsRoute>
-                            <AppointmentsPage />
-                        </ProtectedAppointmentsRoute>
-                    }></Route>
-                    <Route path="/reservations/:id" element={
-                        <ProtectedAppointmentsRoute>
-                            <AppointmentDetailPage />
-                        </ProtectedAppointmentsRoute>
-                    }></Route>
-                    <Route path="/profile" element = {
-                        <ProtectedRoute>
-                            <ProfilePage />
-                        </ProtectedRoute>
-                    }></Route>
-                        <Route path="/tutors/:id" element = {
-                         <ProtectedRoute>
-                            <SingleTutorPage />
-                         </ProtectedRoute>
-                    }></Route>
-                    <Route path="/tutors" exact element = {
-                        <ProtectedRoute>
-                            <TutorsPage />
-                        </ProtectedRoute>
-                    }></Route>
-                     <Route path="/favorites" element = {
-                        <ProtectedRoute>
-                            <FavoritesPage />
-                        </ProtectedRoute>
-                    }></Route>
+                    <Routes>
+                        <Route path="/" element={<HomePage />}></Route>
+                        <Route path="/about" element={<About />}></Route>
+                        <Route path="/register" element={<SignUp />}></Route>
+                        <Route path="/forgotPassword" element={<ForgotPassword />}></Route>
+                        <Route path="/signin" element={<SignIn />}></Route>
+                        <Route path="/reservations" element={
+                            <ProtectedAppointmentsRoute>
+                                <AppointmentsPage />
+                            </ProtectedAppointmentsRoute>
+                        }></Route>
+                        <Route path="/reservations/:id" element={
+                            <ProtectedAppointmentsRoute>
+                                <AppointmentDetailPage />
+                            </ProtectedAppointmentsRoute>
+                        }></Route>
+                        <Route path="/profile" element={
+                            <ProtectedRoute>
+                                <ProfilePage />
+                            </ProtectedRoute>
+                        }></Route>
+                        <Route path="/tutors/:id" element={
+                            <ProtectedRoute>
+                                <SingleTutorPage />
+                            </ProtectedRoute>
+                        }></Route>
+                        <Route path="/tutors" exact element={
+                            <ProtectedRoute>
+                                <TutorsPage />
+                            </ProtectedRoute>
+                        }></Route>
+                        <Route path="/favorites" element={
+                            <ProtectedRoute>
+                                <FavoritesPage />
+                            </ProtectedRoute>
+                        }></Route>
 
-                </Routes>
-            </main>
-                <Footer/>
+                    </Routes>
+                </main>
+                <Footer />
             </div>
 
         </UserAuthContextProvider>
