@@ -3,11 +3,11 @@ import { useEffect } from "react";
 
 function Tutor({ tutor, changeFavoriteList, favoritesList }) {
     const [isFavorite, setIsFavorite] = useState(false);
-    
+
     useEffect(() => {
-        if(favoritesList.includes(tutor?.id)){
+        if (favoritesList.includes(tutor?.id)) {
             setIsFavorite(true);
-        }else{
+        } else {
             setIsFavorite(false);
         }
     }, [tutor, favoritesList]);

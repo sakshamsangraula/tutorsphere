@@ -5,10 +5,10 @@ import { useAuthContext } from '../context/UserAuthContext';
 import Button from 'react-bootstrap/Button';
 import { Alert } from 'react-bootstrap';
 
-function AvailabilityPicker({handleSaveSchedule}){
+function AvailabilityPicker({ handleSaveSchedule }) {
 
-    const {user} = useAuthContext();
-    const {data, updateDocument} = useFirestore();
+    const { user } = useAuthContext();
+    const { data, updateDocument } = useFirestore();
 
     const [schedule, setSchedule] = useState([]);
     const [weekSchedule, setWeekSchedule] = useState({
@@ -29,11 +29,11 @@ function AvailabilityPicker({handleSaveSchedule}){
     });
     const [showAlert, setShowAlert] = useState(false);
 
-    useEffect(() =>{
-        if(data?.reactLibrarySchedule?.length > 0){
+    useEffect(() => {
+        if (data?.reactLibrarySchedule?.length > 0) {
             const reactLibraryScheduleDates = data?.reactLibrarySchedule?.map(time => new Date(time));
             setSchedule(reactLibraryScheduleDates);
-        }else{
+        } else {
             setSchedule([]);
         }
     }, [data]);
@@ -53,10 +53,10 @@ function AvailabilityPicker({handleSaveSchedule}){
             const hour = availability.getHours();
             setWeekSchedule(prevWeekSchedule => {
                 const updatedAppointments = [...prevWeekSchedule[dayName]];
-                if(!updatedAppointments.includes(hour)){
+                if (!updatedAppointments.includes(hour)) {
                     updatedAppointments.push(hour);
                 }
-                return {...prevWeekSchedule, [dayName]: updatedAppointments};
+                return { ...prevWeekSchedule, [dayName]: updatedAppointments };
             });
         });
     }, [schedule]);
@@ -65,19 +65,19 @@ function AvailabilityPicker({handleSaveSchedule}){
         setSchedule([...newSchedule]);
     }
 
-    async function prepareWeeklySchedule(){
+    async function prepareWeeklySchedule() {
         const noAvailabilitySelected = Object.values(weekSchedule).every(value => Array.isArray(value) && value.length === 0);
-        if(noAvailabilitySelected){
+        if (noAvailabilitySelected) {
             window.alert("You have not selected any availability. You must select at least one availability.");
             return;
         }
-        
-        try{
-            if(user && data.userRole === TUTOR){
 
-                await updateDocument(USERS, user.uid, {schedule: weekSchedule});
+        try {
+            if (user && data.userRole === TUTOR) {
+
+                await updateDocument(USERS, user.uid, { schedule: weekSchedule });
                 const stringSchedule = schedule.map(date => date.toString());
-                await updateDocument(USERS, user.uid, {reactLibrarySchedule: stringSchedule});
+                await updateDocument(USERS, user.uid, { reactLibrarySchedule: stringSchedule });
 
                 // save schedule so setup profile can show the submit button
                 handleSaveSchedule();
@@ -90,7 +90,7 @@ function AvailabilityPicker({handleSaveSchedule}){
                 setTimeout(() => {
                     setShowAlert(false);
                 }, 3000);
-            }else{
+            } else {
                 alert("Only Tutors can provide availability!", user);
                 setAlert({
                     alertType: "danger",
@@ -100,7 +100,7 @@ function AvailabilityPicker({handleSaveSchedule}){
                     setShowAlert(true);
                 }, 5000);
             }
-        }catch(err){
+        } catch (err) {
             setAlert({
                 alertType: "danger",
                 message: "Error saving tutor availability"
@@ -111,22 +111,22 @@ function AvailabilityPicker({handleSaveSchedule}){
         <div>
             <p>You can click on a block below and drag your cursor to select multiple blocks at one time</p>
             <ScheduleSelector
-                        selection={schedule}
-                        startDate={new Date('2023-03-19T00:00:00')}							
-                        dateFormat={'dddd'}
-                        timeFormat={"h:mma"}
-                        selectionScheme="linear"
-                        numDays={7}
-                        minTime={8}
-                        maxTime={18}
-                        // hourlyChunks={2}
-                        hourlyChunks={1}
-                        onChange={handleChange}
+                selection={schedule}
+                startDate={new Date('2023-03-19T00:00:00')}
+                dateFormat={'dddd'}
+                timeFormat={"h:mma"}
+                selectionScheme="linear"
+                numDays={7}
+                minTime={8}
+                maxTime={18}
+                // hourlyChunks={2}
+                hourlyChunks={1}
+                onChange={handleChange}
             />
             <Button variant="success" onClick={prepareWeeklySchedule}>Save Availability</Button>
             {showAlert && <Alert>{alert.message}</Alert>}
         </div>
     )
-      
+
 }
 export default AvailabilityPicker;

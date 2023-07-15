@@ -7,10 +7,10 @@ import Select from 'react-select';
 import axios from "axios";
 import { Alert } from 'react-bootstrap';
 
-export default function MeetingSchedulerFinal({allTutors, filteredTutors, selectedSubjects}) {
+export default function MeetingSchedulerFinal({ allTutors, filteredTutors, selectedSubjects }) {
 
-    const APPOINTMENTS_COLLECTION = "appointments";
-    const {data, appointmentsData, addDocumentToCollectionWithDefaultId, fetchDocumentById} = useFirestore();
+  const APPOINTMENTS_COLLECTION = "appointments";
+  const { data, appointmentsData, addDocumentToCollectionWithDefaultId, fetchDocumentById } = useFirestore();
 
   const daysInWeekMap = {
     sunday: 0,
@@ -23,7 +23,7 @@ export default function MeetingSchedulerFinal({allTutors, filteredTutors, select
   };
 
   const emailConfirmationSubject = "Confirmation of Tutoring Appointment With Tutorsphere";
-  
+
   const [tutorSchedule, setTutorSchedule] = useState({});
   const [selectedTutor, setSelectedTutor] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -36,14 +36,14 @@ export default function MeetingSchedulerFinal({allTutors, filteredTutors, select
     message: "",
     show: false,
   });
-  
+
   const sendEmail = async (to, subject, text) => {
     const data = {
       to,
       subject,
       text,
     };
-  
+
     try {
       const response = await axios.post("http://localhost:3001/send-email", data);
       return response.data;
@@ -53,63 +53,63 @@ export default function MeetingSchedulerFinal({allTutors, filteredTutors, select
   };
 
 
-useEffect(() => {
-    if(selectedTutor){
+  useEffect(() => {
+    if (selectedTutor) {
       const selectedTutorsAppointments = appointmentsData?.filter(appointment => appointment.tutorId === selectedTutor.id);
       setSelectedTutorExistingAppointments(selectedTutorsAppointments);
     }
-}, [appointmentsData, selectedTutor])
+  }, [appointmentsData, selectedTutor])
 
-const resetSelectedSubjects = useCallback(() => {
-  setSelectedSubjectsForTutor([]);
-}, [selectedTutor])
+  const resetSelectedSubjects = useCallback(() => {
+    setSelectedSubjectsForTutor([]);
+  }, [selectedTutor])
 
-useEffect(() => {
-  resetSelectedSubjects()
-}, [resetSelectedSubjects])
+  useEffect(() => {
+    resetSelectedSubjects()
+  }, [resetSelectedSubjects])
 
-const availabilitySlots = tutorSchedule && Object.keys(tutorSchedule)?.map((day) => {
-  return tutorSchedule[day].map(availableTime => {
-    const date = new Date();
+  const availabilitySlots = tutorSchedule && Object.keys(tutorSchedule)?.map((day) => {
+    return tutorSchedule[day].map(availableTime => {
+      const date = new Date();
 
-    const dayOfWeek = date.getDay();
-    const daysUntilNextMatchingDay = (7 - dayOfWeek + daysInWeekMap[day]) % 7;
-    date.setDate(date.getDate() + daysUntilNextMatchingDay);
+      const dayOfWeek = date.getDay();
+      const daysUntilNextMatchingDay = (7 - dayOfWeek + daysInWeekMap[day]) % 7;
+      date.setDate(date.getDate() + daysUntilNextMatchingDay);
 
-    const matchingDates = [];
+      const matchingDates = [];
 
-    const weeksInYear = date.getFullYear() % 4 === 0 && (date.getFullYear() % 100 !== 0 || date.getFullYear() % 400 === 0) ? 53 : 52;
+      const weeksInYear = date.getFullYear() % 4 === 0 && (date.getFullYear() % 100 !== 0 || date.getFullYear() % 400 === 0) ? 53 : 52;
 
-    // Generate all matching dates in the next year
-    for (let i = 0; i < weeksInYear; i++) {
-      const matchingDate = new Date(date);
-      matchingDate.setDate(date.getDate() + i * 7);
-      matchingDates.push(matchingDate.toISOString().slice(0, 10));
-    }
-
-    return matchingDates.map(matchingDate => {
-      const startEndObj = {
-        startTime: new Date(matchingDate).setHours(availableTime, 0, 0, 0),
-        endTime: new Date(matchingDate).setHours(availableTime + 1, 0, 0, 0),
+      // Generate all matching dates in the next year
+      for (let i = 0; i < weeksInYear; i++) {
+        const matchingDate = new Date(date);
+        matchingDate.setDate(date.getDate() + i * 7);
+        matchingDates.push(matchingDate.toISOString().slice(0, 10));
       }
 
-      const startDate = new Date(startEndObj.startTime);
-      for(let i=0; i< selectedTutorExistingAppointments.length; i++){
-        const appointment = selectedTutorExistingAppointments[i];
-        const appointmentStartDate = new Date(appointment.startTime);
-        if(startDate.getTime() === appointmentStartDate.getTime()){
-          return null;
+      return matchingDates.map(matchingDate => {
+        const startEndObj = {
+          startTime: new Date(matchingDate).setHours(availableTime, 0, 0, 0),
+          endTime: new Date(matchingDate).setHours(availableTime + 1, 0, 0, 0),
         }
-      }
 
-      return startEndObj;
-    });
+        const startDate = new Date(startEndObj.startTime);
+        for (let i = 0; i < selectedTutorExistingAppointments.length; i++) {
+          const appointment = selectedTutorExistingAppointments[i];
+          const appointmentStartDate = new Date(appointment.startTime);
+          if (startDate.getTime() === appointmentStartDate.getTime()) {
+            return null;
+          }
+        }
+
+        return startEndObj;
+      });
+    })
   })
-})
 
-const finalAvailabilitySlots = availabilitySlots?.flat()?.flat()?.filter(slot => slot !== null);
+  const finalAvailabilitySlots = availabilitySlots?.flat()?.flat()?.filter(slot => slot !== null);
 
-  function convertTimeStampToCDTDate(timeStamp){
+  function convertTimeStampToCDTDate(timeStamp) {
     const unixTimestamp = timeStamp;
     const date = new Date(unixTimestamp);
     const options = { timeZone: 'America/Chicago' };
@@ -117,7 +117,7 @@ const finalAvailabilitySlots = availabilitySlots?.flat()?.flat()?.filter(slot =>
     return cstDateTimeString;
   }
 
-  function prepareAppointmentData(appointmentSelection, passedInSubjects){
+  function prepareAppointmentData(appointmentSelection, passedInSubjects) {
     setAppointmentDescription("");
 
     const appointmentData = {
@@ -134,8 +134,8 @@ const finalAvailabilitySlots = availabilitySlots?.flat()?.flat()?.filter(slot =>
     setAppointmentData(appointmentData);
   }
 
-function getEmailContent(emailReceiverName, appointmentPersonName, startTime, endTime, subjects, appointmentDescription){
-  return `        <!DOCTYPE html>
+  function getEmailContent(emailReceiverName, appointmentPersonName, startTime, endTime, subjects, appointmentDescription) {
+    return `        <!DOCTYPE html>
   <html>
     <head>
       <meta charset="UTF-8" />
@@ -155,48 +155,48 @@ function getEmailContent(emailReceiverName, appointmentPersonName, startTime, en
       </div>
     </body>
   </html>`;
-    
-}
 
-async function getUserDetails(userId) {
-  try {
-    const tutorData = await fetchDocumentById("users", userId);
-    return tutorData;
-  } catch (error) {
-    console.error("Error getting user by id", error);
-    throw new Error("Error getting user by id " + error.message)
   }
-}
-  async function createAppointment(){
-    // save appointment data along with appointment description to firestore
-    try{
-      await addDocumentToCollectionWithDefaultId(APPOINTMENTS_COLLECTION, {...appointmentData, appointmentDescription});
-      setShowModal(false);
-      setAlert(prevAlert => {return {...prevAlert, variant: "success", message: "Appointment Created Successfully", show: true}});
 
-      try{
+  async function getUserDetails(userId) {
+    try {
+      const tutorData = await fetchDocumentById("users", userId);
+      return tutorData;
+    } catch (error) {
+      console.error("Error getting user by id", error);
+      throw new Error("Error getting user by id " + error.message)
+    }
+  }
+  async function createAppointment() {
+    // save appointment data along with appointment description to firestore
+    try {
+      await addDocumentToCollectionWithDefaultId(APPOINTMENTS_COLLECTION, { ...appointmentData, appointmentDescription });
+      setShowModal(false);
+      setAlert(prevAlert => { return { ...prevAlert, variant: "success", message: "Appointment Created Successfully", show: true } });
+
+      try {
         const emailContentToStudent = getEmailContent(appointmentData?.studentName, appointmentData?.tutorName, appointmentData?.startTime, appointmentData?.endTime, appointmentData?.subjects, appointmentDescription);
         const emailContentToTutor = getEmailContent(appointmentData?.tutorName, appointmentData?.studentName, appointmentData?.startTime, appointmentData?.endTime, appointmentData?.subjects, appointmentDescription);
-  
-        try{
+
+        try {
           const studentData = await getUserDetails(appointmentData?.studentId);
           const tutorData = await getUserDetails(appointmentData?.tutorId);
 
           await sendEmail(studentData?.email, emailConfirmationSubject, emailContentToStudent);
           await sendEmail(tutorData?.email, emailConfirmationSubject, emailContentToTutor);
 
-          setAlert(prevAlert => {return {...prevAlert, variant: "success", message: `Email sent with Appointment Details. Check your email for confirmation`, show: true}});
+          setAlert(prevAlert => { return { ...prevAlert, variant: "success", message: `Email sent with Appointment Details. Check your email for confirmation`, show: true } });
 
-        }catch(err){
-          setAlert(prevAlert => {return {...prevAlert, variant: "danger", message: "Error sending email: " + err.message, show: true}});
+        } catch (err) {
+          setAlert(prevAlert => { return { ...prevAlert, variant: "danger", message: "Error sending email: " + err.message, show: true } });
         }
-  
-      }catch(err){
-        setAlert(prevAlert => {return {...prevAlert, variant: "danger",  message: "Error senidng email via sendgrid " + err.message, show: true}});
+
+      } catch (err) {
+        setAlert(prevAlert => { return { ...prevAlert, variant: "danger", message: "Error senidng email via sendgrid " + err.message, show: true } });
       }
 
-    }catch(err){
-      setAlert(prevAlert => {return {...prevAlert, variant: "danger",  message: "Error creating Appointment " + err.message, show: true}});
+    } catch (err) {
+      setAlert(prevAlert => { return { ...prevAlert, variant: "danger", message: "Error creating Appointment " + err.message, show: true } });
     }
 
   }
@@ -208,17 +208,17 @@ async function getUserDetails(userId) {
     }
   })
 
-  function handleTutorSelect(selectedOption, actionMeta){
+  function handleTutorSelect(selectedOption, actionMeta) {
     const userSelectedTutor = selectedOption?.value
-    if(userSelectedTutor){
+    if (userSelectedTutor) {
       setSelectedTutor(userSelectedTutor);
-      if(userSelectedTutor?.schedule){
+      if (userSelectedTutor?.schedule) {
         setTutorSchedule(userSelectedTutor.schedule);
       }
     }
   }
 
-  function getLabelAndValue(listOfValues){
+  function getLabelAndValue(listOfValues) {
     return listOfValues?.map(listElement => {
       return {
         label: listElement,
@@ -230,16 +230,16 @@ async function getUserDetails(userId) {
 
   return (
     <div>
-{alert.show && <Alert variant={alert.variant} onClose={() => setAlert(prevAlert => {return {...prevAlert, show: false}})} dismissible>
-                            {alert.message}
-                    </Alert>}
+      {alert.show && <Alert variant={alert.variant} onClose={() => setAlert(prevAlert => { return { ...prevAlert, show: false } })} dismissible>
+        {alert.message}
+      </Alert>}
 
       <Modal show={showModal} onHide={() => setShowModal(false)} size="xl" animation={false}>
         <Modal.Header closeButton>
           <Modal.Title>Create your appointment</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <div>
+          <div>
             <table className="table table-bordered">
               <tbody>
                 <tr>
@@ -248,11 +248,11 @@ async function getUserDetails(userId) {
                 <tr>
                   <th>Student Name</th>
                   <td>{appointmentData?.studentName}</td>
-                </tr> 
+                </tr>
                 <tr>
                   <th>Tutor Name</th>
                   <td>{appointmentData?.tutorName}</td>
-                </tr> 
+                </tr>
                 <tr>
                   <th>Start Date and Time</th>
                   <td>{appointmentData?.startTime}</td>
@@ -268,17 +268,17 @@ async function getUserDetails(userId) {
                 <tr>
                   <th>(Optional) Share any notes or details:</th>
                   <td>
-                    <textarea 
+                    <textarea
                       rows="5"
                       cols="30"
-                      value={appointmentDescription} 
+                      value={appointmentDescription}
                       onChange={(e) => setAppointmentDescription(e.target.value)}
                     />
                   </td>
                 </tr>
               </tbody>
-            </table> 
-            </div>
+            </table>
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowModal(false)}>
@@ -290,51 +290,51 @@ async function getUserDetails(userId) {
         </Modal.Footer>
       </Modal>
 
-        {data?.userRole === "students" && <div>
-          <div className="mt-4 d-flex justify-content-start custom-gap align-items-center">
-            <p>Step 1: Select a tutor </p>
-            <Select
-              name="tutors"
-              value={selectedTutor ? {
-                label: selectedTutor?.firstName + " " + selectedTutor?.lastName,
-                value: selectedTutor
-              } : null}
-              options={allTutorsOptions}
-              classNamePrefix="select"
-              onChange={handleTutorSelect}
-              menuPortalTarget={document.body} 
-              styles={{ 
-                menuPortal: (base) => ({ ...base, zIndex: 9999 })
-              }} // make sure the list of options is not blocked by the calendar
-            />
-            {selectedTutor && <a onClick={() => window.open(`/tutors/${selectedTutor?.id}`, "_blank")} className="link-primary" style={{color: "blue", cursor: "pointer"}}>Learn more about {selectedTutor?.firstName + " " + selectedTutor?.lastName}</a>}
-          </div>
+      {data?.userRole === "students" && <div>
+        <div className="mt-4 d-flex justify-content-start custom-gap align-items-center">
+          <p>Step 1: Select a tutor </p>
+          <Select
+            name="tutors"
+            value={selectedTutor ? {
+              label: selectedTutor?.firstName + " " + selectedTutor?.lastName,
+              value: selectedTutor
+            } : null}
+            options={allTutorsOptions}
+            classNamePrefix="select"
+            onChange={handleTutorSelect}
+            menuPortalTarget={document.body}
+            styles={{
+              menuPortal: (base) => ({ ...base, zIndex: 9999 })
+            }} // make sure the list of options is not blocked by the calendar
+          />
+          {selectedTutor && <a onClick={() => window.open(`/tutors/${selectedTutor?.id}`, "_blank")} className="link-primary" style={{ color: "blue", cursor: "pointer" }}>Learn more about {selectedTutor?.firstName + " " + selectedTutor?.lastName}</a>}
+        </div>
 
-          {selectedTutor && <div className="mt-4 d-flex justify-content-start custom-gap align-items-center">
-            <p>Step 2: Select subject(s) </p>
-            <Select
-              isMulti
-              options={getLabelAndValue(selectedTutor?.subjects)}
-              value={getLabelAndValue(selectedSubjectsForTutor)}
-              classNamePrefix="select"
-              onChange={(selectedValue, actionMeta) => setSelectedSubjectsForTutor(selectedValue?.map(selected => selected.value))}
-              menuPortalTarget={document.body} 
-              styles={{ 
-                menuPortal: (base) => ({ ...base, zIndex: 9999 })
-              }} // make sure the list of options is not blocked by the calendar
-            />
-          </div>}
+        {selectedTutor && <div className="mt-4 d-flex justify-content-start custom-gap align-items-center">
+          <p>Step 2: Select subject(s) </p>
+          <Select
+            isMulti
+            options={getLabelAndValue(selectedTutor?.subjects)}
+            value={getLabelAndValue(selectedSubjectsForTutor)}
+            classNamePrefix="select"
+            onChange={(selectedValue, actionMeta) => setSelectedSubjectsForTutor(selectedValue?.map(selected => selected.value))}
+            menuPortalTarget={document.body}
+            styles={{
+              menuPortal: (base) => ({ ...base, zIndex: 9999 })
+            }} // make sure the list of options is not blocked by the calendar
+          />
+        </div>}
 
-          {selectedTutor && selectedSubjectsForTutor?.length > 0 && 
-            <ScheduleMeeting
+        {selectedTutor && selectedSubjectsForTutor?.length > 0 &&
+          <ScheduleMeeting
             borderRadius={10}
             primaryColor="#3f5b85"
             availableTimeslots={finalAvailabilitySlots}
             eventDurationInMinutes={60}
             onStartTimeSelect={(appointmentSelection) => prepareAppointmentData(appointmentSelection, selectedSubjectsForTutor)}
-            />
-          }
-        </div>}
+          />
+        }
+      </div>}
     </div>
   );
 }
