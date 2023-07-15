@@ -15,8 +15,6 @@ export default function SignUp() {
         message: "",
         show: false,
     });
-    const [disabled, setDisabled] = useState(true);
-
     const [userInfo, setUserInfo] = useState({
         firstName: "",
         lastName: "",
