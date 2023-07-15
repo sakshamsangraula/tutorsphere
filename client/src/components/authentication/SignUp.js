@@ -27,8 +27,6 @@ export default function SignUp() {
         password: ""
     });
 
-    const [error, setError] = useState("");
-
     const handleUserSelectionChange = (e) => {
         const { name, value } = e.target;
         setUserInfo(userInfo => {
