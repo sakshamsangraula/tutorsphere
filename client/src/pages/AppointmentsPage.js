@@ -9,8 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function AppointmentsPage(){
 
-    const {user} = useAuthContext();
-    const {data, getAllSubjects, getAllTutors, futureAppointments, cancelAppointment} = useFirestore();
+    const {data, getAllTutors, futureAppointments, cancelAppointment} = useFirestore();
     const [allTutors, setAllTutors] = useState([]);
     const [selectedSubjects, setSelectedSubjects] = useState([]);
     const [filteredTutors, setFilteredTutors] = useState([]);
