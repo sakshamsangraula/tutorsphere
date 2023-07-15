@@ -13,7 +13,6 @@ export default function SignIn() {
         password: ""
     });
 
-    const [error, setError] = useState("");
     const [alert, setAlert] = useState({
         variant: "success",
         message: "",
